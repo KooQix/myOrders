@@ -1,0 +1,42 @@
+@import "../../../resources.scss";
+
+:host(app-clients) {
+    width: 100%;
+    @include flex-align-center-col;
+}
+
+table {
+    width: 100%;
+}
+
+.head {
+    width: 50%;
+
+    mat-icon {
+        font-size: 2em;
+    }
+}
+
+mat-form-field {
+    width: 80%;
+    padding-bottom: 4em;
+}
+
+th {
+    font-size: 1.3em;
+}
+td {
+    font-size: 1.1em;
+
+    .name {
+        font-style: italic;
+    }
+}
+
+mat-icon:hover {
+    opacity: 0.3;
+}
+
+.modifier {
+    width: 0.3em !important;
+}

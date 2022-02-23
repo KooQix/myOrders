@@ -1,0 +1,22 @@
+<!-- <app-toolbar></app-toolbar> -->
+
+<div class="header">
+    <h1>MyOrders</h1>
+    <div class="toolbar">
+        <nav mat-tab-nav-bar>
+            <a
+                mat-tab-link
+                *ngFor="let tab of navLinks"
+                [routerLink]="tab.link"
+                routerLinkActive
+                #rla="routerLinkActive"
+                [active]="rla.isActive"
+                >{{ tab.label }}</a
+            >
+        </nav>
+    </div>
+</div>
+
+<div class="content">
+    <router-outlet></router-outlet>
+</div>
