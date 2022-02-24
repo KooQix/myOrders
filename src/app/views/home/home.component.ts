@@ -1,17 +1,8 @@
-import { Client, Operator } from './../../resources/interfaces';
+import { Order } from './../../resources/interfaces';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-
-interface Order {
-    date_chargement: string;
-    date_dechargement: string;
-    client: Client;
-    code_chantier: string;
-    price: number;
-    operator: Operator;
-    color?: string;
-}
+import { FormControl } from '@angular/forms';
 
 @Component({
     selector: 'app-home',
@@ -19,59 +10,110 @@ interface Order {
     styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+    datepicker: any;
+    date = new FormControl(new Date());
+
     orders: Order[] = [
         {
+            id: 1,
             date_chargement: '23.02.2022',
             date_dechargement: '24.02.2022',
+            produit: 'produit',
             client: {
+                id: 1,
                 name: 'Doe',
                 surname: 'John',
                 phone: '123',
+                addresses: [
+                    {
+                        code_chantier: '000',
+                        city: 'Paris',
+                        zip: 75000,
+                        street: 'Paris',
+                    },
+                ],
             },
-            code_chantier: '000',
+            address: {
+                city: '',
+                street: '',
+                zip: 75,
+            },
             price: 100.99,
             operator: {
+                id: 1,
                 name: 'NameOp',
                 surname: 'operator1',
                 phone: '123',
             },
         },
         {
+            id: 2,
             date_chargement: '23.02.2022',
             date_dechargement: '24.02.2022',
+            produit: 'produit',
             client: {
+                id: 2,
                 name: 'Doe',
                 surname: 'John',
                 phone: '123',
+                addresses: [
+                    {
+                        code_chantier: '000',
+                        city: 'Paris',
+                        zip: 75000,
+                        street: 'Paris',
+                    },
+                ],
             },
-            code_chantier: '000',
+            address: {
+                city: '',
+                street: '',
+                zip: 75,
+            },
             price: 100.99,
             operator: {
+                id: 2,
                 name: 'NameOp',
                 surname: 'operator1',
                 phone: '123',
             },
         },
         {
+            id: 3,
             date_chargement: '23.02.2022',
             date_dechargement: '24.02.2022',
+            produit: 'produit',
             client: {
+                id: 3,
                 name: 'Legout',
                 surname: 'Paul',
                 phone: '123',
+                addresses: [
+                    {
+                        code_chantier: '000',
+                        city: 'Paris',
+                        zip: 75000,
+                        street: 'Paris',
+                    },
+                ],
             },
-            code_chantier: '000',
+            address: {
+                city: '',
+                street: '',
+                zip: 75,
+            },
             price: 655.99,
             operator: {
+                id: 3,
                 name: '',
-                surname: 'operator1',
-                phone: '123',
+                surname: '',
+                phone: '',
             },
         },
     ];
     displayedColumns: string[] = [
         'dates',
-        'code',
+        'produit',
         'price',
         'client',
         'operator',
@@ -86,6 +128,9 @@ export class HomeComponent implements OnInit {
             if (order.operator.name === '')
                 order.color = 'rgb(128, 128, 128, 0.3)';
         }
+
+        const input = <HTMLInputElement>document.querySelector('.date');
+        input?.addEventListener('change', this.manageSelection);
     }
 
     /**
@@ -103,8 +148,8 @@ export class HomeComponent implements OnInit {
                 !filter ||
                 order.date_chargement.trim().toLowerCase().includes(filter) ||
                 order.date_dechargement.trim().toLowerCase().includes(filter) ||
-                order.code_chantier.trim().toLowerCase().includes(filter) ||
                 order.price.toString().trim().includes(filter) ||
+                order.produit.toString().trim().includes(filter) ||
                 // Client & Operator
                 order.client.name.trim().toLowerCase().includes(filter) ||
                 order.client.surname.trim().toLowerCase().includes(filter) ||
@@ -118,16 +163,27 @@ export class HomeComponent implements OnInit {
     }
 
     /**
-     * Redirect to the order creation page
+     * Manage date selection & display data according to the given date.
+     *
+     * By default, date of the day
+     *
+     * If empty => show the whole set of data
      */
-    createOrder() {
-        this.router.navigate(['new'], { relativeTo: this.route });
+    manageSelection() {
+        console.log('changed');
     }
 
     /**
-     * Redirect to the command info
+     * Redirect to the order creation page
      */
-    updateOrder() {
-        this.router.navigate(['update'], { relativeTo: this.route });
+    createOrder() {
+        this.router.navigate(['form/-1'], { relativeTo: this.route });
+    }
+
+    /**
+     * Redirect to the order info
+     */
+    updateOrder(orderID: number) {
+        this.router.navigate([`form/${orderID}`], { relativeTo: this.route });
     }
 }

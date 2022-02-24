@@ -1,0 +1,142 @@
+<form [formGroup]="form">
+    <!-- Nom -->
+    <div class="container">
+        <h2>Nom</h2>
+        <span class="element">
+            <mat-form-field appearance="standard">
+                <mat-label>Assigner</mat-label>
+                <input type="text" matInput required formControlName="name" />
+            </mat-form-field>
+        </span>
+    </div>
+
+    <!-- Prenom -->
+    <div class="container">
+        <h2>Prénom</h2>
+        <span class="element">
+            <mat-form-field appearance="standard">
+                <mat-label>Assigner</mat-label>
+                <input
+                    type="text"
+                    matInput
+                    required
+                    formControlName="surname"
+                />
+            </mat-form-field>
+        </span>
+    </div>
+
+    <!-- Phone -->
+    <div class="container">
+        <h2>Numéro téléphone</h2>
+        <span class="element">
+            <mat-form-field appearance="standard">
+                <mat-label>Assigner</mat-label>
+                <input type="text" matInput required formControlName="phone" />
+            </mat-form-field>
+        </span>
+    </div>
+
+    <!-- Addresses -->
+    <span style="margin-bottom: 2em">
+        <h2>Addresse(s)</h2>
+        <mat-form-field
+            appearance="standard"
+            *ngIf="client.addresses.length !== 0"
+        >
+            <mat-label>Selectionnez une adresse</mat-label>
+            <mat-select (selectionChange)="manageSelection($event.value)">
+                <mat-option
+                    *ngFor="let address of client.addresses"
+                    [value]="address"
+                >
+                    {{ address.city }} &nbsp; {{ address.street }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </span>
+
+    <div class="addresses" [formGroup]="formAdd">
+        <div class="container">
+            <span class="element">
+                <mat-form-field appearance="standard">
+                    <mat-label>Ville</mat-label>
+                    <input
+                        type="text"
+                        matInput
+                        required
+                        formControlName="city"
+                    />
+                </mat-form-field>
+            </span>
+
+            <span class="element">
+                <mat-form-field appearance="standard">
+                    <mat-label>Code Postal</mat-label>
+                    <input
+                        type="text"
+                        matInput
+                        required
+                        formControlName="zip"
+                    />
+                </mat-form-field>
+            </span>
+        </div>
+        <div class="container">
+            <span class="element" style="width: 15%">
+                <mat-form-field appearance="standard">
+                    <mat-label>Numéro</mat-label>
+                    <input type="number" matInput formControlName="number" />
+                </mat-form-field>
+            </span>
+            <span class="element" style="width: 75%">
+                <mat-form-field appearance="standard">
+                    <mat-label>Rue</mat-label>
+                    <input
+                        type="text"
+                        matInput
+                        required
+                        formControlName="street"
+                    />
+                </mat-form-field>
+            </span>
+        </div>
+
+        <div class="container">
+            <span class="element" style="width: 30%">
+                <mat-form-field appearance="standard">
+                    <mat-label>Code chantier</mat-label>
+                    <input
+                        type="text"
+                        matInput
+                        formControlName="code_chantier"
+                    />
+                </mat-form-field>
+            </span>
+            <p style="color: red; font-weight: bold" *ngIf="addExists()">
+                Duplicat d'adresse
+            </p>
+            <button
+                mat-flat-button
+                color="primary"
+                [disabled]="!formAdd.valid || addExists()"
+                (click)="addAddress()"
+            >
+                Sauvegarder adresse
+            </button>
+        </div>
+    </div>
+
+    <div class="container buttons">
+        <button mat-flat-button (click)="cancel()">Annuler</button>
+        <button
+            mat-flat-button
+            type="submit"
+            (click)="save()"
+            color="primary"
+            [disabled]="!form.valid || client.addresses.length === 0"
+        >
+            Sauvegarder
+        </button>
+    </div>
+</form>

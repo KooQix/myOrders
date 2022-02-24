@@ -12,7 +12,7 @@
     <button
         mat-flat-button
         class="new"
-        title="Nouvelle commande"
+        title="Nouveau chauffeur"
         (click)="createOperator()"
     >
         <mat-icon><span class="material-icons-outlined"> add </span></mat-icon>
@@ -20,50 +20,27 @@
 </div>
 
 <table mat-table [dataSource]="dataSource">
-    <!-- Dates Column -->
-    <ng-container matColumnDef="dates">
-        <th mat-header-cell *matHeaderCellDef>Dates</th>
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Nom</th>
         <td mat-cell *matCellDef="let element">
-            <p>{{ element.date_chargement }}</p>
-            <p>{{ element.date_dechargement }}</p>
+            <p>{{ element.name.toUpperCase() }}</p>
         </td>
     </ng-container>
 
-    <!-- Site code Column -->
-    <ng-container matColumnDef="code">
-        <th mat-header-cell *matHeaderCellDef>Code</th>
-        <td mat-cell *matCellDef="let element">{{ element.code_chantier }}</td>
-    </ng-container>
-
-    <!-- Price Column -->
-    <ng-container matColumnDef="price">
-        <th mat-header-cell *matHeaderCellDef>Price €</th>
-        <td mat-cell *matCellDef="let element">{{ element.price }}</td>
-    </ng-container>
-
-    <!-- Client Column -->
-    <ng-container matColumnDef="client">
-        <th mat-header-cell *matHeaderCellDef>Client</th>
+    <!-- Surname Column -->
+    <ng-container matColumnDef="surname">
+        <th mat-header-cell *matHeaderCellDef>Prénom</th>
         <td mat-cell *matCellDef="let element">
-            <p class="name">
-                {{ element.client.name.toUpperCase() }} &nbsp;
-                {{ element.client.surname }}
-            </p>
-
-            <p class="phone">{{ element.client.phone }}</p>
+            <p>{{ element.surname }}</p>
         </td>
     </ng-container>
 
-    <!-- Operator Column -->
-    <ng-container matColumnDef="operator">
-        <th mat-header-cell *matHeaderCellDef>Operator</th>
+    <!-- Phone Column -->
+    <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef>Numéro téléphone</th>
         <td mat-cell *matCellDef="let element">
-            <p class="name">
-                {{ element?.operator.name.toUpperCase() }} &nbsp;
-                {{ element?.operator.surname }}
-            </p>
-
-            <p class="phone">{{ element?.operator.phone }}</p>
+            <p>{{ element.phone }}</p>
         </td>
     </ng-container>
 
@@ -73,7 +50,7 @@
             <button
                 mat-flat-button
                 title="Modifier commande"
-                (click)="updateOperator()"
+                (click)="updateOperator(element.id)"
             >
                 <mat-icon
                     ><span class="material-icons-outlined">

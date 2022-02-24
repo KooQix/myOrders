@@ -1,0 +1,52 @@
+<form [formGroup]="form">
+    <!-- Nom -->
+    <div class="container">
+        <h2>Nom</h2>
+        <span class="element">
+            <mat-form-field appearance="standard">
+                <mat-label>Assigner</mat-label>
+                <input type="text" matInput formControlName="name" required />
+            </mat-form-field>
+        </span>
+    </div>
+
+    <!-- Prenom -->
+    <div class="container">
+        <h2>Prénom</h2>
+        <span class="element">
+            <mat-form-field appearance="standard">
+                <mat-label>Assigner</mat-label>
+                <input
+                    type="text"
+                    matInput
+                    formControlName="surname"
+                    required
+                />
+            </mat-form-field>
+        </span>
+    </div>
+
+    <!-- Telephone -->
+    <div class="container">
+        <h2>Numéro de Téléphone</h2>
+        <span class="element">
+            <mat-form-field appearance="standard">
+                <mat-label>Assigner</mat-label>
+                <input type="text" matInput formControlName="phone" required />
+            </mat-form-field>
+        </span>
+    </div>
+
+    <div class="container buttons">
+        <button mat-flat-button (click)="cancel()">Annuler</button>
+        <button
+            mat-flat-button
+            type="submit"
+            (click)="save()"
+            color="primary"
+            [disabled]="!form.valid"
+        >
+            Sauvegarder
+        </button>
+    </div>
+</form>

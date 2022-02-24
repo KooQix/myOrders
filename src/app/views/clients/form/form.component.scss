@@ -1,0 +1,38 @@
+@import "../../../../resources.scss";
+:host(app-form) {
+    width: 40%;
+}
+
+h2 {
+    color: $accent;
+    margin-bottom: 0;
+}
+
+form {
+    @include flex-align-center-col;
+}
+
+.container {
+    @include flex-align-center-row;
+    justify-content: space-between !important;
+    width: 100%;
+    .element {
+        width: 45%;
+        mat-form-field {
+            width: 100% !important;
+        }
+    }
+    margin-bottom: 4em;
+}
+
+.buttons {
+    width: 50%;
+    margin-top: 3em;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+.addresses {
+    width: 80%;
+}

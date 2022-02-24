@@ -10,10 +10,21 @@ table {
 }
 
 .head {
-    width: 50%;
+    width: 60%;
+    @include flex-align-center-row;
+    justify-content: flex-end;
+
+    margin-bottom: 3em;
 
     mat-icon {
         font-size: 2em;
+    }
+    button {
+        padding-right: 10em;
+    }
+
+    mat-form-field {
+        padding: 0;
     }
 }
 

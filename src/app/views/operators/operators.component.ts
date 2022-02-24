@@ -9,16 +9,22 @@ import { Operator } from 'src/app/resources/interfaces';
     styleUrls: ['./operators.component.scss'],
 })
 export class OperatorsComponent implements OnInit {
-    operators: Operator[] = [];
-
-    displayedColumns: string[] = [
-        'dates',
-        'code',
-        'price',
-        'client',
-        'operator',
-        'modifier',
+    operators: Operator[] = [
+        {
+            id: 1,
+            name: 'Name',
+            surname: 'Surname',
+            phone: 'Phone',
+        },
+        {
+            id: 2,
+            name: 'Legout',
+            surname: 'Paul',
+            phone: 'Phone',
+        },
     ];
+
+    displayedColumns: string[] = ['name', 'surname', 'phone', 'modifier'];
     dataSource = new MatTableDataSource(this.operators);
 
     constructor(private router: Router, private route: ActivatedRoute) {}
@@ -55,16 +61,18 @@ export class OperatorsComponent implements OnInit {
     }
 
     /**
-     * Redirect to the order creation page
+     * Redirect to the operator creation page
      */
     createOperator() {
-        this.router.navigate(['new'], { relativeTo: this.route });
+        this.router.navigate(['form/-1'], { relativeTo: this.route });
     }
 
     /**
-     * Redirect to the command info
+     * Redirect to the operator info
      */
-    updateOperator() {
-        this.router.navigate(['update'], { relativeTo: this.route });
+    updateOperator(operatorID: number) {
+        this.router.navigate([`form/${operatorID}`], {
+            relativeTo: this.route,
+        });
     }
 }

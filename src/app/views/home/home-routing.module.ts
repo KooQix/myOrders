@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { FormComponent } from './form/form.component';
 import { HomeComponent } from './home.component';
-import { NewComponent } from './new/new.component';
-import { UpdateComponent } from './update/update.component';
 
 const routes: Routes = [
     {
@@ -10,12 +9,8 @@ const routes: Routes = [
         component: HomeComponent,
     },
     {
-        path: 'new',
-        component: NewComponent,
-    },
-    {
-        path: 'update',
-        component: UpdateComponent,
+        path: 'form/:id',
+        component: FormComponent,
     },
     {
         path: '**',

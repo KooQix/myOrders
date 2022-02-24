@@ -9,15 +9,22 @@ import { Client } from 'src/app/resources/interfaces';
     styleUrls: ['./clients.component.scss'],
 })
 export class ClientsComponent implements OnInit {
-    clients: Client[] = [];
-    displayedColumns: string[] = [
-        'dates',
-        'code',
-        'price',
-        'client',
-        'operator',
-        'modifier',
+    clients: Client[] = [
+        {
+            id: 1,
+            name: 'name',
+            surname: 'surname',
+            phone: 'phone',
+            addresses: [
+                {
+                    city: 'city',
+                    zip: 555,
+                    street: 'street',
+                },
+            ],
+        },
     ];
+    displayedColumns: string[] = ['name', 'surname', 'phone', 'modifier'];
     dataSource = new MatTableDataSource(this.clients);
     constructor(private router: Router, private route: ActivatedRoute) {}
 
@@ -53,16 +60,16 @@ export class ClientsComponent implements OnInit {
     }
 
     /**
-     * Redirect to the client creation page
+     * Redirect to the order creation page
      */
     createClient() {
-        this.router.navigate(['new'], { relativeTo: this.route });
+        this.router.navigate(['form/-1'], { relativeTo: this.route });
     }
 
     /**
-     * Redirect to the client info
+     * Redirect to the command info
      */
-    updateClient() {
-        this.router.navigate(['update'], { relativeTo: this.route });
+    updateClient(clientID: number) {
+        this.router.navigate([`form/${clientID}`], { relativeTo: this.route });
     }
 }

@@ -1,0 +1,185 @@
+<form [formGroup]="form">
+    <!-- Dates -->
+    <div class="container">
+        <span class="element">
+            <h2>Date du chargement</h2>
+            <mat-form-field appearance="standard">
+                <mat-label>Choisissez une date</mat-label>
+                <input
+                    matInput
+                    [matDatepicker]="datepicker_chargement"
+                    required
+                    formControlName="date_chargement"
+                />
+                <mat-datepicker-toggle
+                    matSuffix
+                    [for]="datepicker_chargement"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #datepicker_chargement>
+                    <mat-datepicker-actions>
+                        <button mat-button matDatepickerCancel>Annuler</button>
+                        <button
+                            mat-raised-button
+                            color="primary"
+                            matDatepickerApply
+                        >
+                            Valider
+                        </button>
+                    </mat-datepicker-actions>
+                </mat-datepicker>
+            </mat-form-field>
+        </span>
+        <span class="element">
+            <h2>Date du déchargement</h2>
+            <mat-form-field appearance="standard">
+                <mat-label>Choisissez une date</mat-label>
+                <input
+                    matInput
+                    [matDatepicker]="datepicker_dechargement"
+                    required
+                    formControlName="date_dechargement"
+                />
+                <mat-datepicker-toggle
+                    matSuffix
+                    [for]="datepicker_dechargement"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #datepicker_dechargement>
+                    <mat-datepicker-actions>
+                        <button mat-button matDatepickerCancel>Annuler</button>
+                        <button
+                            mat-raised-button
+                            color="primary"
+                            matDatepickerApply
+                        >
+                            Valider
+                        </button>
+                    </mat-datepicker-actions>
+                </mat-datepicker>
+            </mat-form-field>
+        </span>
+    </div>
+
+    <!-- Client -->
+    <div class="container">
+        <h2>Client</h2>
+        <span class="element">
+            <mat-form-field appearance="standard">
+                <mat-label>Assigner</mat-label>
+                <input
+                    type="text"
+                    matInput
+                    [matAutocomplete]="autoClient"
+                    formControlName="client"
+                    required
+                />
+                <mat-autocomplete
+                    #autoClient="matAutocomplete"
+                    [displayWith]="displayFn_clients"
+                >
+                    <mat-option
+                        *ngFor="let option of filteredOptions_client | async"
+                        [value]="option"
+                    >
+                        {{ option.name.toUpperCase() }} {{ option.surname }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field *ngIf="form.get('client')?.value">
+                <mat-label>Selectionnez une adresse</mat-label>
+                <mat-select required formControlName="address">
+                    <mat-option
+                        *ngFor="
+                            let address of form.get('client')?.value.addresses
+                        "
+                        [value]="address"
+                    >
+                        {{ address.city }} &nbsp; {{ address.street }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </span>
+    </div>
+
+    <!-- Produit -->
+    <div class="container">
+        <h2>Produit</h2>
+        <span class="element">
+            <mat-form-field class="client-input" appearance="standard">
+                <mat-label>Assigner</mat-label>
+                <input
+                    type="text"
+                    matInput
+                    required
+                    formControlName="produit"
+                />
+            </mat-form-field>
+        </span>
+    </div>
+
+    <!-- Prix -->
+    <div class="container">
+        <h2>Prix</h2>
+        <span class="element">
+            <mat-form-field class="client-input" appearance="standard">
+                <mat-label>Assigner</mat-label>
+                <input
+                    type="number"
+                    matInput
+                    required
+                    formControlName="price"
+                />
+            </mat-form-field>
+        </span>
+    </div>
+
+    <!-- Chauffeur -->
+    <div class="container">
+        <h2>Chauffeur</h2>
+        <span class="element">
+            <mat-form-field appearance="standard">
+                <mat-label>Assigner</mat-label>
+                <input
+                    type="text"
+                    matInput
+                    [matAutocomplete]="autoOp"
+                    formControlName="operator"
+                />
+                <mat-autocomplete
+                    #autoOp="matAutocomplete"
+                    [displayWith]="displayFn_operators"
+                >
+                    <mat-option
+                        *ngFor="let option of filteredOptions_op | async"
+                        [value]="option"
+                    >
+                        {{ option.name.toUpperCase() }} {{ option.surname }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </span>
+    </div>
+
+    <!-- More info -->
+    <div class="container">
+        <span class="element" style="width: 100%">
+            <mat-form-field class="example-full-width" appearance="standard">
+                <mat-label>Informations complémentaire</mat-label>
+                <textarea matInput formControlName="info"></textarea>
+            </mat-form-field>
+        </span>
+    </div>
+
+    <div class="container buttons">
+        <button mat-flat-button (click)="cancel()">Annuler</button>
+        <button
+            mat-flat-button
+            type="submit"
+            (click)="save()"
+            color="primary"
+            [disabled]="!form.valid"
+        >
+            Sauvegarder
+        </button>
+    </div>
+</form>

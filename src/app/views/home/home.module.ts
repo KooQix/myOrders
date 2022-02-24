@@ -6,14 +6,16 @@ import { MatInputModule } from '@angular/material/input';
 
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { UpdateComponent } from './update/update.component';
-import { NewComponent } from './new/new.component';
+import { FormComponent } from './form/form.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
-    declarations: [HomeComponent, UpdateComponent, NewComponent],
+    declarations: [HomeComponent, FormComponent],
     imports: [
         CommonModule,
         HomeRoutingModule,
@@ -23,6 +25,10 @@ import { NewComponent } from './new/new.component';
         MatInputModule,
         MatIconModule,
         MatButtonModule,
+        MatDatepickerModule,
+        MatAutocompleteModule,
+        ReactiveFormsModule,
+        MatSelectModule,
     ],
 })
 export class HomeModule {}
