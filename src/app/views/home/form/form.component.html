@@ -85,7 +85,11 @@
                 </mat-autocomplete>
             </mat-form-field>
 
-            <mat-form-field *ngIf="form.get('client')?.value">
+            <!-- Select a client's address -->
+            <mat-form-field
+                *ngIf="form.get('client')?.value"
+                style="margin-top: 2em"
+            >
                 <mat-label>Selectionnez une adresse</mat-label>
                 <mat-select required formControlName="address">
                     <mat-option
