@@ -36,3 +36,8 @@ button:hover {
 .addresses {
     width: 80%;
 }
+
+.del:disabled {
+    color: grey !important;
+    background-color: $accent !important;
+}

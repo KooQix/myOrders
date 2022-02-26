@@ -12,11 +12,12 @@ const common_1 = require("@nestjs/common");
 const client_service_1 = require("./client.service");
 const client_controller_1 = require("./client.controller");
 const typeorm_1 = require("@nestjs/typeorm");
+const address_module_1 = require("../address/address.module");
 let ClientModule = class ClientModule {
 };
 ClientModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([client_entity_1.Client])],
+        imports: [typeorm_1.TypeOrmModule.forFeature([client_entity_1.Client]), address_module_1.AddressModule],
         controllers: [client_controller_1.ClientController],
         providers: [client_service_1.ClientService],
         exports: [client_service_1.ClientService],

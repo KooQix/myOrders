@@ -18,6 +18,7 @@ export class FormComponent implements OnInit {
     datepicker_dechargement: any;
     clients: Client[];
     operators: Operator[];
+    id: number;
 
     //////////////////// Filters \\\\\\\\\\\\\\\\\\\\
 
@@ -32,7 +33,7 @@ export class FormComponent implements OnInit {
         private formBuilder: FormBuilder
     ) {}
 
-    ngOnInit(): void {
+    async ngOnInit(): Promise<void> {
         this.form = this.formBuilder.group({
             date_chargement: ['', [Validators.required]],
             date_dechargement: ['', [Validators.required]],
@@ -44,10 +45,15 @@ export class FormComponent implements OnInit {
             info: ['', []],
         });
 
-        // If id of the order given => update the order, else create one
-        this.route.params.subscribe(async (params) => {
-            this.order = await this.service.initOrder(params.id ?? -1);
-        });
+        // Get elements from server and fill form
+        const _id = this.route.snapshot.paramMap.get('id');
+        this.id = _id ? parseInt(_id) : -1;
+        this.order = await this.service.initOrder(this.id);
+
+        this.operators = await this.service.getOperators();
+        this.clients = await this.service.getClients();
+
+        if (this.order.id != -1) this.initForm();
 
         // Get elements from server and fill form
 
@@ -76,6 +82,19 @@ export class FormComponent implements OnInit {
                 name ? this._filter_operators(name) : this.operators.slice()
             )
         );
+    }
+
+    initForm() {
+        this.form.setValue({
+            date_chargement: this.order.date_chargement,
+            date_dechargement: this.order.date_dechargement,
+            client: this.order.client,
+            address: this.order.address,
+            produit: this.order.produit,
+            price: this.order.price,
+            operator: this.order.operator,
+            info: this.order.info,
+        });
     }
 
     //////////////////// Filter functions \\\\\\\\\\\\\\\\\\\\
@@ -114,11 +133,16 @@ export class FormComponent implements OnInit {
 
     //////////////////// Buttons \\\\\\\\\\\\\\\\\\\\
 
-    update() {
-        // Update
+    async update() {
+        try {
+            await this.service.update(this.order);
+            this.router.navigate(['..'], { relativeTo: this.route });
+        } catch (error: any) {
+            alert(error.error.message);
+        }
     }
 
-    save() {
+    async save() {
         this.order.date_chargement = this.form.get('date_chargement')?.value;
         this.order.date_dechargement =
             this.form.get('date_dechargement')?.value;
@@ -129,12 +153,18 @@ export class FormComponent implements OnInit {
         this.order.operator = this.form.get('operator')?.value ?? '';
         this.order.info = this.form.get('info')?.value ?? '';
 
-        if (this.order.id != -1) {
+        if (this.id != -1) {
             return this.update();
         }
 
         // Save
         console.log(this.order);
+        try {
+            await this.service.create(this.order);
+            this.router.navigate(['..'], { relativeTo: this.route });
+        } catch (error: any) {
+            alert(error.error.message);
+        }
     }
 
     cancel() {

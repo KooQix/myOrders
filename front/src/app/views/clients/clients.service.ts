@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Client } from 'src/app/resources/interfaces';
+import { Address, Client } from 'src/app/resources/interfaces';
 import { environment as env } from '../../../environments/environment';
 
 @Injectable({
@@ -47,9 +47,25 @@ export class ClientsService {
      *
      * @param client
      */
-    update(client: Client): Promise<Client> {
+    async update(client: Client): Promise<Client> {
         const id = client.id;
         delete client.id;
+
+        // Check if an address has been added to the client (in that case, create the address, get its id and then update the client)
+        for (let i = 0; i < client.addresses.length; i++) {
+            let address = client.addresses[i];
+            if (!!!address.id) {
+                address = {
+                    ...address,
+                    client: id,
+                };
+                const newAddress = await this.addAddress(address);
+                client.addresses[i] = {
+                    id: newAddress.id,
+                    ...address,
+                };
+            }
+        }
         return this.http
             .patch<Client>(`${this.API_URL}client/${id}`, client)
             .toPromise();
@@ -66,5 +82,15 @@ export class ClientsService {
         return this.http
             .post<Client>(`${this.API_URL}client`, client)
             .toPromise();
+    }
+
+    addAddress(address: Address): Promise<Address> {
+        return this.http
+            .post<Address>(`${this.API_URL}address`, address)
+            .toPromise();
+    }
+
+    deleteAdd(id?: number) {
+        return this.http.delete(`${this.API_URL}address/${id}`).toPromise();
     }
 }

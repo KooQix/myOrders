@@ -37,10 +37,12 @@ __decorate([
 ], Address.prototype, "number", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Address.prototype, "code_chantier", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => client_entity_1.Client, (client) => client.addresses, { nullable: false }),
+    (0, typeorm_1.ManyToOne)(() => client_entity_1.Client, (client) => client.addresses, {
+        nullable: false,
+    }),
     __metadata("design:type", client_entity_1.Client)
 ], Address.prototype, "client", void 0);
 __decorate([

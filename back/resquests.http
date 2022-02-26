@@ -86,15 +86,7 @@ Content-Type: application/json
 
 {
     "name": "clientName",
-    "surname": "clientSurname",
-    "phone": "clientPhone",
-    "addresses": [
-        {
-            "city": "city",
-            "zip": "0000",
-            "street": "street"
-        }
-    ]
+    "surname": "clientSurname"
 }
 
 ### Find all
@@ -102,17 +94,30 @@ GET http://localhost:3000/api/client
 
 
 ### Find one by id
-GET http://localhost:3000/api/client/1
+GET http://localhost:3000/api/client/5
 
 
 ### Update
-PATCH http://localhost:3000/api/client/1
+PATCH http://localhost:3000/api/client/5
 Content-Type: application/json
 
 {
-    "name": "clientName",
     "surname": "clientSurname",
-    "phone": "clientPhone"
+    "phone": "clientPhone",
+    "addresses": [
+        {
+            "id": 2,
+            "city": "city",
+            "zip": "dsqdsqdqdsq",
+            "street": "street"
+        },
+		{
+            "id": 3,
+            "city": "city2",
+            "zip": "0000",
+            "street": "street2"
+        }
+    ]
 }
 
 

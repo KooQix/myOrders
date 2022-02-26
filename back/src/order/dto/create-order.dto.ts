@@ -1,16 +1,16 @@
-import { IsNotEmpty, IsDate, Min, ValidateNested } from 'class-validator';
+import { IsNotEmpty, Min, IsDateString } from 'class-validator';
 import { Address } from 'src/address/entities/address.entity';
 import { Client } from 'src/client/entities/client.entity';
 import { Operator } from 'src/operator/entities/operator.entity';
 
 export class CreateOrderDto {
     @IsNotEmpty()
-    @IsDate()
-    date_chargement: string;
+    @IsDateString()
+    date_chargement: Date;
 
     @IsNotEmpty()
-    @IsDate()
-    date_dechargement: string;
+    @IsDateString()
+    date_dechargement: Date;
 
     @IsNotEmpty()
     client: Client;

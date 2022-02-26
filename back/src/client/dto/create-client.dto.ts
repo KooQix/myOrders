@@ -4,15 +4,18 @@ import {
     ArrayNotEmpty,
     IsDefined,
     IsArray,
+    MinLength,
 } from 'class-validator';
 import { Address } from 'src/address/entities/address.entity';
 import { Type } from 'class-transformer';
 
 export class CreateClientDto {
     @IsNotEmpty()
+    @MinLength(2)
     name: string;
 
     @IsNotEmpty()
+    @MinLength(2)
     surname: string;
 
     @IsNotEmpty()

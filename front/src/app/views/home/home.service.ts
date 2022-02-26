@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Order } from 'src/app/resources/interfaces';
+import { Client, Operator, Order } from 'src/app/resources/interfaces';
 import { environment as env } from '../../../environments/environment';
 
 @Injectable({
@@ -51,8 +51,14 @@ export class HomeService {
      *
      * @returns
      */
-    getAll(): Promise<Order[]> {
-        return this.http.get<Order[]>(`${this.API_URL}order`).toPromise();
+    getAll(date?: number): Promise<Order[]> {
+        console.log(date);
+        if (!date)
+            return this.http.get<Order[]>(`${this.API_URL}order`).toPromise();
+
+        return this.http
+            .get<Order[]>(`${this.API_URL}order/${date}`)
+            .toPromise();
     }
 
     /**
@@ -77,5 +83,18 @@ export class HomeService {
     create(order: Order): Promise<Order> {
         delete order.id;
         return this.http.post<Order>(`${this.API_URL}order`, order).toPromise();
+    }
+
+    /**
+     * Get the operators
+     *
+     * @returns
+     */
+    getOperators(): Promise<Operator[]> {
+        return this.http.get<Operator[]>(`${this.API_URL}operator`).toPromise();
+    }
+
+    getClients(): Promise<Client[]> {
+        return this.http.get<Client[]>(`${this.API_URL}client`).toPromise();
     }
 }

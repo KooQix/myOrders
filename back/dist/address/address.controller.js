@@ -15,22 +15,44 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AddressController = void 0;
 const common_1 = require("@nestjs/common");
 const address_service_1 = require("./address.service");
+const create_address_dto_1 = require("./dto/create-address.dto");
 let AddressController = class AddressController {
     constructor(service) {
         this.service = service;
     }
-    findAll() {
-        return this.service.findAll();
+    async create(createAddressDto) {
+        try {
+            console.log(createAddressDto);
+            return await this.service.create(createAddressDto);
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException(error.sqlMessage);
+        }
+    }
+    async findAll() {
+        try {
+            return await this.service.findAll();
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException(error.sqlMessage);
+        }
     }
     remove(id) {
         return this.service.remove(+id);
     }
 };
 __decorate([
+    (0, common_1.Post)(),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_address_dto_1.CreateAddressDto]),
+    __metadata("design:returntype", Promise)
+], AddressController.prototype, "create", null);
+__decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], AddressController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Delete)(':id'),

@@ -12,6 +12,7 @@ import { OperatorsService } from '../operators.service';
 export class FormComponent implements OnInit {
     operator: Operator;
     form: FormGroup;
+    id: number;
 
     constructor(
         private router: Router,
@@ -29,8 +30,8 @@ export class FormComponent implements OnInit {
 
         // Get elements from server and fill form
         const _id = this.route.snapshot.paramMap.get('id');
-        const id = _id ? parseInt(_id) : -1;
-        this.operator = await this.service.initOperator(id);
+        this.id = _id ? parseInt(_id) : -1;
+        this.operator = await this.service.initOperator(this.id);
 
         if (this.operator.id != -1) this.initForm();
     }
@@ -46,19 +47,27 @@ export class FormComponent implements OnInit {
     //////////////////// Buttons \\\\\\\\\\\\\\\\\\\\
 
     async update() {
-        await this.service.update(this.operator);
-        this.router.navigate(['..'], { relativeTo: this.route });
+        try {
+            await this.service.update(this.operator);
+            this.router.navigate(['..'], { relativeTo: this.route });
+        } catch (error: any) {
+            alert(error.error.message);
+        }
     }
 
     async save() {
         this.operator.name = this.form.get('name')?.value;
         this.operator.surname = this.form.get('surname')?.value;
         this.operator.phone = this.form.get('phone')?.value;
-        if (this.operator.id != -1) return this.update();
+        if (this.id != -1) return this.update();
 
         // Save
-        await this.service.create(this.operator);
-        this.router.navigate(['..'], { relativeTo: this.route });
+        try {
+            await this.service.create(this.operator);
+            this.router.navigate(['..'], { relativeTo: this.route });
+        } catch (error: any) {
+            alert(error.error.message);
+        }
     }
 
     cancel() {

@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AddressService } from 'src/address/address.service';
 import { Repository } from 'typeorm';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
@@ -9,7 +10,8 @@ import { Client } from './entities/client.entity';
 export class ClientService {
     constructor(
         @InjectRepository(Client)
-        private readonly clientRepo: Repository<Client>
+        private readonly clientRepo: Repository<Client>,
+        private addressService: AddressService
     ) {}
 
     create(createClientDto: CreateClientDto) {
@@ -24,7 +26,11 @@ export class ClientService {
         return this.clientRepo.findOne(id);
     }
 
-    update(id: number, updateClientDto: UpdateClientDto) {
+    async update(id: number, updateClientDto: UpdateClientDto) {
+        for (let address of updateClientDto.addresses) {
+            await this.addressService.update(address.id, address);
+        }
+        delete updateClientDto.addresses;
         return this.clientRepo.update(id, updateClientDto);
     }
 

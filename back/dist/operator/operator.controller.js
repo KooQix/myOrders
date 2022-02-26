@@ -21,20 +21,45 @@ let OperatorController = class OperatorController {
     constructor(operatorService) {
         this.operatorService = operatorService;
     }
-    create(createOperatorDto) {
-        return this.operatorService.create(createOperatorDto);
+    async create(createOperatorDto) {
+        try {
+            return await this.operatorService.create(createOperatorDto);
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException(error.sqlMessage);
+        }
     }
-    findAll() {
-        return this.operatorService.findAll();
+    async findAll() {
+        try {
+            return await this.operatorService.findAll();
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException(error.sqlMessage);
+        }
     }
-    findOne(id) {
-        return this.operatorService.findOne(+id);
+    async findOne(id) {
+        try {
+            return await this.operatorService.findOne(+id);
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException(error.sqlMessage);
+        }
     }
-    update(id, updateOperatorDto) {
-        return this.operatorService.update(+id, updateOperatorDto);
+    async update(id, updateOperatorDto) {
+        try {
+            return await this.operatorService.update(+id, updateOperatorDto);
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException(error.sqlMessage);
+        }
     }
-    remove(id) {
-        return this.operatorService.remove(+id);
+    async remove(id) {
+        try {
+            return await this.operatorService.remove(+id);
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException(error.sqlMessage);
+        }
     }
 };
 __decorate([
@@ -42,20 +67,20 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_operator_dto_1.CreateOperatorDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], OperatorController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], OperatorController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], OperatorController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
@@ -63,14 +88,14 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_operator_dto_1.UpdateOperatorDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], OperatorController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], OperatorController.prototype, "remove", null);
 OperatorController = __decorate([
     (0, common_1.Controller)('operator'),

@@ -8,10 +8,10 @@ export class Order {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: 'date' })
+    @Column()
     date_chargement: Date;
 
-    @Column({ type: 'date' })
+    @Column()
     date_dechargement: Date;
 
     @ManyToOne(() => Client, (client) => client.orders, {

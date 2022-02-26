@@ -6,7 +6,7 @@ export declare class OrderService {
     private readonly orderRepo;
     constructor(orderRepo: Repository<Order>);
     create(createOrderDto: CreateOrderDto): Promise<CreateOrderDto & Order>;
-    findAll(): Promise<Order[]>;
+    findAll(date?: Date): Promise<Order[]>;
     findOne(id: number): Promise<Order>;
     update(id: number, updateOrderDto: UpdateOrderDto): Promise<import("typeorm").UpdateResult>;
     remove(id: number): Promise<import("typeorm").DeleteResult>;

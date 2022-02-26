@@ -21,20 +21,53 @@ let OrderController = class OrderController {
     constructor(orderService) {
         this.orderService = orderService;
     }
-    create(createOrderDto) {
-        return this.orderService.create(createOrderDto);
+    async create(createOrderDto) {
+        try {
+            return await this.orderService.create(createOrderDto);
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException(error.sqlMessage);
+        }
     }
-    findAll() {
-        return this.orderService.findAll();
+    async findAll() {
+        try {
+            return await this.orderService.findAll();
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException(error.sqlMessage);
+        }
     }
-    findOne(id) {
-        return this.orderService.findOne(+id);
+    async findAllByDate(date) {
+        try {
+            return await this.orderService.findAll(new Date(date));
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException(error.sqlMessage);
+        }
     }
-    update(id, updateOrderDto) {
-        return this.orderService.update(+id, updateOrderDto);
+    async findOne(id) {
+        try {
+            return await this.orderService.findOne(+id);
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException(error.sqlMessage);
+        }
     }
-    remove(id) {
-        return this.orderService.remove(+id);
+    async update(id, updateOrderDto) {
+        try {
+            return await this.orderService.update(+id, updateOrderDto);
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException(error.sqlMessage);
+        }
+    }
+    async remove(id) {
+        try {
+            return await this.orderService.remove(+id);
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException(error.sqlMessage);
+        }
     }
 };
 __decorate([
@@ -42,20 +75,27 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_order_dto_1.CreateOrderDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], OrderController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], OrderController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)(':date'),
+    __param(0, (0, common_1.Param)('date')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], OrderController.prototype, "findAllByDate", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], OrderController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
@@ -63,14 +103,14 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_order_dto_1.UpdateOrderDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], OrderController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], OrderController.prototype, "remove", null);
 OrderController = __decorate([
     (0, common_1.Controller)('order'),

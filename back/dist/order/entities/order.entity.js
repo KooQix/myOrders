@@ -21,11 +21,11 @@ __decorate([
     __metadata("design:type", Number)
 ], Order.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'date' }),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", Date)
 ], Order.prototype, "date_chargement", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'date' }),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", Date)
 ], Order.prototype, "date_dechargement", void 0);
 __decorate([

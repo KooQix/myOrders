@@ -6,6 +6,7 @@ import {
     Patch,
     Param,
     Delete,
+    InternalServerErrorException,
 } from '@nestjs/common';
 import { ClientService } from './client.service';
 import { CreateClientDto } from './dto/create-client.dto';
@@ -16,27 +17,50 @@ export class ClientController {
     constructor(private readonly clientService: ClientService) {}
 
     @Post()
-    create(@Body() createClientDto: CreateClientDto) {
-        return this.clientService.create(createClientDto);
+    async create(@Body() createClientDto: CreateClientDto) {
+        try {
+            return await this.clientService.create(createClientDto);
+        } catch (error) {
+            throw new InternalServerErrorException(error.sqlMessage);
+        }
     }
 
     @Get()
-    findAll() {
-        return this.clientService.findAll();
+    async findAll() {
+        try {
+            return await this.clientService.findAll();
+        } catch (error) {
+            throw new InternalServerErrorException(error.sqlMessage);
+        }
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.clientService.findOne(+id);
+    async findOne(@Param('id') id: string) {
+        try {
+            return await this.clientService.findOne(+id);
+        } catch (error) {
+            throw new InternalServerErrorException(error.sqlMessage);
+        }
     }
 
     @Patch(':id')
-    update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto) {
-        return this.clientService.update(+id, updateClientDto);
+    async update(
+        @Param('id') id: string,
+        @Body() updateClientDto: UpdateClientDto
+    ) {
+        try {
+            return await this.clientService.update(+id, updateClientDto);
+        } catch (error) {
+            throw new InternalServerErrorException(error.sqlMessage);
+        }
     }
 
     @Delete(':id')
-    remove(@Param('id') id: string) {
-        return this.clientService.remove(+id);
+    async remove(@Param('id') id: string) {
+        try {
+            return await this.clientService.remove(+id);
+        } catch (error) {
+            throw new InternalServerErrorException(error.sqlMessage);
+        }
     }
 }

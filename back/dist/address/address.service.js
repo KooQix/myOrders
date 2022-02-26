@@ -22,7 +22,7 @@ let AddressService = class AddressService {
         this.addRepo = addRepo;
     }
     create(createAddressDto) {
-        return this.addRepo.create(createAddressDto);
+        return this.addRepo.save(createAddressDto);
     }
     findAll() {
         return this.addRepo.find();

@@ -21,20 +21,45 @@ let ClientController = class ClientController {
     constructor(clientService) {
         this.clientService = clientService;
     }
-    create(createClientDto) {
-        return this.clientService.create(createClientDto);
+    async create(createClientDto) {
+        try {
+            return await this.clientService.create(createClientDto);
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException(error.sqlMessage);
+        }
     }
-    findAll() {
-        return this.clientService.findAll();
+    async findAll() {
+        try {
+            return await this.clientService.findAll();
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException(error.sqlMessage);
+        }
     }
-    findOne(id) {
-        return this.clientService.findOne(+id);
+    async findOne(id) {
+        try {
+            return await this.clientService.findOne(+id);
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException(error.sqlMessage);
+        }
     }
-    update(id, updateClientDto) {
-        return this.clientService.update(+id, updateClientDto);
+    async update(id, updateClientDto) {
+        try {
+            return await this.clientService.update(+id, updateClientDto);
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException(error.sqlMessage);
+        }
     }
-    remove(id) {
-        return this.clientService.remove(+id);
+    async remove(id) {
+        try {
+            return await this.clientService.remove(+id);
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException(error.sqlMessage);
+        }
     }
 };
 __decorate([
@@ -42,20 +67,20 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_client_dto_1.CreateClientDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ClientController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ClientController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ClientController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
@@ -63,14 +88,14 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_client_dto_1.UpdateClientDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ClientController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ClientController.prototype, "remove", null);
 ClientController = __decorate([
     (0, common_1.Controller)('client'),

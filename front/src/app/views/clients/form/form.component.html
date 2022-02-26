@@ -52,6 +52,7 @@
                 >
                     {{ address.city }} &nbsp; {{ address.street }}
                 </mat-option>
+                <mat-option value="">Nouvelle Adresse</mat-option>
             </mat-select>
         </mat-form-field>
     </span>
@@ -113,9 +114,15 @@
                     />
                 </mat-form-field>
             </span>
-            <p style="color: red; font-weight: bold" *ngIf="addExists()">
-                Duplicat d'adresse
-            </p>
+            <button
+                mat-flat-button
+                class="del"
+                style="background-color: black; color: white"
+                (click)="deleteAdd()"
+                [disabled]="!formAdd.valid || !addExists()"
+            >
+                Supprimer
+            </button>
             <button
                 mat-flat-button
                 color="primary"

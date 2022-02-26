@@ -13,6 +13,8 @@ export class FormComponent implements OnInit {
     client: Client;
     form: FormGroup;
     formAdd: FormGroup;
+    selectedAddress: Address | undefined;
+    id: number;
 
     constructor(
         private router: Router,
@@ -38,8 +40,8 @@ export class FormComponent implements OnInit {
 
         // Get elements from server and fill form
         const _id = this.route.snapshot.paramMap.get('id');
-        const id = _id ? parseInt(_id) : -1;
-        this.client = await this.service.initClient(id);
+        this.id = _id ? parseInt(_id) : -1;
+        this.client = await this.service.initClient(this.id);
 
         if (this.client.id != -1) this.initForm();
     }
@@ -60,6 +62,7 @@ export class FormComponent implements OnInit {
                 street: address.street,
                 number: address.number,
             });
+            this.selectedAddress = address;
         }
     }
 
@@ -68,8 +71,20 @@ export class FormComponent implements OnInit {
      *
      * @param address
      */
-    manageSelection(address: Address) {
-        this.formAdd.setValue(address);
+    manageSelection(address?: Address) {
+        if (address) {
+            this.formAdd.setValue({
+                code_chantier: address.code_chantier,
+                city: address.city,
+                zip: address.zip,
+                street: address.street,
+                number: address.number,
+            });
+            this.selectedAddress = address;
+        } else {
+            this.formAdd.reset();
+            this.selectedAddress = undefined;
+        }
     }
 
     /**
@@ -98,19 +113,50 @@ export class FormComponent implements OnInit {
      * Add an address to the client's list of addresses
      */
     addAddress(): void {
+        // Update
+        if (this.selectedAddress !== undefined) {
+            const index = this.client.addresses.findIndex(
+                (address) => address.id === this.selectedAddress?.id
+            );
+            this.client.addresses[index] = {
+                id: this.selectedAddress.id,
+                ...this.formAdd.value,
+            };
+            return;
+        }
+
+        // Create
         // Push address to the list of addresses
         this.client.addresses.push(this.formAdd.value);
-
         // Reset form, to add an new address
         this.formAdd.reset();
+    }
+
+    async deleteAdd() {
+        try {
+            await this.service.deleteAdd(this.selectedAddress?.id);
+            if (this.selectedAddress) {
+                const index = this.client.addresses.indexOf(
+                    this.selectedAddress
+                );
+                this.client.addresses.splice(index, 1);
+                this.manageSelection(this.client.addresses[0]);
+            }
+        } catch (error: any) {
+            alert(error.error.message);
+        }
     }
 
     /**
      * Update the client information
      */
     async update(): Promise<void> {
-        await this.service.update(this.client);
-        this.router.navigate(['..'], { relativeTo: this.route });
+        try {
+            await this.service.update(this.client);
+            this.router.navigate(['..'], { relativeTo: this.route });
+        } catch (error: any) {
+            alert(error.error.message);
+        }
     }
 
     /**
@@ -126,11 +172,15 @@ export class FormComponent implements OnInit {
             this.client.addresses.push(add);
         }
 
-        if (this.client.id != -1) return this.update();
+        if (this.id != -1) return this.update();
 
         // Save
-        await this.service.create(this.client);
-        this.router.navigate(['..'], { relativeTo: this.route });
+        try {
+            await this.service.create(this.client);
+            this.router.navigate(['..'], { relativeTo: this.route });
+        } catch (error: any) {
+            alert(error.error.message);
+        }
     }
 
     cancel() {

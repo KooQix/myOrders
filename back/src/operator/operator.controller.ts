@@ -6,6 +6,7 @@ import {
     Patch,
     Param,
     Delete,
+    InternalServerErrorException,
 } from '@nestjs/common';
 import { OperatorService } from './operator.service';
 import { CreateOperatorDto } from './dto/create-operator.dto';
@@ -16,30 +17,50 @@ export class OperatorController {
     constructor(private readonly operatorService: OperatorService) {}
 
     @Post()
-    create(@Body() createOperatorDto: CreateOperatorDto) {
-        return this.operatorService.create(createOperatorDto);
+    async create(@Body() createOperatorDto: CreateOperatorDto) {
+        try {
+            return await this.operatorService.create(createOperatorDto);
+        } catch (error) {
+            throw new InternalServerErrorException(error.sqlMessage);
+        }
     }
 
     @Get()
-    findAll() {
-        return this.operatorService.findAll();
+    async findAll() {
+        try {
+            return await this.operatorService.findAll();
+        } catch (error) {
+            throw new InternalServerErrorException(error.sqlMessage);
+        }
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.operatorService.findOne(+id);
+    async findOne(@Param('id') id: string) {
+        try {
+            return await this.operatorService.findOne(+id);
+        } catch (error) {
+            throw new InternalServerErrorException(error.sqlMessage);
+        }
     }
 
     @Patch(':id')
-    update(
+    async update(
         @Param('id') id: string,
         @Body() updateOperatorDto: UpdateOperatorDto
     ) {
-        return this.operatorService.update(+id, updateOperatorDto);
+        try {
+            return await this.operatorService.update(+id, updateOperatorDto);
+        } catch (error) {
+            throw new InternalServerErrorException(error.sqlMessage);
+        }
     }
 
     @Delete(':id')
-    remove(@Param('id') id: string) {
-        return this.operatorService.remove(+id);
+    async remove(@Param('id') id: string) {
+        try {
+            return await this.operatorService.remove(+id);
+        } catch (error) {
+            throw new InternalServerErrorException(error.sqlMessage);
+        }
     }
 }

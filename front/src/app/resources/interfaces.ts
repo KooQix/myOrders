@@ -18,6 +18,7 @@ export interface Address {
     zip: number;
     street: string;
     number?: number;
+    client?: number;
 }
 
 export interface Client {

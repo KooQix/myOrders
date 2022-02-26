@@ -12,7 +12,7 @@ import { HomeService } from './home.service';
 })
 export class HomeComponent implements OnInit {
     datepicker: any;
-    date = new FormControl(new Date());
+    date: FormControl;
 
     orders: Order[];
     displayedColumns: string[] = [
@@ -32,6 +32,15 @@ export class HomeComponent implements OnInit {
     ) {}
 
     async ngOnInit(): Promise<void> {
+        // By default, display orders for tomorrow
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        this.date = new FormControl(tomorrow);
+
+        // this.orders = await this.service.getAll(
+        //     this.shortDate(new Date(this.date.value))
+        // );
         this.orders = await this.service.getAll();
         this.dataSource = new MatTableDataSource(this.orders);
         for (const order of this.orders) {
@@ -41,6 +50,8 @@ export class HomeComponent implements OnInit {
 
         const input = <HTMLInputElement>document.querySelector('.date');
         input?.addEventListener('change', this.manageSelection);
+
+        this.convDatesFormat();
     }
 
     /**
@@ -79,8 +90,22 @@ export class HomeComponent implements OnInit {
      *
      * If empty => show the whole set of data
      */
-    manageSelection() {
+    async manageSelection() {
         console.log('changed');
+        // console.log(this.date?.value);
+        // if (this.date?.value === undefined) {
+        //     this.orders = await this.service.getAll();
+        // } else {
+        //     this.orders = await this.service.getAll(
+        //         this.shortDate(new Date(this.date.value))
+        //     );
+        // }
+        // this.dataSource = new MatTableDataSource(this.orders);
+        // for (const order of this.orders) {
+        //     if (order.operator.name === '')
+        //         order.color = 'rgb(128, 128, 128, 0.3)';
+        // }
+        // this.convDatesFormat();
     }
 
     /**
@@ -95,5 +120,24 @@ export class HomeComponent implements OnInit {
      */
     updateOrder(orderID: number) {
         this.router.navigate([`form/${orderID}`], { relativeTo: this.route });
+    }
+
+    convDatesFormat() {
+        for (let order of this.orders) {
+            order.date_chargement = this.dateFormat(
+                new Date(order.date_chargement)
+            );
+            order.date_dechargement = this.dateFormat(
+                new Date(order.date_dechargement)
+            );
+        }
+    }
+
+    dateFormat(date: Date) {
+        return date.toLocaleString().replace(/T/, ' ').replace(/\..+/, '');
+    }
+
+    shortDate(date: Date) {
+        return date.getTime();
     }
 }

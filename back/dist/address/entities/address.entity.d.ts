@@ -6,7 +6,7 @@ export declare class Address {
     zip: number;
     street: string;
     number?: number;
-    code_chantier?: number;
+    code_chantier?: string;
     client: Client;
     orders: Order[];
 }

@@ -24,7 +24,15 @@ let OrderService = class OrderService {
     create(createOrderDto) {
         return this.orderRepo.save(createOrderDto);
     }
-    findAll() {
+    findAll(date) {
+        if (date) {
+            date = new Date(date.toDateString());
+            return this.orderRepo.find({
+                where: {
+                    date_chargement: date,
+                },
+            });
+        }
         return this.orderRepo.find();
     }
     findOne(id) {

@@ -6,7 +6,6 @@ import {
     OneToMany,
     PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Exclude } from 'class-transformer';
 import { Order } from 'src/order/entities/order.entity';
 
 @Entity()
@@ -29,7 +28,9 @@ export class Address {
     @Column({ nullable: true })
     code_chantier?: string;
 
-    @ManyToOne(() => Client, (client) => client.addresses, { nullable: false })
+    @ManyToOne(() => Client, (client) => client.addresses, {
+        nullable: false,
+    })
     client: Client;
 
     @OneToMany(() => Order, (order) => order.address)

@@ -15,7 +15,15 @@ export class OrderService {
         return this.orderRepo.save(createOrderDto);
     }
 
-    findAll() {
+    findAll(date?: Date) {
+        if (date) {
+            date = new Date(date.toDateString());
+            return this.orderRepo.find({
+                where: {
+                    date_chargement: date,
+                },
+            });
+        }
         return this.orderRepo.find();
     }
 

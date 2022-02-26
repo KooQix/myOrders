@@ -17,13 +17,13 @@ class CreateOrderDto {
 }
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsDate)(),
-    __metadata("design:type", String)
+    (0, class_validator_1.IsDateString)(),
+    __metadata("design:type", Date)
 ], CreateOrderDto.prototype, "date_chargement", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsDate)(),
-    __metadata("design:type", String)
+    (0, class_validator_1.IsDateString)(),
+    __metadata("design:type", Date)
 ], CreateOrderDto.prototype, "date_dechargement", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),

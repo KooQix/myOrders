@@ -15,11 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ClientService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
+const address_service_1 = require("../address/address.service");
 const typeorm_2 = require("typeorm");
 const client_entity_1 = require("./entities/client.entity");
 let ClientService = class ClientService {
-    constructor(clientRepo) {
+    constructor(clientRepo, addressService) {
         this.clientRepo = clientRepo;
+        this.addressService = addressService;
     }
     create(createClientDto) {
         return this.clientRepo.save(createClientDto);
@@ -30,7 +32,11 @@ let ClientService = class ClientService {
     findOne(id) {
         return this.clientRepo.findOne(id);
     }
-    update(id, updateClientDto) {
+    async update(id, updateClientDto) {
+        for (let address of updateClientDto.addresses) {
+            await this.addressService.update(address.id, address);
+        }
+        delete updateClientDto.addresses;
         return this.clientRepo.update(id, updateClientDto);
     }
     remove(id) {
@@ -40,7 +46,8 @@ let ClientService = class ClientService {
 ClientService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(client_entity_1.Client)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        address_service_1.AddressService])
 ], ClientService);
 exports.ClientService = ClientService;
 //# sourceMappingURL=client.service.js.map

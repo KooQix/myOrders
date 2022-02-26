@@ -6,6 +6,7 @@ export declare class OrderController {
     constructor(orderService: OrderService);
     create(createOrderDto: CreateOrderDto): Promise<CreateOrderDto & import("./entities/order.entity").Order>;
     findAll(): Promise<import("./entities/order.entity").Order[]>;
+    findAllByDate(date: number): Promise<import("./entities/order.entity").Order[]>;
     findOne(id: string): Promise<import("./entities/order.entity").Order>;
     update(id: string, updateOrderDto: UpdateOrderDto): Promise<import("typeorm").UpdateResult>;
     remove(id: string): Promise<import("typeorm").DeleteResult>;

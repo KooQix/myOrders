@@ -19,6 +19,7 @@ AddressModule = __decorate([
         imports: [typeorm_1.TypeOrmModule.forFeature([address_entity_1.Address])],
         controllers: [address_controller_1.AddressController],
         providers: [address_service_1.AddressService],
+        exports: [address_service_1.AddressService],
     })
 ], AddressModule);
 exports.AddressModule = AddressModule;

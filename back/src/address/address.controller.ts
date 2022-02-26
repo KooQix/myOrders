@@ -3,26 +3,34 @@ import {
     Controller,
     Delete,
     Get,
+    InternalServerErrorException,
     Param,
-    Patch,
     Post,
 } from '@nestjs/common';
 import { AddressService } from './address.service';
 import { CreateAddressDto } from './dto/create-address.dto';
-import { UpdateAddressDto } from './dto/update-address.dto';
 
 @Controller('address')
 export class AddressController {
     constructor(private readonly service: AddressService) {}
 
-    // @Post()
-    // create(@Body() createAddressDto: CreateAddressDto) {
-    //     return this.service.create(createAddressDto);
-    // }
+    @Post()
+    async create(@Body() createAddressDto: CreateAddressDto) {
+        try {
+            console.log(createAddressDto);
+            return await this.service.create(createAddressDto);
+        } catch (error) {
+            throw new InternalServerErrorException(error.sqlMessage);
+        }
+    }
 
     @Get()
-    findAll() {
-        return this.service.findAll();
+    async findAll() {
+        try {
+            return await this.service.findAll();
+        } catch (error) {
+            throw new InternalServerErrorException(error.sqlMessage);
+        }
     }
 
     // @Get(':id')

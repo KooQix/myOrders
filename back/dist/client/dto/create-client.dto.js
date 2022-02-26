@@ -17,10 +17,12 @@ class CreateClientDto {
 }
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.MinLength)(2),
     __metadata("design:type", String)
 ], CreateClientDto.prototype, "name", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.MinLength)(2),
     __metadata("design:type", String)
 ], CreateClientDto.prototype, "surname", void 0);
 __decorate([

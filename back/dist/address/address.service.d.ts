@@ -5,7 +5,7 @@ import { Address } from './entities/address.entity';
 export declare class AddressService {
     private readonly addRepo;
     constructor(addRepo: Repository<Address>);
-    create(createAddressDto: CreateAddressDto): Address;
+    create(createAddressDto: CreateAddressDto): Promise<CreateAddressDto & Address>;
     findAll(): Promise<Address[]>;
     findOne(id: number): Promise<Address>;
     update(id: number, updateAddressDto: UpdateAddressDto): Promise<import("typeorm").UpdateResult>;
