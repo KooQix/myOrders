@@ -17,7 +17,6 @@ export class AddressController {
     @Post()
     async create(@Body() createAddressDto: CreateAddressDto) {
         try {
-            console.log(createAddressDto);
             return await this.service.create(createAddressDto);
         } catch (error) {
             throw new InternalServerErrorException(error.sqlMessage);

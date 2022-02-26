@@ -22,7 +22,6 @@ let AddressController = class AddressController {
     }
     async create(createAddressDto) {
         try {
-            console.log(createAddressDto);
             return await this.service.create(createAddressDto);
         }
         catch (error) {
