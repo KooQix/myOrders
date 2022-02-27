@@ -38,13 +38,10 @@ export class HomeComponent implements OnInit {
         tomorrow.setDate(tomorrow.getDate() + 1);
         this.date = new FormControl(tomorrow);
 
-        // this.orders = await this.service.getAll(
-        //     this.shortDate(new Date(this.date.value))
-        // );
-        this.orders = await this.service.getAll();
+        this.orders = await this.service.getAllByDate(this.date?.value);
         this.dataSource = new MatTableDataSource(this.orders);
         for (const order of this.orders) {
-            if (order.operator.name === '')
+            if (!!!order.operator?.name)
                 order.color = 'rgb(128, 128, 128, 0.3)';
         }
 
@@ -65,7 +62,8 @@ export class HomeComponent implements OnInit {
         // Override dataSource filterPredicate to include the filter on client || operator info
         this.dataSource.filterPredicate = (order: Order, filter: string) => {
             filter = filter.trim().toLowerCase();
-            return (
+
+            const _filter =
                 !filter ||
                 order.date_chargement.trim().toLowerCase().includes(filter) ||
                 order.date_dechargement.trim().toLowerCase().includes(filter) ||
@@ -74,10 +72,17 @@ export class HomeComponent implements OnInit {
                 // Client & Operator
                 order.client.name.trim().toLowerCase().includes(filter) ||
                 order.client.surname.trim().toLowerCase().includes(filter) ||
-                order.client.phone.trim().toLowerCase().includes(filter) ||
-                order.operator.name.trim().toLowerCase().includes(filter) ||
-                order.operator.surname.trim().toLowerCase().includes(filter) ||
-                order.operator.phone.trim().toLowerCase().includes(filter)
+                order.client.phone.trim().toLowerCase().includes(filter);
+
+            // Operator not filled in
+            if (!!!order.operator) return _filter;
+
+            // Operator is filled in
+            return (
+                _filter ||
+                order.operator?.name.trim().toLowerCase().includes(filter) ||
+                order.operator?.surname.trim().toLowerCase().includes(filter) ||
+                order.operator?.phone.trim().includes(filter)
             );
         };
         this.dataSource.filter = filterValue;
@@ -92,6 +97,14 @@ export class HomeComponent implements OnInit {
      */
     async manageSelection() {
         console.log('changed');
+        console.log(this.date?.value);
+        if (this.date?.value !== undefined) {
+            this.orders = await this.service.getAllByDate(this.date?.value);
+        } else {
+            this.orders = await this.service.getAll();
+        }
+        this.dataSource.data = this.orders;
+        console.log(this.orders);
         // console.log(this.date?.value);
         // if (this.date?.value === undefined) {
         //     this.orders = await this.service.getAll();

@@ -34,10 +34,10 @@ export class OrderController {
         }
     }
 
-    @Get(':date')
-    async findAllByDate(@Param('date') date: number) {
+    @Post('date')
+    async findAllByDate(@Body() date: any) {
         try {
-            return await this.orderService.findAll(new Date(date));
+            return await this.orderService.findAll(date.date);
         } catch (error) {
             throw new InternalServerErrorException(error.sqlMessage);
         }

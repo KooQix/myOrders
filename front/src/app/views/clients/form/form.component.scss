@@ -37,6 +37,11 @@ button:hover {
     width: 80%;
 }
 
+.del {
+    background-color: black;
+    color: white;
+}
+
 .del:disabled {
     color: grey !important;
     background-color: $accent !important;

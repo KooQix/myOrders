@@ -84,12 +84,39 @@ export class ClientsService {
             .toPromise();
     }
 
+    /**
+     * Delete a client
+     *
+     * @param client
+     * @returns
+     */
+    async deleteClient(client: Client): Promise<Client> {
+        // Delete each address
+        for (const address of client.addresses) {
+            if (!address.id) continue;
+            await this.deleteAdd(address.id);
+        }
+        return this.http
+            .delete<Client>(`${this.API_URL}client/${client.id}`)
+            .toPromise();
+    }
+
+    /**
+     * Add a new address to the client
+     * @param address
+     * @returns
+     */
     addAddress(address: Address): Promise<Address> {
         return this.http
             .post<Address>(`${this.API_URL}address`, address)
             .toPromise();
     }
 
+    /**
+     * Delete an address from the client
+     * @param id
+     * @returns
+     */
     deleteAdd(id?: number) {
         return this.http.delete(`${this.API_URL}address/${id}`).toPromise();
     }

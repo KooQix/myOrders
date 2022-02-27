@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { Order } from './entities/order.entity';
@@ -17,10 +17,15 @@ export class OrderService {
 
     findAll(date?: Date) {
         if (date) {
-            date = new Date(date.toDateString());
+            const betweenDates = (_date: Date) => {
+                return Between(
+                    _date.setHours(0, 0, 0),
+                    _date.setHours(23, 59, 59)
+                );
+            };
             return this.orderRepo.find({
                 where: {
-                    date_chargement: date,
+                    date_chargement: betweenDates(new Date(date)),
                 },
             });
         }

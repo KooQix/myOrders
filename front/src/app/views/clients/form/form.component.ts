@@ -46,6 +46,9 @@ export class FormComponent implements OnInit {
         if (this.client.id != -1) this.initForm();
     }
 
+    /**
+     * If update, fill in the form with the client's information
+     */
     initForm() {
         this.form.setValue({
             name: this.client.name,
@@ -81,6 +84,8 @@ export class FormComponent implements OnInit {
                 number: address.number,
             });
             this.selectedAddress = address;
+
+            // Creating a new address
         } else {
             this.formAdd.reset();
             this.selectedAddress = undefined;
@@ -132,16 +137,21 @@ export class FormComponent implements OnInit {
         this.formAdd.reset();
     }
 
+    /**
+     * Delete an address from the client's list of addresses
+     */
     async deleteAdd() {
         try {
-            await this.service.deleteAdd(this.selectedAddress?.id);
+            // Remove from list on front
             if (this.selectedAddress) {
+                await this.service.deleteAdd(this.selectedAddress?.id);
                 const index = this.client.addresses.indexOf(
                     this.selectedAddress
                 );
                 this.client.addresses.splice(index, 1);
                 this.manageSelection(this.client.addresses[0]);
             }
+            // delete address on back
         } catch (error: any) {
             alert(error.error.message);
         }
@@ -183,6 +193,21 @@ export class FormComponent implements OnInit {
         }
     }
 
+    /**
+     * Delete a client
+     */
+    async deleteClient() {
+        try {
+            await this.service.deleteClient(this.client);
+            this.router.navigate(['..'], { relativeTo: this.route });
+        } catch (error: any) {
+            alert(error.error.message);
+        }
+    }
+
+    /**
+     * Go back to home page
+     */
     cancel() {
         this.router.navigate(['..'], { relativeTo: this.route });
     }

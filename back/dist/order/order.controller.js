@@ -39,7 +39,7 @@ let OrderController = class OrderController {
     }
     async findAllByDate(date) {
         try {
-            return await this.orderService.findAll(new Date(date));
+            return await this.orderService.findAll(date.date);
         }
         catch (error) {
             throw new common_1.InternalServerErrorException(error.sqlMessage);
@@ -84,10 +84,10 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], OrderController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Get)(':date'),
-    __param(0, (0, common_1.Param)('date')),
+    (0, common_1.Post)('date'),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], OrderController.prototype, "findAllByDate", null);
 __decorate([

@@ -12,7 +12,7 @@ export class HomeService {
     constructor(private http: HttpClient) {}
 
     initOrder(orderID: number): Promise<Order> | Order {
-        if (orderID !== -1) {
+        if (orderID != -1) {
             return this.http
                 .get<Order>(`${this.API_URL}order/${orderID}`)
                 .toPromise();
@@ -51,13 +51,13 @@ export class HomeService {
      *
      * @returns
      */
-    getAll(date?: number): Promise<Order[]> {
-        console.log(date);
-        if (!date)
-            return this.http.get<Order[]>(`${this.API_URL}order`).toPromise();
+    getAll(): Promise<Order[]> {
+        return this.http.get<Order[]>(`${this.API_URL}order`).toPromise();
+    }
 
+    getAllByDate(date: Date): Promise<Order[]> {
         return this.http
-            .get<Order[]>(`${this.API_URL}order/${date}`)
+            .post<Order[]>(`${this.API_URL}order/date`, { date: date })
             .toPromise();
     }
 
@@ -83,6 +83,18 @@ export class HomeService {
     create(order: Order): Promise<Order> {
         delete order.id;
         return this.http.post<Order>(`${this.API_URL}order`, order).toPromise();
+    }
+
+    /**
+     * Delete an order
+     *
+     * @param order
+     * @returns
+     */
+    delete(order: Order): Promise<Order> {
+        return this.http
+            .delete<Order>(`${this.API_URL}order/${order.id}`)
+            .toPromise();
     }
 
     /**

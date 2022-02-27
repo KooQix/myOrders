@@ -26,10 +26,12 @@ let OrderService = class OrderService {
     }
     findAll(date) {
         if (date) {
-            date = new Date(date.toDateString());
+            const betweenDates = (_date) => {
+                return (0, typeorm_2.Between)(_date.setHours(0, 0, 0), _date.setHours(23, 59, 59));
+            };
             return this.orderRepo.find({
                 where: {
-                    date_chargement: date,
+                    date_chargement: betweenDates(new Date(date)),
                 },
             });
         }

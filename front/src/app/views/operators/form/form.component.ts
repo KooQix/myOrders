@@ -36,6 +36,9 @@ export class FormComponent implements OnInit {
         if (this.operator.id != -1) this.initForm();
     }
 
+    /**
+     * If update an operator, fill the form with the operator info
+     */
     initForm(): void {
         this.form.setValue({
             name: this.operator.name,
@@ -55,6 +58,11 @@ export class FormComponent implements OnInit {
         }
     }
 
+    /**
+     * Create / Update an operator
+     *
+     * @returns
+     */
     async save() {
         this.operator.name = this.form.get('name')?.value;
         this.operator.surname = this.form.get('surname')?.value;
@@ -70,6 +78,21 @@ export class FormComponent implements OnInit {
         }
     }
 
+    /**
+     * Delete an operator
+     */
+    async deleteOperator() {
+        try {
+            await this.service.deleteOperator(this.operator);
+            this.router.navigate(['..'], { relativeTo: this.route });
+        } catch (error: any) {
+            alert(error.error.message);
+        }
+    }
+
+    /**
+     * Go back to the operators page
+     */
     cancel() {
         this.router.navigate(['..'], { relativeTo: this.route });
     }

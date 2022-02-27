@@ -90,11 +90,11 @@
             [style.background]="element?.color"
         >
             <p class="name">
-                {{ element?.operator.name.toUpperCase() }} &nbsp;
-                {{ element?.operator.surname }}
+                {{ element?.operator?.name.toUpperCase() }} &nbsp;
+                {{ element?.operator?.surname }}
             </p>
 
-            <p class="phone">{{ element?.operator.phone }}</p>
+            <p class="phone">{{ element?.operator?.phone }}</p>
         </td>
     </ng-container>
 

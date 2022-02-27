@@ -59,4 +59,16 @@ export class OperatorsService {
             .post<Operator>(`${this.API_URL}operator`, operator)
             .toPromise();
     }
+
+    /**
+     * Delete an operator
+     *
+     * @param operator
+     * @returns
+     */
+    deleteOperator(operator: Operator): Promise<Operator> {
+        return this.http
+            .delete<Operator>(`${this.API_URL}operator/${operator.id}`)
+            .toPromise();
+    }
 }

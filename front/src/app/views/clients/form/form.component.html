@@ -117,7 +117,6 @@
             <button
                 mat-flat-button
                 class="del"
-                style="background-color: black; color: white"
                 (click)="deleteAdd()"
                 [disabled]="!formAdd.valid || !addExists()"
             >
@@ -136,6 +135,14 @@
 
     <div class="container buttons">
         <button mat-flat-button (click)="cancel()">Annuler</button>
+        <button
+            mat-flat-button
+            (click)="deleteClient()"
+            class="del"
+            [disabled]="id == -1"
+        >
+            Supprimer
+        </button>
         <button
             mat-flat-button
             type="submit"

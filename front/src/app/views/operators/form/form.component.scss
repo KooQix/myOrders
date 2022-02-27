@@ -33,3 +33,13 @@ form {
         opacity: 0.8;
     }
 }
+
+.del {
+    background-color: black;
+    color: white;
+}
+
+.del:disabled {
+    color: grey !important;
+    background-color: $accent !important;
+}

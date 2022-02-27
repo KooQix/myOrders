@@ -38,11 +38,11 @@ export class FormComponent implements OnInit {
             date_chargement: ['', [Validators.required]],
             date_dechargement: ['', [Validators.required]],
             client: ['', [Validators.required]],
-            address: ['', [Validators.required]],
+            address: [undefined, [Validators.required]],
             produit: ['', [Validators.required]],
             price: ['', [Validators.required, Validators.min(0)]],
-            operator: ['', []],
-            info: ['', []],
+            operator: [undefined, []],
+            info: [undefined, []],
         });
 
         // Get elements from server and fill form
@@ -53,7 +53,7 @@ export class FormComponent implements OnInit {
         this.operators = await this.service.getOperators();
         this.clients = await this.service.getClients();
 
-        if (this.order.id != -1) this.initForm();
+        if (this.id != -1) this.initForm();
 
         // Get elements from server and fill form
 
@@ -135,6 +135,7 @@ export class FormComponent implements OnInit {
 
     async update() {
         try {
+            this.order.id = this.id;
             await this.service.update(this.order);
             this.router.navigate(['..'], { relativeTo: this.route });
         } catch (error: any) {
@@ -142,23 +143,30 @@ export class FormComponent implements OnInit {
         }
     }
 
+    /**
+     * Create / Update an order
+     * @returns
+     */
     async save() {
-        this.order.date_chargement = this.form.get('date_chargement')?.value;
-        this.order.date_dechargement =
-            this.form.get('date_dechargement')?.value;
-        this.order.client = this.form.get('client')?.value;
-        this.order.address = this.form.get('address')?.value;
-        this.order.price = this.form.get('price')?.value;
-        this.order.produit = this.form.get('produit')?.value;
-        this.order.operator = this.form.get('operator')?.value ?? '';
-        this.order.info = this.form.get('info')?.value ?? '';
+        this.order = {
+            date_chargement: this.form.get('date_chargement')?.value,
+            date_dechargement: this.form.get('date_dechargement')?.value,
+            client: this.form.get('client')?.value,
+            address: this.form.get('address')?.value,
+            price: this.form.get('price')?.value,
+            produit: this.form.get('produit')?.value,
+            info: this.form.get('info')?.value ?? '',
+        };
+
+        if (this.form.get('operator')) {
+            this.order.operator = this.form.get('operator')?.value;
+        }
 
         if (this.id != -1) {
             return this.update();
         }
 
         // Save
-        console.log(this.order);
         try {
             await this.service.create(this.order);
             this.router.navigate(['..'], { relativeTo: this.route });
@@ -167,6 +175,21 @@ export class FormComponent implements OnInit {
         }
     }
 
+    /**
+     * Delete an order
+     */
+    async deleteOrder() {
+        try {
+            await this.service.delete(this.order);
+            this.router.navigate(['..'], { relativeTo: this.route });
+        } catch (error: any) {
+            alert(error.error.message);
+        }
+    }
+
+    /**
+     * Go back to the home page
+     */
     cancel() {
         this.router.navigate(['..'], { relativeTo: this.route });
     }

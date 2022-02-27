@@ -41,6 +41,14 @@
         <button mat-flat-button (click)="cancel()">Annuler</button>
         <button
             mat-flat-button
+            (click)="deleteOperator()"
+            class="del"
+            [disabled]="id == -1"
+        >
+            Supprimer
+        </button>
+        <button
+            mat-flat-button
             type="submit"
             (click)="save()"
             color="primary"

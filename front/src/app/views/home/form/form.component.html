@@ -90,7 +90,13 @@
                 *ngIf="form.get('client')?.value"
                 style="margin-top: 2em"
             >
-                <mat-label>Selectionnez une adresse</mat-label>
+                <mat-label *ngIf="!!!order.address.city"
+                    >Selectionnez une adresse</mat-label
+                >
+                <mat-label *ngIf="!!order.address.city"
+                    >{{ order.address.city }} &nbsp;
+                    {{ order.address.street }}</mat-label
+                >
                 <mat-select required formControlName="address">
                     <mat-option
                         *ngFor="
@@ -176,6 +182,14 @@
 
     <div class="container buttons">
         <button mat-flat-button (click)="cancel()">Annuler</button>
+        <button
+            mat-flat-button
+            (click)="deleteOrder()"
+            class="del"
+            [disabled]="id == -1"
+        >
+            Supprimer
+        </button>
         <button
             mat-flat-button
             type="submit"
