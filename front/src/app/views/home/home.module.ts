@@ -14,6 +14,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
 import { HttpClientModule } from '@angular/common/http';
+import { DownloadExcelService } from './download-excel.service';
+import { HomeService } from './home.service';
 
 @NgModule({
     declarations: [HomeComponent, FormComponent],
@@ -32,5 +34,6 @@ import { HttpClientModule } from '@angular/common/http';
         MatSelectModule,
         HttpClientModule,
     ],
+    providers: [DownloadExcelService, HomeService],
 })
 export class HomeModule {}

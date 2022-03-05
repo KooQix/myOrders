@@ -6,6 +6,7 @@
             (keyup)="applyFilter($event)"
             placeholder="Ex: John Doe"
             #input
+            class="input"
         />
     </mat-form-field>
 
@@ -44,6 +45,22 @@
             </mat-datepicker-actions>
         </mat-datepicker>
     </mat-form-field>
+
+    <div class="buttons">
+        <button mat-flat-button color="primary" class="button" id="nb1">
+            Envoyer SMS
+        </button>
+        <button
+            mat-flat-button
+            color="accent"
+            class="button"
+            title="Export données format Excel"
+            (click)="exportExcelFile()"
+            [disabled]="dataSource.data.length === 0"
+        >
+            Export table
+        </button>
+    </div>
 </div>
 
 <table mat-table [dataSource]="dataSource">

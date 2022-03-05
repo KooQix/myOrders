@@ -17,11 +17,6 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.MinLength)(2),
     __metadata("design:type", String)
-], CreateOperatorDto.prototype, "name", void 0);
-__decorate([
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.MinLength)(2),
-    __metadata("design:type", String)
 ], CreateOperatorDto.prototype, "surname", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),

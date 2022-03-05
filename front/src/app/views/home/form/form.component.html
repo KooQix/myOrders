@@ -163,7 +163,7 @@
                         *ngFor="let option of filteredOptions_op | async"
                         [value]="option"
                     >
-                        {{ option.name.toUpperCase() }} {{ option.surname }}
+                        {{ option?.name?.toUpperCase() }} {{ option.surname }}
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>

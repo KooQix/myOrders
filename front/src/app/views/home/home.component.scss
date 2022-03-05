@@ -10,7 +10,7 @@ table {
 }
 
 .head {
-    width: 60%;
+    width: 80%;
     @include flex-align-center-row;
     justify-content: flex-end;
 
@@ -50,4 +50,21 @@ mat-icon:hover {
 
 .modifier {
     width: 0.3em !important;
+}
+
+.buttons {
+    @include flex-align-center-col;
+    width: 20%;
+
+    .button {
+        margin-left: 5em;
+        width: 100%;
+    }
+    button#nb1 {
+        margin-bottom: 1em;
+    }
+
+    .button:hover:enabled {
+        opacity: 0.7;
+    }
 }

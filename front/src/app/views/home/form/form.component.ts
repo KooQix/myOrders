@@ -126,8 +126,9 @@ export class FormComponent implements OnInit {
 
         return this.operators.filter(
             (option) =>
-                option.name.toLowerCase().includes(filterValue) ||
-                option.surname.toLowerCase().includes(filterValue)
+                option?.name?.toLowerCase().includes(filterValue) ||
+                option.surname.toLowerCase().includes(filterValue) ||
+                option?.company?.toLowerCase().includes(filterValue)
         );
     }
 

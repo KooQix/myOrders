@@ -6,14 +6,17 @@ export class Operator {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    name: string;
+    @Column({ nullable: true })
+    name?: string;
 
     @Column()
     surname: string;
 
     @Column()
     phone: string;
+
+    @Column({ nullable: true })
+    company?: string;
 
     @OneToMany(() => Order, (order) => order.operator)
     orders: Order[];

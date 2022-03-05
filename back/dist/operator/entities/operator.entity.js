@@ -19,7 +19,7 @@ __decorate([
     __metadata("design:type", Number)
 ], Operator.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], Operator.prototype, "name", void 0);
 __decorate([
@@ -30,6 +30,10 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Operator.prototype, "phone", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Operator.prototype, "company", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => order_entity_1.Order, (order) => order.operator),
     __metadata("design:type", Array)

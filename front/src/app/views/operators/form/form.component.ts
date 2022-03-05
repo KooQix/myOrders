@@ -23,8 +23,9 @@ export class FormComponent implements OnInit {
 
     async ngOnInit(): Promise<void> {
         this.form = this.formBuilder.group({
-            name: ['', [Validators.required]],
+            name: ['', []],
             surname: ['', [Validators.required]],
+            company: [''],
             phone: ['', [Validators.required]],
         });
 
@@ -43,6 +44,7 @@ export class FormComponent implements OnInit {
         this.form.setValue({
             name: this.operator.name,
             surname: this.operator.surname,
+            company: this.operator.company,
             phone: this.operator.phone,
         });
     }
@@ -67,6 +69,7 @@ export class FormComponent implements OnInit {
         this.operator.name = this.form.get('name')?.value;
         this.operator.surname = this.form.get('surname')?.value;
         this.operator.phone = this.form.get('phone')?.value;
+        this.operator.company = this.form.get('company')?.value;
         if (this.id != -1) return this.update();
 
         // Save

@@ -31,7 +31,8 @@ export interface Client {
 
 export interface Operator {
     id?: number;
-    name: string;
+    name?: string;
     surname: string;
+    company?: string;
     phone: string;
 }

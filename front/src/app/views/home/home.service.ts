@@ -55,7 +55,7 @@ export class HomeService {
         return this.http.get<Order[]>(`${this.API_URL}order`).toPromise();
     }
 
-    getAllByDate(date: Date): Promise<Order[]> {
+    getAllByDate(date: string): Promise<Order[]> {
         return this.http
             .post<Order[]>(`${this.API_URL}order/date`, { date: date })
             .toPromise();

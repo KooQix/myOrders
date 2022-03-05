@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { HomeService } from './home.service';
+import { DownloadExcelService } from './download-excel.service';
 
 @Component({
     selector: 'app-home',
@@ -28,7 +29,8 @@ export class HomeComponent implements OnInit {
     constructor(
         private router: Router,
         private route: ActivatedRoute,
-        private service: HomeService
+        private service: HomeService,
+        private excelService: DownloadExcelService
     ) {}
 
     async ngOnInit(): Promise<void> {
@@ -38,7 +40,10 @@ export class HomeComponent implements OnInit {
         tomorrow.setDate(tomorrow.getDate() + 1);
         this.date = new FormControl(tomorrow);
 
-        this.orders = await this.service.getAllByDate(this.date?.value);
+        // this.orders = await this.service.getAllByDate(
+        //     this.shortDate(this.date?.value)
+        // );
+        this.orders = await this.service.getAll();
         this.dataSource = new MatTableDataSource(this.orders);
         for (const order of this.orders) {
             if (!!!order.operator?.name)
@@ -80,9 +85,10 @@ export class HomeComponent implements OnInit {
             // Operator is filled in
             return (
                 _filter ||
-                order.operator?.name.trim().toLowerCase().includes(filter) ||
+                !!order.operator?.name?.trim().toLowerCase().includes(filter) ||
                 order.operator?.surname.trim().toLowerCase().includes(filter) ||
-                order.operator?.phone.trim().includes(filter)
+                order.operator?.phone.trim().includes(filter) ||
+                !!order.operator?.company?.trim().toLowerCase().includes(filter)
             );
         };
         this.dataSource.filter = filterValue;
@@ -97,28 +103,18 @@ export class HomeComponent implements OnInit {
      */
     async manageSelection() {
         console.log('changed');
-        console.log(this.date?.value);
-        if (this.date?.value !== undefined) {
-            this.orders = await this.service.getAllByDate(this.date?.value);
+        console.log(await this.service.getAll());
+
+        if (!!this.date?.value) {
+            this.orders = await this.service.getAllByDate(
+                this.shortDate(this.date?.value)
+            );
         } else {
-            this.orders = await this.service.getAll();
+            console.log(await this.service.getAll());
+            // this.orders = await this.service.getAll();
         }
-        this.dataSource.data = this.orders;
+        // this.dataSource.data = this.orders;
         console.log(this.orders);
-        // console.log(this.date?.value);
-        // if (this.date?.value === undefined) {
-        //     this.orders = await this.service.getAll();
-        // } else {
-        //     this.orders = await this.service.getAll(
-        //         this.shortDate(new Date(this.date.value))
-        //     );
-        // }
-        // this.dataSource = new MatTableDataSource(this.orders);
-        // for (const order of this.orders) {
-        //     if (order.operator.name === '')
-        //         order.color = 'rgb(128, 128, 128, 0.3)';
-        // }
-        // this.convDatesFormat();
     }
 
     /**
@@ -151,6 +147,19 @@ export class HomeComponent implements OnInit {
     }
 
     shortDate(date: Date) {
-        return date.getTime();
+        return this.dateFormat(date).split(', ')[0];
+    }
+
+    /**
+     * Export table as Excel file
+     */
+    exportExcelFile() {
+        const filter = <HTMLInputElement>document.querySelector('.input');
+        const date = this.dateFormat(this?.date.value).split(', ')[0];
+        this.excelService.exportAsExcelFile(
+            this.dataSource.data,
+            filter?.value,
+            date
+        );
     }
 }

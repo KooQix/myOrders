@@ -16,16 +16,16 @@ export class OrderService {
     }
 
     findAll(date?: Date) {
-        if (date) {
-            const betweenDates = (_date: Date) => {
-                return Between(
-                    _date.setHours(0, 0, 0),
-                    _date.setHours(23, 59, 59)
-                );
-            };
+        if (!!date) {
+            // const betweenDates = (_date: Date) => {
+            //     return Between(
+            //         _date.setHours(0, 0, 0),
+            //         _date.setHours(23, 59, 59)
+            //     );
+            // };
             return this.orderRepo.find({
                 where: {
-                    date_chargement: betweenDates(new Date(date)),
+                    date_chargement: date,
                 },
             });
         }
