@@ -84,6 +84,9 @@ export class FormComponent implements OnInit {
         );
     }
 
+    /**
+     * Fill in form with client information if update
+     */
     initForm() {
         this.form.setValue({
             date_chargement: this.order.date_chargement,
@@ -92,19 +95,31 @@ export class FormComponent implements OnInit {
             address: this.order.address,
             produit: this.order.produit,
             price: this.order.price,
-            operator: this.order.operator,
+            operator: this.order?.operator,
             info: this.order.info,
         });
     }
 
     //////////////////// Filter functions \\\\\\\\\\\\\\\\\\\\
 
+    /**
+     * How clients are displayed in select
+     *
+     * @param client
+     * @returns
+     */
     displayFn_clients(client: Client): string {
         return client && client.name
             ? `${client.name.toUpperCase()} ${client.surname}`
             : '';
     }
 
+    /**
+     * Filter table through clients info
+     *
+     * @param name
+     * @returns
+     */
     private _filter_clients(name: string): Client[] {
         const filterValue = name.toLowerCase();
 
@@ -115,18 +130,33 @@ export class FormComponent implements OnInit {
         );
     }
 
+    /**
+     * How operators are displayed in select
+     *
+     * @param operator
+     * @returns
+     */
     displayFn_operators(operator: Operator): string {
-        return operator && operator.name
-            ? `${operator.name.toUpperCase()} ${operator.surname}`
+        return operator && operator.surname
+            ? `${operator?.name ? operator?.name.toUpperCase() : ''} ${
+                  operator.surname
+              }`
             : '';
     }
 
+    /**
+     * Filter table through operators info
+     *
+     * @param name
+     * @returns
+     */
     private _filter_operators(name: string): Operator[] {
         const filterValue = name.toLowerCase();
 
         return this.operators.filter(
             (option) =>
-                option?.name?.toLowerCase().includes(filterValue) ||
+                (!!option?.name &&
+                    option?.name?.toLowerCase().includes(filterValue)) ||
                 option.surname.toLowerCase().includes(filterValue) ||
                 option?.company?.toLowerCase().includes(filterValue)
         );
@@ -134,6 +164,9 @@ export class FormComponent implements OnInit {
 
     //////////////////// Buttons \\\\\\\\\\\\\\\\\\\\
 
+    /**
+     * Update order
+     */
     async update() {
         try {
             this.order.id = this.id;
@@ -150,8 +183,12 @@ export class FormComponent implements OnInit {
      */
     async save() {
         this.order = {
-            date_chargement: this.form.get('date_chargement')?.value,
-            date_dechargement: this.form.get('date_dechargement')?.value,
+            date_chargement: this.service.shortDate(
+                new Date(this.form.get('date_chargement')?.value)
+            ),
+            date_dechargement: this.service.shortDate(
+                new Date(this.form.get('date_dechargement')?.value)
+            ),
             client: this.form.get('client')?.value,
             address: this.form.get('address')?.value,
             price: this.form.get('price')?.value,
@@ -159,7 +196,7 @@ export class FormComponent implements OnInit {
             info: this.form.get('info')?.value ?? '',
         };
 
-        if (this.form.get('operator')) {
+        if (!!this.form.get('operator')) {
             this.order.operator = this.form.get('operator')?.value;
         }
 

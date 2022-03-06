@@ -35,25 +35,15 @@ export class HomeComponent implements OnInit {
 
     async ngOnInit(): Promise<void> {
         // By default, display orders for tomorrow
-        const today = new Date();
-        const tomorrow = new Date(today);
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        this.date = new FormControl(tomorrow);
-
-        // this.orders = await this.service.getAllByDate(
-        //     this.shortDate(this.date?.value)
-        // );
-        this.orders = await this.service.getAll();
+        this.date = this.service.getTomorrow(new Date());
+        this.orders = await this.service.getAllByDate(
+            this.service.shortDate(this.date?.value)
+        );
         this.dataSource = new MatTableDataSource(this.orders);
-        for (const order of this.orders) {
-            if (!!!order.operator?.name)
-                order.color = 'rgb(128, 128, 128, 0.3)';
-        }
 
-        const input = <HTMLInputElement>document.querySelector('.date');
-        input?.addEventListener('change', this.manageSelection);
-
-        this.convDatesFormat();
+        this.date.valueChanges.subscribe((date) => {
+            this.manageSelection(date);
+        });
     }
 
     /**
@@ -101,20 +91,15 @@ export class HomeComponent implements OnInit {
      *
      * If empty => show the whole set of data
      */
-    async manageSelection() {
-        console.log('changed');
-        console.log(await this.service.getAll());
-
-        if (!!this.date?.value) {
+    async manageSelection(date: any) {
+        if (!!date) {
             this.orders = await this.service.getAllByDate(
-                this.shortDate(this.date?.value)
+                this.service.shortDate(this.date?.value)
             );
         } else {
-            console.log(await this.service.getAll());
-            // this.orders = await this.service.getAll();
+            this.orders = await this.service.getAll();
         }
-        // this.dataSource.data = this.orders;
-        console.log(this.orders);
+        this.dataSource.data = this.orders;
     }
 
     /**
@@ -131,31 +116,14 @@ export class HomeComponent implements OnInit {
         this.router.navigate([`form/${orderID}`], { relativeTo: this.route });
     }
 
-    convDatesFormat() {
-        for (let order of this.orders) {
-            order.date_chargement = this.dateFormat(
-                new Date(order.date_chargement)
-            );
-            order.date_dechargement = this.dateFormat(
-                new Date(order.date_dechargement)
-            );
-        }
-    }
-
-    dateFormat(date: Date) {
-        return date.toLocaleString().replace(/T/, ' ').replace(/\..+/, '');
-    }
-
-    shortDate(date: Date) {
-        return this.dateFormat(date).split(', ')[0];
-    }
-
     /**
      * Export table as Excel file
      */
     exportExcelFile() {
         const filter = <HTMLInputElement>document.querySelector('.input');
-        const date = this.dateFormat(this?.date.value).split(', ')[0];
+        const date = !!this?.date?.value
+            ? this.service.shortDate(this?.date?.value)
+            : undefined;
         this.excelService.exportAsExcelFile(
             this.dataSource.data,
             filter?.value,

@@ -2,6 +2,7 @@ import { Order } from 'src/app/resources/interfaces';
 import { Injectable } from '@angular/core';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
+import { HomeService } from './home.service';
 
 const EXCEL_TYPE =
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
@@ -11,7 +12,7 @@ const EXCEL_EXTENSION = '.xlsx';
     providedIn: 'root',
 })
 export class DownloadExcelService {
-    constructor() {}
+    constructor(private service: HomeService) {}
 
     /**
      * Export json as Excel file
@@ -47,6 +48,12 @@ export class DownloadExcelService {
         FileSaver.saveAs(data, fileName + '_exported' + EXCEL_EXTENSION);
     }
 
+    /**
+     * Format information for excel file
+     *
+     * @param json Entry data (list of Order)
+     * @returns
+     */
     private toString(json: Order[]): any[] {
         let res = [];
         for (let element of json) {
@@ -58,10 +65,11 @@ export class DownloadExcelService {
                     element.client.surname
                 }`,
                 operator: element.operator?.surname
-                    ? `${element.operator?.name?.toUpperCase()}` +
-                      !!element.operator?.name
-                        ? ` ${element.operator?.surname}`
-                        : ''
+                    ? `${
+                          !!element.operator?.name
+                              ? element.operator?.name?.toUpperCase() + ' '
+                              : ''
+                      }` + `${element.operator?.surname}`
                     : '',
                 adresse: `${element.address.city} ${element.address.street}`,
                 info: `${element.info}`,
@@ -70,6 +78,13 @@ export class DownloadExcelService {
         return res;
     }
 
+    /**
+     * Create output filename
+     *
+     * @param filter filters bar input
+     * @param date date | undefined
+     * @returns
+     */
     private getFileName(filter: string, date?: any) {
         return `${!!date ? date : 'all'}_${filter}_myOrders`;
     }

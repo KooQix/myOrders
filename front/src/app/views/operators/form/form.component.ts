@@ -25,7 +25,7 @@ export class FormComponent implements OnInit {
         this.form = this.formBuilder.group({
             name: ['', []],
             surname: ['', [Validators.required]],
-            company: [''],
+            company: ['', []],
             phone: ['', [Validators.required]],
         });
 
@@ -51,6 +51,9 @@ export class FormComponent implements OnInit {
 
     //////////////////// Buttons \\\\\\\\\\\\\\\\\\\\
 
+    /**
+     * Update operator
+     */
     async update() {
         try {
             await this.service.update(this.operator);

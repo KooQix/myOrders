@@ -35,6 +35,11 @@ export class AppComponent {
         },
     ];
 
+    /**
+     * Manage navigation though toolbar
+     *
+     * @param router
+     */
     constructor(private router: Router) {
         this.router.events.subscribe((res) => {
             this.activeLinkIndex =

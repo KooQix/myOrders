@@ -25,13 +25,10 @@ let OrderService = class OrderService {
         return this.orderRepo.save(createOrderDto);
     }
     findAll(date) {
-        if (date) {
-            const betweenDates = (_date) => {
-                return (0, typeorm_2.Between)(_date.setHours(0, 0, 0), _date.setHours(23, 59, 59));
-            };
+        if (!!date) {
             return this.orderRepo.find({
                 where: {
-                    date_chargement: betweenDates(new Date(date)),
+                    date_chargement: date + ' 01:00:00',
                 },
             });
         }

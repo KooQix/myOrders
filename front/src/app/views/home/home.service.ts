@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Client, Operator, Order } from 'src/app/resources/interfaces';
 import { environment as env } from '../../../environments/environment';
 
@@ -11,6 +12,12 @@ export class HomeService {
 
     constructor(private http: HttpClient) {}
 
+    /**
+     * Initialize order (empty if orderID == -1, with order info otherwise)
+     *
+     * @param orderID
+     * @returns
+     */
     initOrder(orderID: number): Promise<Order> | Order {
         if (orderID != -1) {
             return this.http
@@ -51,14 +58,46 @@ export class HomeService {
      *
      * @returns
      */
-    getAll(): Promise<Order[]> {
-        return this.http.get<Order[]>(`${this.API_URL}order`).toPromise();
+    async getAll(): Promise<Order[]> {
+        const orders = await this.http
+            .get<Order[]>(`${this.API_URL}order`)
+            .toPromise();
+
+        let res: Order[] = [];
+        for (const order of orders) {
+            const { date_chargement, date_dechargement, ...element } = order;
+            res.push({
+                date_chargement: this.shortDate(new Date(date_chargement)),
+                date_dechargement: this.shortDate(new Date(date_dechargement)),
+                ...element,
+                color: !!order.operator ? '' : 'rgb(128, 128, 128, 0.3)',
+            });
+        }
+        return res;
     }
 
-    getAllByDate(date: string): Promise<Order[]> {
-        return this.http
+    /**
+     * Get all orders for a given date
+     *
+     * @param date
+     * @returns
+     */
+    async getAllByDate(date: string): Promise<Order[]> {
+        const orders = await this.http
             .post<Order[]>(`${this.API_URL}order/date`, { date: date })
             .toPromise();
+
+        let res: Order[] = [];
+        for (const order of orders) {
+            const { date_chargement, date_dechargement, ...element } = order;
+            res.push({
+                date_chargement: this.shortDate(new Date(date_chargement)),
+                date_dechargement: this.shortDate(new Date(date_dechargement)),
+                ...element,
+                color: !!order.operator ? '' : 'rgb(128, 128, 128, 0.3)',
+            });
+        }
+        return res;
     }
 
     /**
@@ -106,7 +145,62 @@ export class HomeService {
         return this.http.get<Operator[]>(`${this.API_URL}operator`).toPromise();
     }
 
+    /**
+     * Get all clients
+     *
+     * @returns
+     */
     getClients(): Promise<Client[]> {
         return this.http.get<Client[]>(`${this.API_URL}client`).toPromise();
+    }
+
+    //////////////////// Date management \\\\\\\\\\\\\\\\\\\\
+
+    /**
+     * Format date
+     *
+     * @param date
+     * @returns
+     */
+    dateFormat(date: Date) {
+        const _date =
+            date.toDateString().split(' ')[2] ==
+            date.toISOString().split('-')[2].split('T')[0]
+                ? date
+                : this.getTomorrow(new Date(date)).value;
+
+        return _date.toISOString().replace(/T/, ' ').replace(/\..+/, '');
+    }
+
+    /**
+     * Remove time from datetime
+     *
+     * @param date
+     * @returns
+     */
+    shortDate(date: Date) {
+        return this.dateFormat(date).split(' ')[0];
+    }
+
+    /**
+     * Return the next day of date
+     *
+     * @param date
+     * @returns
+     */
+    getTomorrow(date: Date) {
+        const tomorrow = new Date(date);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        return new FormControl(tomorrow);
+    }
+
+    /**
+     * Return next day as shortDate
+     *
+     * @param date
+     * @returns
+     */
+    getTomorrowShort(date: Date) {
+        return this.shortDate(this.getTomorrow(date).value);
     }
 }

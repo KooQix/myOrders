@@ -11,6 +11,12 @@ export class OperatorsService {
 
     constructor(private http: HttpClient) {}
 
+    /**
+     * Initialize operator (empty if operatorID == -1, with operator info otherwise)
+     *
+     * @param operatorID
+     * @returns
+     */
     initOperator(operatorID: number): Promise<Operator> | Operator {
         if (operatorID !== -1) {
             return this.http

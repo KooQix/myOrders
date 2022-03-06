@@ -1,6 +1,6 @@
 <div class="head">
     <mat-form-field appearance="standard">
-        <mat-label>Filter</mat-label>
+        <mat-label>Filtrer</mat-label>
         <input
             matInput
             (keyup)="applyFilter($event)"
@@ -19,7 +19,7 @@
         <mat-icon><span class="material-icons-outlined"> add </span></mat-icon>
     </button>
 
-    <mat-form-field appearance="standard" style="width: 20%">
+    <mat-form-field appearance="standard" style="width: 20%" class="date">
         <mat-label>Choisissez une date</mat-label>
         <input
             class="date"
@@ -34,12 +34,7 @@
         <mat-datepicker #datepicker>
             <mat-datepicker-actions>
                 <button mat-button matDatepickerCancel>Annuler</button>
-                <button
-                    mat-raised-button
-                    color="primary"
-                    matDatepickerApply
-                    (click)="manageSelection()"
-                >
+                <button mat-raised-button color="primary" matDatepickerApply>
                     Valider
                 </button>
             </mat-datepicker-actions>
@@ -56,7 +51,7 @@
             class="button"
             title="Export données format Excel"
             (click)="exportExcelFile()"
-            [disabled]="dataSource.data.length === 0"
+            [disabled]="!!dataSource && dataSource.data.length === 0"
         >
             Export table
         </button>
@@ -107,7 +102,12 @@
             [style.background]="element?.color"
         >
             <p class="name">
-                {{ element?.operator?.name.toUpperCase() }} &nbsp;
+                {{
+                    !!element?.operator?.name
+                        ? element?.operator?.name.toUpperCase()
+                        : ""
+                }}
+                &nbsp;
                 {{ element?.operator?.surname }}
             </p>
 

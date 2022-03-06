@@ -12,7 +12,13 @@ import { OperatorsService } from './operators.service';
 export class OperatorsComponent implements OnInit {
     operators: Operator[];
 
-    displayedColumns: string[] = ['name', 'surname', 'phone', 'modifier'];
+    displayedColumns: string[] = [
+        'name',
+        'surname',
+        'phone',
+        'company',
+        'modifier',
+    ];
     dataSource: MatTableDataSource<Operator>;
 
     constructor(
@@ -33,25 +39,6 @@ export class OperatorsComponent implements OnInit {
      */
     applyFilter(event: Event) {
         const filterValue = (event.target as HTMLInputElement).value;
-
-        // Override dataSource filterPredicate to include the filter on client || operator info
-        // this.dataSource.filterPredicate = (order: Order, filter: string) => {
-        //     filter = filter.trim().toLowerCase();
-        //     return (
-        //         !filter ||
-        //         order.date_chargement.trim().toLowerCase().includes(filter) ||
-        //         order.date_dechargement.trim().toLowerCase().includes(filter) ||
-        //         order.code_chantier.trim().toLowerCase().includes(filter) ||
-        //         order.price.toString().trim().includes(filter) ||
-        //         // Client & Operator
-        //         order.client.name.trim().toLowerCase().includes(filter) ||
-        //         order.client.surname.trim().toLowerCase().includes(filter) ||
-        //         order.client.phone.trim().toLowerCase().includes(filter) ||
-        //         order.operator.name.trim().toLowerCase().includes(filter) ||
-        //         order.operator.surname.trim().toLowerCase().includes(filter) ||
-        //         order.operator.phone.trim().toLowerCase().includes(filter)
-        //     );
-        // };
         this.dataSource.filter = filterValue;
     }
 

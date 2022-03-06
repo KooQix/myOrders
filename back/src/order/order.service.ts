@@ -17,15 +17,10 @@ export class OrderService {
 
     findAll(date?: Date) {
         if (!!date) {
-            // const betweenDates = (_date: Date) => {
-            //     return Between(
-            //         _date.setHours(0, 0, 0),
-            //         _date.setHours(23, 59, 59)
-            //     );
-            // };
+            // Since no time given, default hour set to 1 AM
             return this.orderRepo.find({
                 where: {
-                    date_chargement: date,
+                    date_chargement: date + ' 01:00:00',
                 },
             });
         }
