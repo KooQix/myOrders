@@ -70,15 +70,23 @@ export class HomeComponent implements OnInit {
                 order.client.phone.trim().toLowerCase().includes(filter);
 
             // Operator not filled in
-            if (!!!order.operator) return _filter;
+            if (!!!order.operators) return _filter;
 
             // Operator is filled in
             return (
                 _filter ||
-                !!order.operator?.name?.trim().toLowerCase().includes(filter) ||
-                order.operator?.surname.trim().toLowerCase().includes(filter) ||
-                order.operator?.phone.trim().includes(filter) ||
-                !!order.operator?.company?.trim().toLowerCase().includes(filter)
+                !!order.operators
+                    .map((element) => element.name?.trim().toLowerCase())
+                    .includes(filter) ||
+                order.operators
+                    .map((element) => element.surname.trim().toLowerCase())
+                    .includes(filter) ||
+                order.operators
+                    .map((element) => element.phone.trim())
+                    .includes(filter) ||
+                !!order.operators
+                    .map((element) => element.company?.trim().toLowerCase())
+                    .includes(filter)
             );
         };
         this.dataSource.filter = filterValue;

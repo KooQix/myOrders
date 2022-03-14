@@ -1,7 +1,13 @@
 import { Address } from 'src/address/entities/address.entity';
 import { Client } from 'src/client/entities/client.entity';
 import { Operator } from 'src/operator/entities/operator.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    Column,
+    Entity,
+    ManyToMany,
+    ManyToOne,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Order {
@@ -29,11 +35,11 @@ export class Order {
     @Column()
     price: number;
 
-    @ManyToOne(() => Operator, (operator) => operator.orders, {
+    @ManyToMany(() => Operator, (operator) => operator.orders, {
         eager: true,
         nullable: true,
     })
-    operator?: Operator;
+    operators?: Operator[];
 
     @Column()
     produit: string;

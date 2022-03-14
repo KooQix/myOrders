@@ -145,7 +145,7 @@
 
     <!-- Chauffeur -->
     <div class="container">
-        <h2>Chauffeur</h2>
+        <h2>Chauffeur(s)</h2>
         <span class="element">
             <mat-form-field appearance="standard">
                 <mat-label>Assigner</mat-label>
@@ -168,6 +168,31 @@
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
+
+            <!-- <mat-form-field
+                appearance="standard"
+                *ngFor="let operator of form.get('operators')?.value"
+            >
+                <mat-label>Assigner</mat-label>
+                <input
+                    type="text"
+                    matInput
+                    [matAutocomplete]="autoOp"
+                    formControlName="operator"
+                />
+                <mat-autocomplete
+                    #autoOp="matAutocomplete"
+                    [displayWith]="displayFn_operators"
+                >
+                    <mat-option
+                        *ngFor="let option of filteredOptions_op | async"
+                        [value]="option"
+                    >
+                        {{ !!option?.name ? option?.name?.toUpperCase() : "" }}
+                        {{ option.surname }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field> -->
         </span>
     </div>
 

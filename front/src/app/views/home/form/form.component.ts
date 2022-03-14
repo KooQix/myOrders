@@ -41,7 +41,7 @@ export class FormComponent implements OnInit {
             address: [undefined, [Validators.required]],
             produit: ['', [Validators.required]],
             price: ['', [Validators.required, Validators.min(0)]],
-            operator: [undefined, []],
+            operators: [[], []],
             info: [undefined, []],
         });
 
@@ -71,17 +71,18 @@ export class FormComponent implements OnInit {
                 )
             );
 
-        this.filteredOptions_op = this.form.controls.operator.valueChanges.pipe(
-            startWith(''),
-            map((value) =>
-                typeof value === 'string'
-                    ? value
-                    : `${value.name.toUpperCase()} ${value.surname}`
-            ),
-            map((name) =>
-                name ? this._filter_operators(name) : this.operators.slice()
-            )
-        );
+        this.filteredOptions_op =
+            this.form.controls.operators.valueChanges.pipe(
+                startWith(''),
+                map((value) =>
+                    typeof value === 'string'
+                        ? value
+                        : `${value.name.toUpperCase()} ${value.surname}`
+                ),
+                map((name) =>
+                    name ? this._filter_operators(name) : this.operators.slice()
+                )
+            );
     }
 
     /**
@@ -95,7 +96,7 @@ export class FormComponent implements OnInit {
             address: this.order.address,
             produit: this.order.produit,
             price: this.order.price,
-            operator: this.order?.operator,
+            operators: this.order?.operators,
             info: this.order.info,
         });
     }
@@ -196,8 +197,8 @@ export class FormComponent implements OnInit {
             info: this.form.get('info')?.value ?? '',
         };
 
-        if (!!this.form.get('operator')) {
-            this.order.operator = this.form.get('operator')?.value;
+        if (!!this.form.get('operators')) {
+            this.order.operators = this.form.get('operators')?.value;
         }
 
         if (this.id != -1) {

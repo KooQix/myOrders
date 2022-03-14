@@ -44,12 +44,14 @@ export class HomeService {
             },
             produit: '',
             price: 0,
-            operator: {
-                id: -1,
-                name: '',
-                surname: '',
-                phone: '',
-            },
+            operators: [
+                {
+                    id: -1,
+                    name: '',
+                    surname: '',
+                    phone: '',
+                },
+            ],
         };
     }
 
@@ -70,7 +72,7 @@ export class HomeService {
                 date_chargement: this.shortDate(new Date(date_chargement)),
                 date_dechargement: this.shortDate(new Date(date_dechargement)),
                 ...element,
-                color: !!order.operator ? '' : 'rgb(128, 128, 128, 0.3)',
+                color: !!order.operators ? '' : 'rgb(128, 128, 128, 0.3)',
             });
         }
         return res;
@@ -94,7 +96,7 @@ export class HomeService {
                 date_chargement: this.shortDate(new Date(date_chargement)),
                 date_dechargement: this.shortDate(new Date(date_dechargement)),
                 ...element,
-                color: !!order.operator ? '' : 'rgb(128, 128, 128, 0.3)',
+                color: !!order.operators ? '' : 'rgb(128, 128, 128, 0.3)',
             });
         }
         return res;

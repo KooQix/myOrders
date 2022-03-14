@@ -57,6 +57,23 @@ export class DownloadExcelService {
     private toString(json: Order[]): any[] {
         let res = [];
         for (let element of json) {
+            let operators = '';
+
+            // Operators to string
+            if (!!element.operators) {
+                for (let i = 0; i < element.operators?.length; i++) {
+                    const operator = element.operators[i];
+                    operators += operator?.surname
+                        ? `${
+                              !!operator?.name
+                                  ? operator?.name?.toUpperCase() + ' '
+                                  : ''
+                          }` + `${operator?.surname}`
+                        : '';
+                    operators += ', ';
+                }
+            }
+
             res.push({
                 date_chargement: element.date_chargement,
                 date_dechargement: element.date_dechargement,
@@ -64,13 +81,7 @@ export class DownloadExcelService {
                 client: `${element.client.name.toUpperCase()} ${
                     element.client.surname
                 }`,
-                operator: element.operator?.surname
-                    ? `${
-                          !!element.operator?.name
-                              ? element.operator?.name?.toUpperCase() + ' '
-                              : ''
-                      }` + `${element.operator?.surname}`
-                    : '',
+                operators: operators,
                 adresse: `${element.address.city} ${element.address.street}`,
                 info: `${element.info}`,
             });

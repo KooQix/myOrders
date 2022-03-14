@@ -1,5 +1,11 @@
 import { Order } from 'src/order/entities/order.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    Column,
+    Entity,
+    ManyToMany,
+    OneToMany,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Operator {
@@ -18,6 +24,6 @@ export class Operator {
     @Column({ nullable: true })
     company?: string;
 
-    @OneToMany(() => Order, (order) => order.operator)
+    @ManyToMany(() => Order, (order) => order.operators, { nullable: true })
     orders: Order[];
 }
