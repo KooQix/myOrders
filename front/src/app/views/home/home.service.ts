@@ -44,12 +44,14 @@ export class HomeService {
             },
             produit: '',
             price: 0,
-            operator: {
-                id: -1,
-                name: '',
-                surname: '',
-                phone: '',
-            },
+            operator: [
+                {
+                    id: -1,
+                    name: '',
+                    surname: '',
+                    phone: '',
+                },
+            ],
         };
     }
 

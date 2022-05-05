@@ -72,14 +72,22 @@ export class HomeComponent implements OnInit {
             // Operator not filled in
             if (!!!order.operator) return _filter;
 
+            const op = () => {
+                if (!!!order.operator) return false;
+                for (let elem of order?.operator) {
+                    if (
+                        !!elem?.name?.trim().toLowerCase().includes(filter) ||
+                        elem?.surname.trim().toLowerCase().includes(filter) ||
+                        elem?.phone.trim().includes(filter) ||
+                        !!elem?.company?.trim().toLowerCase().includes(filter)
+                    )
+                        return true;
+                }
+                return false;
+            };
+
             // Operator is filled in
-            return (
-                _filter ||
-                !!order.operator?.name?.trim().toLowerCase().includes(filter) ||
-                order.operator?.surname.trim().toLowerCase().includes(filter) ||
-                order.operator?.phone.trim().includes(filter) ||
-                !!order.operator?.company?.trim().toLowerCase().includes(filter)
-            );
+            return _filter || op();
         };
         this.dataSource.filter = filterValue;
     }
