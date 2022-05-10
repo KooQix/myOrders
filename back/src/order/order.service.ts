@@ -1,12 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Between, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { Order } from './entities/order.entity';
 
 @Injectable()
 export class OrderService {
+    // constructor(
+    //     @InjectRepository(Order) private readonly orderRepo: Repository<Order>,
+    //     private operatorService: OperatorService
+    // ) {}
     constructor(
         @InjectRepository(Order) private readonly orderRepo: Repository<Order>
     ) {}
@@ -31,7 +35,11 @@ export class OrderService {
         return this.orderRepo.findOne(id);
     }
 
-    update(id: number, updateOrderDto: UpdateOrderDto) {
+    async update(id: number, updateOrderDto: UpdateOrderDto) {
+        // for (const operator of updateOrderDto.operators) {
+        //     await this.operatorService.update(operator.id, operator);
+        // }
+        delete updateOrderDto.operators;
         return this.orderRepo.update(id, updateOrderDto);
     }
 

@@ -22,6 +22,7 @@ let OrderController = class OrderController {
         this.orderService = orderService;
     }
     async create(createOrderDto) {
+        console.log(createOrderDto);
         try {
             return await this.orderService.create(createOrderDto);
         }

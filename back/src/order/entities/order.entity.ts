@@ -4,6 +4,7 @@ import { Operator } from 'src/operator/entities/operator.entity';
 import {
     Column,
     Entity,
+    JoinTable,
     ManyToMany,
     ManyToOne,
     PrimaryGeneratedColumn,
@@ -35,10 +36,16 @@ export class Order {
     @Column()
     price: number;
 
-    @ManyToMany(() => Operator, (operator) => operator.orders, {
+    // @ManyToMany(() => Operator, (operator) => operator.orders, {
+    //     eager: true,
+    //     nullable: true,
+    // })
+    // operators?: Operator[];
+    @ManyToMany(() => Operator, {
         eager: true,
         nullable: true,
     })
+    @JoinTable()
     operators?: Operator[];
 
     @Column()

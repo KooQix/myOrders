@@ -37,7 +37,8 @@ let OrderService = class OrderService {
     findOne(id) {
         return this.orderRepo.findOne(id);
     }
-    update(id, updateOrderDto) {
+    async update(id, updateOrderDto) {
+        delete updateOrderDto.operators;
         return this.orderRepo.update(id, updateOrderDto);
     }
     remove(id) {

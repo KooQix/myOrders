@@ -10,7 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Operator = void 0;
-const order_entity_1 = require("../../order/entities/order.entity");
 const typeorm_1 = require("typeorm");
 let Operator = class Operator {
 };
@@ -34,10 +33,6 @@ __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], Operator.prototype, "company", void 0);
-__decorate([
-    (0, typeorm_1.OneToMany)(() => order_entity_1.Order, (order) => order.operator),
-    __metadata("design:type", Array)
-], Operator.prototype, "orders", void 0);
 Operator = __decorate([
     (0, typeorm_1.Entity)()
 ], Operator);

@@ -24,6 +24,6 @@ export class Operator {
     @Column({ nullable: true })
     company?: string;
 
-    @ManyToMany(() => Order, (order) => order.operators, { nullable: true })
+    // @ManyToMany(() => Order, (order) => order.operators, { nullable: true })
     orders: Order[];
 }

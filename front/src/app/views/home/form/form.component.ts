@@ -1,6 +1,12 @@
 import { Order } from './../../../resources/interfaces';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+    FormArray,
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    Validators,
+} from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -41,7 +47,7 @@ export class FormComponent implements OnInit {
             address: [undefined, [Validators.required]],
             produit: ['', [Validators.required]],
             price: ['', [Validators.required, Validators.min(0)]],
-            operators: [[], []],
+            operators: new FormArray([new FormControl('')]),
             info: [undefined, []],
         });
 
@@ -164,6 +170,22 @@ export class FormComponent implements OnInit {
     }
 
     //////////////////// Buttons \\\\\\\\\\\\\\\\\\\\
+
+    /**
+     * Add a new operator to the list of operators input
+     */
+    async addOperator() {
+        (this.form.get('operators') as FormArray).push(new FormControl(''));
+    }
+
+    /**
+     * Remove an operator from the list
+     *
+     * @param i Index of the operator in the list
+     */
+    async rmOperator(i: number) {
+        (this.form.get('operators') as FormArray).removeAt(i);
+    }
 
     /**
      * Update order

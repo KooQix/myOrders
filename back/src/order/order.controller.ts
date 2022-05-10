@@ -18,6 +18,7 @@ export class OrderController {
 
     @Post()
     async create(@Body() createOrderDto: CreateOrderDto) {
+        console.log(createOrderDto);
         try {
             return await this.orderService.create(createOrderDto);
         } catch (error) {

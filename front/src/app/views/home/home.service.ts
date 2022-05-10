@@ -205,4 +205,15 @@ export class HomeService {
     getTomorrowShort(date: Date) {
         return this.shortDate(this.getTomorrow(date).value);
     }
+
+    // /**
+    //  *
+    //  * @param operator
+    //  * @returns
+    //  */
+    // addOperator(operator: Operator): Promise<Operator> {
+    //     return this.http
+    //         .post<Operator>(`${this.API_URL}operator`, operator)
+    //         .toPromise();
+    // }
 }
