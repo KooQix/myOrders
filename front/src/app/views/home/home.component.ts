@@ -69,25 +69,19 @@ export class HomeComponent implements OnInit {
                 order.client.surname.trim().toLowerCase().includes(filter) ||
                 order.client.phone.trim().toLowerCase().includes(filter);
 
-            // Operator not filled in
-            if (!!!order.operators) return _filter;
+            const opFilters = () => {
+                if (!!!order.operators) return false;
+                for (const op of order.operators) {
+                    const toStr = `${op.name?.trim().toLowerCase()}${op.surname
+                        ?.trim()
+                        .toLowerCase()}${op.phone?.trim().toLowerCase()}`;
+                    if (toStr.includes(filter)) return true;
+                }
+                return false;
+            };
 
             // Operator is filled in
-            return (
-                _filter ||
-                !!order.operators
-                    .map((element) => element.name?.trim().toLowerCase())
-                    .includes(filter) ||
-                order.operators
-                    .map((element) => element.surname.trim().toLowerCase())
-                    .includes(filter) ||
-                order.operators
-                    .map((element) => element.phone.trim())
-                    .includes(filter) ||
-                !!order.operators
-                    .map((element) => element.company?.trim().toLowerCase())
-                    .includes(filter)
-            );
+            return _filter || opFilters();
         };
         this.dataSource.filter = filterValue;
     }

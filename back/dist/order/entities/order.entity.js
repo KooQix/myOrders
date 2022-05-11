@@ -50,6 +50,9 @@ __decorate([
     (0, typeorm_1.ManyToMany)(() => operator_entity_1.Operator, {
         eager: true,
         nullable: true,
+        cascade: true,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
     }),
     (0, typeorm_1.JoinTable)(),
     __metadata("design:type", Array)

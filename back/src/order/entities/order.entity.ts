@@ -36,14 +36,12 @@ export class Order {
     @Column()
     price: number;
 
-    // @ManyToMany(() => Operator, (operator) => operator.orders, {
-    //     eager: true,
-    //     nullable: true,
-    // })
-    // operators?: Operator[];
     @ManyToMany(() => Operator, {
         eager: true,
         nullable: true,
+        cascade: true,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
     })
     @JoinTable()
     operators?: Operator[];

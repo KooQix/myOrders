@@ -101,17 +101,14 @@
             *matCellDef="let element"
             [style.background]="element?.color"
         >
-            <p class="name">
-                {{
-                    !!element?.operator?.name
-                        ? element?.operator?.name.toUpperCase()
-                        : ""
-                }}
-                &nbsp;
-                {{ element?.operator?.surname }}
-            </p>
+            <span *ngFor="let op of element?.operators">
+                <p class="name">
+                    {{ !!op.name ? op.name.toUpperCase() + " " : "" }}
 
-            <p class="phone">{{ element?.operator?.phone }}</p>
+                    {{ op.surname }}
+                </p>
+                <p class="phone">{{ op.phone }}</p>
+            </span>
         </td>
     </ng-container>
 

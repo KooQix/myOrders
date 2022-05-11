@@ -22,52 +22,58 @@ let OrderController = class OrderController {
         this.orderService = orderService;
     }
     async create(createOrderDto) {
+        var _a;
         console.log(createOrderDto);
         try {
             return await this.orderService.create(createOrderDto);
         }
         catch (error) {
-            throw new common_1.InternalServerErrorException(error.sqlMessage);
+            throw new common_1.InternalServerErrorException((_a = error.sqlMessage) !== null && _a !== void 0 ? _a : error);
         }
     }
     async findAll() {
+        var _a;
         try {
             return await this.orderService.findAll();
         }
         catch (error) {
-            throw new common_1.InternalServerErrorException(error.sqlMessage);
+            throw new common_1.InternalServerErrorException((_a = error.sqlMessage) !== null && _a !== void 0 ? _a : error);
         }
     }
     async findAllByDate(date) {
+        var _a;
         try {
             return await this.orderService.findAll(date.date);
         }
         catch (error) {
-            throw new common_1.InternalServerErrorException(error.sqlMessage);
+            throw new common_1.InternalServerErrorException((_a = error.sqlMessage) !== null && _a !== void 0 ? _a : error);
         }
     }
     async findOne(id) {
+        var _a;
         try {
             return await this.orderService.findOne(+id);
         }
         catch (error) {
-            throw new common_1.InternalServerErrorException(error.sqlMessage);
+            throw new common_1.InternalServerErrorException((_a = error.sqlMessage) !== null && _a !== void 0 ? _a : error);
         }
     }
     async update(id, updateOrderDto) {
+        var _a;
         try {
             return await this.orderService.update(+id, updateOrderDto);
         }
         catch (error) {
-            throw new common_1.InternalServerErrorException(error.sqlMessage);
+            throw new common_1.InternalServerErrorException((_a = error.sqlMessage) !== null && _a !== void 0 ? _a : error);
         }
     }
     async remove(id) {
+        var _a;
         try {
             return await this.orderService.remove(+id);
         }
         catch (error) {
-            throw new common_1.InternalServerErrorException(error.sqlMessage);
+            throw new common_1.InternalServerErrorException((_a = error.sqlMessage) !== null && _a !== void 0 ? _a : error);
         }
     }
 };

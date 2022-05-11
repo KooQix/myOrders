@@ -8,6 +8,6 @@ export declare class OrderController {
     findAll(): Promise<import("./entities/order.entity").Order[]>;
     findAllByDate(date: any): Promise<import("./entities/order.entity").Order[]>;
     findOne(id: string): Promise<import("./entities/order.entity").Order>;
-    update(id: string, updateOrderDto: UpdateOrderDto): Promise<import("typeorm").UpdateResult>;
+    update(id: string, updateOrderDto: UpdateOrderDto): Promise<UpdateOrderDto & import("./entities/order.entity").Order>;
     remove(id: string): Promise<import("typeorm").DeleteResult>;
 }

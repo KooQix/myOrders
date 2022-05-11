@@ -72,7 +72,10 @@ export class HomeService {
                 date_chargement: this.shortDate(new Date(date_chargement)),
                 date_dechargement: this.shortDate(new Date(date_dechargement)),
                 ...element,
-                color: !!order.operators ? '' : 'rgb(128, 128, 128, 0.3)',
+                color:
+                    !!order.operators && order.operators?.length !== 0
+                        ? ''
+                        : 'rgb(128, 128, 128, 0.3)',
             });
         }
         return res;
@@ -96,7 +99,10 @@ export class HomeService {
                 date_chargement: this.shortDate(new Date(date_chargement)),
                 date_dechargement: this.shortDate(new Date(date_dechargement)),
                 ...element,
-                color: !!order.operators ? '' : 'rgb(128, 128, 128, 0.3)',
+                color:
+                    order.operators?.length !== 0
+                        ? ''
+                        : 'rgb(128, 128, 128, 0.3)',
             });
         }
         return res;
@@ -109,7 +115,6 @@ export class HomeService {
      */
     update(order: Order): Promise<Order> {
         const id = order.id;
-        delete order.id;
         return this.http
             .patch<Order>(`${this.API_URL}order/${id}`, order)
             .toPromise();
@@ -123,6 +128,7 @@ export class HomeService {
      */
     create(order: Order): Promise<Order> {
         delete order.id;
+        // if (order.operators?.)
         return this.http.post<Order>(`${this.API_URL}order`, order).toPromise();
     }
 
@@ -215,5 +221,14 @@ export class HomeService {
     //     return this.http
     //         .post<Operator>(`${this.API_URL}operator`, operator)
     //         .toPromise();
+    // }
+
+    // isOpValid(order: Order): boolean {
+    //     if (!!order.operators) {
+    //         for (const op of order.operators) {
+    //         }
+    //     }
+
+    //     return false;
     // }
 }

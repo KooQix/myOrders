@@ -24,7 +24,7 @@ import { OrderModule } from './order/order.module';
             // entities: [],
             // true shouldn't be used in production
             autoLoadEntities: true,
-            synchronize: true,
+            synchronize: false,
         }),
         OperatorModule,
         ClientModule,

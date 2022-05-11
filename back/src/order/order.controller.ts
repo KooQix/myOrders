@@ -22,7 +22,7 @@ export class OrderController {
         try {
             return await this.orderService.create(createOrderDto);
         } catch (error) {
-            throw new InternalServerErrorException(error.sqlMessage);
+            throw new InternalServerErrorException(error.sqlMessage ?? error);
         }
     }
 
@@ -31,7 +31,7 @@ export class OrderController {
         try {
             return await this.orderService.findAll();
         } catch (error) {
-            throw new InternalServerErrorException(error.sqlMessage);
+            throw new InternalServerErrorException(error.sqlMessage ?? error);
         }
     }
 
@@ -40,7 +40,7 @@ export class OrderController {
         try {
             return await this.orderService.findAll(date.date);
         } catch (error) {
-            throw new InternalServerErrorException(error.sqlMessage);
+            throw new InternalServerErrorException(error.sqlMessage ?? error);
         }
     }
 
@@ -49,7 +49,7 @@ export class OrderController {
         try {
             return await this.orderService.findOne(+id);
         } catch (error) {
-            throw new InternalServerErrorException(error.sqlMessage);
+            throw new InternalServerErrorException(error.sqlMessage ?? error);
         }
     }
 
@@ -61,7 +61,7 @@ export class OrderController {
         try {
             return await this.orderService.update(+id, updateOrderDto);
         } catch (error) {
-            throw new InternalServerErrorException(error.sqlMessage);
+            throw new InternalServerErrorException(error.sqlMessage ?? error);
         }
     }
 
@@ -70,7 +70,7 @@ export class OrderController {
         try {
             return await this.orderService.remove(+id);
         } catch (error) {
-            throw new InternalServerErrorException(error.sqlMessage);
+            throw new InternalServerErrorException(error.sqlMessage ?? error);
         }
     }
 }
