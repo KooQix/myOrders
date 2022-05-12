@@ -1,0 +1,15 @@
+
+
+
+
+- voir Entreprise / particulier pour client? 
+- Entreprise à la place de chauffeur -> pas de sms dans ce cas
+- A la place de prix, mettre prix de transport et prix marchandise (à l'unité). Prix de marchandise non obligatoire.
+- Ajouter chauffeur lié à l'entreprise => Dans le renseignement de l'entreprise, renseigner si les chauffeurs sont payés à la tonne ou à la journée + affichage dans table (et extraction)
+- Dans entreprise: nom, numéro de tel, ville, code postal, si chauffeurs payés à la tonne ou à la journée
+- Verifier filtre date + input
+
+
+
+
+- Gestion envoi SMS ... (à la fin...)
