@@ -24,4 +24,6 @@ export class CreateOrderDto {
 
     @IsNotEmpty()
     produit: string;
+
+    operators: Operator[];
 }

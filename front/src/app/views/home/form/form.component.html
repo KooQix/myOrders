@@ -146,53 +146,68 @@
     <!-- Chauffeur -->
     <div class="container">
         <h2>Chauffeur(s)</h2>
-        <span class="element">
-            <mat-form-field appearance="standard">
-                <mat-label>Assigner</mat-label>
-                <input
-                    type="text"
-                    matInput
-                    [matAutocomplete]="autoOp"
-                    formControlName="operator"
-                />
-                <mat-autocomplete
-                    #autoOp="matAutocomplete"
-                    [displayWith]="displayFn_operators"
+        <span class="flex-col">
+            <ng-container style="width: 100%" formArrayName="operators">
+                <span
+                    style="width: 100%"
+                    class="element"
+                    *ngFor="let op of form.get('operators')?.value; index as i"
                 >
-                    <mat-option
-                        *ngFor="let option of filteredOptions_op | async"
-                        [value]="option"
+                    <mat-form-field
+                        class="op"
+                        appearance="standard"
+                        style="width: 75% !important"
                     >
-                        {{ !!option?.name ? option?.name?.toUpperCase() : "" }}
-                        {{ option.surname }}
-                    </mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
-
-            <!-- <mat-form-field
-                appearance="standard"
-                *ngFor="let operator of form.get('operators')?.value"
-            >
-                <mat-label>Assigner</mat-label>
-                <input
-                    type="text"
-                    matInput
-                    [matAutocomplete]="autoOp"
-                    formControlName="operator"
-                />
-                <mat-autocomplete
-                    #autoOp="matAutocomplete"
-                    [displayWith]="displayFn_operators"
-                >
-                    <mat-option
-                        *ngFor="let option of filteredOptions_op | async"
-                        [value]="option"
+                        <mat-label>Assigner</mat-label>
+                        <input
+                            type="text"
+                            matInput
+                            [matAutocomplete]="autoOp"
+                            [formControlName]="i"
+                        />
+                        <mat-autocomplete
+                            #autoOp="matAutocomplete"
+                            [displayWith]="displayFn_operators"
+                        >
+                            <mat-option
+                                *ngFor="
+                                    let option of filteredOptions_op | async
+                                "
+                                [value]="option"
+                            >
+                                {{
+                                    !!option?.name
+                                        ? option?.name?.toUpperCase()
+                                        : ""
+                                }}
+                                {{ option.surname }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <button
+                        *ngIf="
+                            i + 1 == this.form.get('operators')?.value.length
+                        "
+                        mat-button
+                        class="add-op"
+                        title="Ajouter un chauffeur"
+                        (click)="addOperator()"
                     >
-                        {{ !!option?.name ? option?.name?.toUpperCase() : "" }}
-                        {{ option.surname }}
-                    </mat-option>
-                </mat-autocomplete>
-            </mat-form-field> -->
+                        +
+                    </button>
+                    <button
+                        *ngIf="
+                            i + 1 != this.form.get('operators')?.value.length
+                        "
+                        mat-button
+                        class="add-op"
+                        title="Supprimer un chauffeur"
+                        (click)="rmOperator(i)"
+                    >
+                        x
+                    </button>
+                </span>
+            </ng-container>
         </span>
     </div>
 

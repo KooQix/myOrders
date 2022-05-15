@@ -28,7 +28,7 @@ let OrderService = class OrderService {
         if (!!date) {
             return this.orderRepo.find({
                 where: {
-                    date_chargement: date + ' 01:00:00',
+                    date_chargement: (0, typeorm_2.Like)(`${date}%`),
                 },
             });
         }
@@ -37,8 +37,8 @@ let OrderService = class OrderService {
     findOne(id) {
         return this.orderRepo.findOne(id);
     }
-    update(id, updateOrderDto) {
-        return this.orderRepo.update(id, updateOrderDto);
+    async update(id, updateOrderDto) {
+        return this.orderRepo.save(updateOrderDto);
     }
     remove(id) {
         return this.orderRepo.delete(id);

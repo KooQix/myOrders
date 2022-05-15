@@ -1,6 +1,12 @@
 import { Order } from './../../../resources/interfaces';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+    FormArray,
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    Validators,
+} from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -41,7 +47,7 @@ export class FormComponent implements OnInit {
             address: [undefined, [Validators.required]],
             produit: ['', [Validators.required]],
             price: ['', [Validators.required, Validators.min(0)]],
-            operators: [[], []],
+            operators: new FormArray([]),
             info: [undefined, []],
         });
 
@@ -54,6 +60,7 @@ export class FormComponent implements OnInit {
         this.clients = await this.service.getClients();
 
         if (this.id != -1) this.initForm();
+        else this.addOperator();
 
         // Get elements from server and fill form
 
@@ -89,6 +96,12 @@ export class FormComponent implements OnInit {
      * Fill in form with client information if update
      */
     initForm() {
+        if (!!this.order?.operators) {
+            for (const op of this.order?.operators) {
+                this.addNewOperator(op);
+            }
+        }
+
         this.form.setValue({
             date_chargement: this.order.date_chargement,
             date_dechargement: this.order.date_dechargement,
@@ -96,9 +109,11 @@ export class FormComponent implements OnInit {
             address: this.order.address,
             produit: this.order.produit,
             price: this.order.price,
-            operators: this.order?.operators,
+            operators: this.order.operators,
             info: this.order.info,
         });
+
+        if (this.order.operators?.length === 0) this.addOperator();
     }
 
     //////////////////// Filter functions \\\\\\\\\\\\\\\\\\\\
@@ -166,6 +181,31 @@ export class FormComponent implements OnInit {
     //////////////////// Buttons \\\\\\\\\\\\\\\\\\\\
 
     /**
+     * Add a new operator to the list of operators input
+     */
+    async addOperator() {
+        (this.form.get('operators') as FormArray).push(new FormControl(''));
+    }
+
+    /**
+     * Add a new operator to the list of operators input
+     */
+    private async addNewOperator(operator: Operator) {
+        (this.form.get('operators') as FormArray).push(
+            new FormControl(operator)
+        );
+    }
+
+    /**
+     * Remove an operator from the list
+     *
+     * @param i Index of the operator in the list
+     */
+    async rmOperator(i: number) {
+        (this.form.get('operators') as FormArray).removeAt(i);
+    }
+
+    /**
      * Update order
      */
     async update() {
@@ -193,6 +233,7 @@ export class FormComponent implements OnInit {
             client: this.form.get('client')?.value,
             address: this.form.get('address')?.value,
             price: this.form.get('price')?.value,
+            operators: this.form.get('operators')?.value,
             produit: this.form.get('produit')?.value,
             info: this.form.get('info')?.value ?? '',
         };
@@ -201,9 +242,7 @@ export class FormComponent implements OnInit {
             this.order.operators = this.form.get('operators')?.value;
         }
 
-        if (this.id != -1) {
-            return this.update();
-        }
+        if (this.id != -1) return await this.update();
 
         // Save
         try {

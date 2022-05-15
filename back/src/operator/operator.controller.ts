@@ -21,7 +21,7 @@ export class OperatorController {
         try {
             return await this.operatorService.create(createOperatorDto);
         } catch (error) {
-            throw new InternalServerErrorException(error.sqlMessage);
+            throw new InternalServerErrorException(error.sqlMessage ?? error);
         }
     }
 
@@ -30,7 +30,7 @@ export class OperatorController {
         try {
             return await this.operatorService.findAll();
         } catch (error) {
-            throw new InternalServerErrorException(error.sqlMessage);
+            throw new InternalServerErrorException(error.sqlMessage ?? error);
         }
     }
 
@@ -39,7 +39,7 @@ export class OperatorController {
         try {
             return await this.operatorService.findOne(+id);
         } catch (error) {
-            throw new InternalServerErrorException(error.sqlMessage);
+            throw new InternalServerErrorException(error.sqlMessage ?? error);
         }
     }
 
@@ -51,7 +51,7 @@ export class OperatorController {
         try {
             return await this.operatorService.update(+id, updateOperatorDto);
         } catch (error) {
-            throw new InternalServerErrorException(error.sqlMessage);
+            throw new InternalServerErrorException(error.sqlMessage ?? error);
         }
     }
 
@@ -60,7 +60,7 @@ export class OperatorController {
         try {
             return await this.operatorService.remove(+id);
         } catch (error) {
-            throw new InternalServerErrorException(error.sqlMessage);
+            throw new InternalServerErrorException(error.sqlMessage ?? error);
         }
     }
 }

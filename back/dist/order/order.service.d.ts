@@ -8,6 +8,6 @@ export declare class OrderService {
     create(createOrderDto: CreateOrderDto): Promise<CreateOrderDto & Order>;
     findAll(date?: Date): Promise<Order[]>;
     findOne(id: number): Promise<Order>;
-    update(id: number, updateOrderDto: UpdateOrderDto): Promise<import("typeorm").UpdateResult>;
+    update(id: number, updateOrderDto: UpdateOrderDto): Promise<UpdateOrderDto & Order>;
     remove(id: number): Promise<import("typeorm").DeleteResult>;
 }

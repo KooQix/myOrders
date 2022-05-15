@@ -22,43 +22,48 @@ let OperatorController = class OperatorController {
         this.operatorService = operatorService;
     }
     async create(createOperatorDto) {
+        var _a;
         try {
             return await this.operatorService.create(createOperatorDto);
         }
         catch (error) {
-            throw new common_1.InternalServerErrorException(error.sqlMessage);
+            throw new common_1.InternalServerErrorException((_a = error.sqlMessage) !== null && _a !== void 0 ? _a : error);
         }
     }
     async findAll() {
+        var _a;
         try {
             return await this.operatorService.findAll();
         }
         catch (error) {
-            throw new common_1.InternalServerErrorException(error.sqlMessage);
+            throw new common_1.InternalServerErrorException((_a = error.sqlMessage) !== null && _a !== void 0 ? _a : error);
         }
     }
     async findOne(id) {
+        var _a;
         try {
             return await this.operatorService.findOne(+id);
         }
         catch (error) {
-            throw new common_1.InternalServerErrorException(error.sqlMessage);
+            throw new common_1.InternalServerErrorException((_a = error.sqlMessage) !== null && _a !== void 0 ? _a : error);
         }
     }
     async update(id, updateOperatorDto) {
+        var _a;
         try {
             return await this.operatorService.update(+id, updateOperatorDto);
         }
         catch (error) {
-            throw new common_1.InternalServerErrorException(error.sqlMessage);
+            throw new common_1.InternalServerErrorException((_a = error.sqlMessage) !== null && _a !== void 0 ? _a : error);
         }
     }
     async remove(id) {
+        var _a;
         try {
             return await this.operatorService.remove(+id);
         }
         catch (error) {
-            throw new common_1.InternalServerErrorException(error.sqlMessage);
+            throw new common_1.InternalServerErrorException((_a = error.sqlMessage) !== null && _a !== void 0 ? _a : error);
         }
     }
 };

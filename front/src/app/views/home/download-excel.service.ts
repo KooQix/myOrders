@@ -70,6 +70,7 @@ export class DownloadExcelService {
                                   : ''
                           }` + `${operator?.surname}`
                         : '';
+                    operators += `; phone: ${operator.phone}`;
                     operators += ', ';
                 }
             }
