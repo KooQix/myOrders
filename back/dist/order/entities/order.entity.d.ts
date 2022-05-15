@@ -11,4 +11,6 @@ export declare class Order {
     operators?: Operator[];
     produit: string;
     info?: string;
+    created_at: Date;
+    updated_at: Date;
 }

@@ -43,6 +43,21 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => order_entity_1.Order, (order) => order.client),
     __metadata("design:type", Array)
 ], Client.prototype, "orders", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)({
+        type: 'timestamp',
+        default: () => 'CURRENT_TIMESTAMP(6)',
+    }),
+    __metadata("design:type", Date)
+], Client.prototype, "created_at", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)({
+        type: 'timestamp',
+        default: () => 'CURRENT_TIMESTAMP(6)',
+        onUpdate: 'CURRENT_TIMESTAMP(6)',
+    }),
+    __metadata("design:type", Date)
+], Client.prototype, "updated_at", void 0);
 Client = __decorate([
     (0, typeorm_1.Entity)()
 ], Client);

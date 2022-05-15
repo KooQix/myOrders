@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Operator = void 0;
+const company_entity_1 = require("../../company/entities/company.entity");
 const typeorm_1 = require("typeorm");
 let Operator = class Operator {
 };
@@ -30,9 +31,26 @@ __decorate([
     __metadata("design:type", String)
 ], Operator.prototype, "phone", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
+    (0, typeorm_1.ManyToOne)(() => company_entity_1.Company, (company) => company.operators, {
+        nullable: false,
+    }),
+    __metadata("design:type", company_entity_1.Company)
 ], Operator.prototype, "company", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)({
+        type: 'timestamp',
+        default: () => 'CURRENT_TIMESTAMP(6)',
+    }),
+    __metadata("design:type", Date)
+], Operator.prototype, "created_at", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)({
+        type: 'timestamp',
+        default: () => 'CURRENT_TIMESTAMP(6)',
+        onUpdate: 'CURRENT_TIMESTAMP(6)',
+    }),
+    __metadata("design:type", Date)
+], Operator.prototype, "updated_at", void 0);
 Operator = __decorate([
     (0, typeorm_1.Entity)()
 ], Operator);

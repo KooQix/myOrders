@@ -6,6 +6,7 @@ import { OperatorModule } from './operator/operator.module';
 import { ClientModule } from './client/client.module';
 import { AddressModule } from './address/address.module';
 import { OrderModule } from './order/order.module';
+import { CompanyModule } from './company/company.module';
 
 @Module({
     imports: [
@@ -30,6 +31,7 @@ import { OrderModule } from './order/order.module';
         ClientModule,
         AddressModule,
         OrderModule,
+        CompanyModule,
     ],
     controllers: [AppController],
     providers: [],

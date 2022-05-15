@@ -63,39 +63,29 @@ export class HomeComponent implements OnInit {
                 order.date_chargement.trim().toLowerCase().includes(filter) ||
                 order.date_dechargement.trim().toLowerCase().includes(filter) ||
                 order.price.toString().trim().includes(filter) ||
-                order.produit.toString().trim().includes(filter) ||
-                // Client & Operator
-                order.client.name.trim().toLowerCase().includes(filter) ||
-                order.client.surname.trim().toLowerCase().includes(filter) ||
-                order.client.phone.trim().toLowerCase().includes(filter);
+                order.produit.toString().trim().includes(filter);
+
+            const clientFilter = () => {
+                const toStr =
+                    `${order.client.name}${order.client.surname}${order.client.phone}`
+                        .trim()
+                        .toLowerCase();
+                return toStr.includes(filter);
+            };
 
             const opFilters = () => {
                 if (!!!order.operators) return false;
                 for (const op of order.operators) {
-                    const toStr = `${op.name?.trim().toLowerCase()}${op.surname
-                        ?.trim()
-                        .toLowerCase()}${op.phone?.trim().toLowerCase()}`;
+                    const toStr = `${op.name}${op.surname}${op.phone}`
+                        .trim()
+                        .toLowerCase();
                     if (toStr.includes(filter)) return true;
                 }
                 return false;
             };
 
-            const op = () => {
-                if (!!!order.operators) return false;
-                for (let elem of order?.operators) {
-                    if (
-                        !!elem?.name?.trim().toLowerCase().includes(filter) ||
-                        elem?.surname.trim().toLowerCase().includes(filter) ||
-                        elem?.phone.trim().includes(filter) ||
-                        !!elem?.company?.trim().toLowerCase().includes(filter)
-                    )
-                        return true;
-                }
-                return false;
-            };
-
             // Operator is filled in
-            return _filter || opFilters();
+            return _filter || opFilters() || clientFilter();
         };
         this.dataSource.filter = filterValue;
     }

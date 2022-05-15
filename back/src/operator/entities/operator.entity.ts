@@ -1,5 +1,14 @@
+import { Company } from 'src/company/entities/company.entity';
 import { Order } from 'src/order/entities/order.entity';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    ManyToOne,
+    OneToMany,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Operator {
@@ -15,8 +24,23 @@ export class Operator {
     @Column()
     phone: string;
 
-    @Column({ nullable: true })
-    company?: string;
-
     orders: Order[];
+
+    @ManyToOne(() => Company, (company) => company.operators, {
+        nullable: false,
+    })
+    company: Company;
+
+    @CreateDateColumn({
+        type: 'timestamp',
+        default: () => 'CURRENT_TIMESTAMP(6)',
+    })
+    created_at: Date;
+
+    @UpdateDateColumn({
+        type: 'timestamp',
+        default: () => 'CURRENT_TIMESTAMP(6)',
+        onUpdate: 'CURRENT_TIMESTAMP(6)',
+    })
+    updated_at: Date;
 }

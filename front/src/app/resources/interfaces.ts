@@ -36,3 +36,13 @@ export interface Operator {
     company?: string;
     phone: string;
 }
+
+export interface Company {
+    id?: number;
+    name: string;
+    city: string;
+    zip: string;
+    paid_per_day: boolean;
+    phone: string;
+    operators: Operator[];
+}

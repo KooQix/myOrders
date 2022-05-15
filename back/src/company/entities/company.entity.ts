@@ -1,17 +1,15 @@
-import { Address } from 'src/address/entities/address.entity';
-import { Order } from 'src/order/entities/order.entity';
+import { Operator } from 'src/operator/entities/operator.entity';
 import {
     Column,
     CreateDateColumn,
     Entity,
-    JoinColumn,
     OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
-export class Client {
+export class Company {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -19,20 +17,22 @@ export class Client {
     name: string;
 
     @Column()
-    surname: string;
+    city: string;
+
+    @Column()
+    zip: string;
 
     @Column()
     phone: string;
 
-    @OneToMany(() => Address, (address) => address.client, {
+    @Column()
+    paid_per_day: boolean;
+
+    @OneToMany(() => Operator, (operator) => operator.company, {
         nullable: false,
         eager: true,
-        cascade: true,
     })
-    addresses: Address[];
-
-    @OneToMany(() => Order, (order) => order.client)
-    orders: Order[];
+    operators: Operator[];
 
     @CreateDateColumn({
         type: 'timestamp',
