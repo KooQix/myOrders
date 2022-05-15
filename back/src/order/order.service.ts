@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Between, Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { Order } from './entities/order.entity';
@@ -17,10 +17,9 @@ export class OrderService {
 
     findAll(date?: Date) {
         if (!!date) {
-            // Since no time given, default hour set to 1 AM
             return this.orderRepo.find({
                 where: {
-                    date_chargement: date + ' 01:00:00',
+                    date_chargement: Like(`${date}%`),
                 },
             });
         }
@@ -31,8 +30,8 @@ export class OrderService {
         return this.orderRepo.findOne(id);
     }
 
-    update(id: number, updateOrderDto: UpdateOrderDto) {
-        return this.orderRepo.update(id, updateOrderDto);
+    async update(id: number, updateOrderDto: UpdateOrderDto) {
+        return this.orderRepo.save(updateOrderDto);
     }
 
     remove(id: number) {

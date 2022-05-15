@@ -47,12 +47,16 @@ __decorate([
     __metadata("design:type", Number)
 ], Order.prototype, "price", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => operator_entity_1.Operator, (operator) => operator.orders, {
+    (0, typeorm_1.ManyToMany)(() => operator_entity_1.Operator, {
         eager: true,
         nullable: true,
+        cascade: true,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
     }),
-    __metadata("design:type", operator_entity_1.Operator)
-], Order.prototype, "operator", void 0);
+    (0, typeorm_1.JoinTable)(),
+    __metadata("design:type", Array)
+], Order.prototype, "operators", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)

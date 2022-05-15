@@ -69,12 +69,20 @@ export class HomeComponent implements OnInit {
                 order.client.surname.trim().toLowerCase().includes(filter) ||
                 order.client.phone.trim().toLowerCase().includes(filter);
 
-            // Operator not filled in
-            if (!!!order.operator) return _filter;
+            const opFilters = () => {
+                if (!!!order.operators) return false;
+                for (const op of order.operators) {
+                    const toStr = `${op.name?.trim().toLowerCase()}${op.surname
+                        ?.trim()
+                        .toLowerCase()}${op.phone?.trim().toLowerCase()}`;
+                    if (toStr.includes(filter)) return true;
+                }
+                return false;
+            };
 
             const op = () => {
-                if (!!!order.operator) return false;
-                for (let elem of order?.operator) {
+                if (!!!order.operators) return false;
+                for (let elem of order?.operators) {
                     if (
                         !!elem?.name?.trim().toLowerCase().includes(filter) ||
                         elem?.surname.trim().toLowerCase().includes(filter) ||
@@ -87,7 +95,7 @@ export class HomeComponent implements OnInit {
             };
 
             // Operator is filled in
-            return _filter || op();
+            return _filter || opFilters();
         };
         this.dataSource.filter = filterValue;
     }

@@ -21,6 +21,11 @@ form {
         mat-form-field {
             width: 100% !important;
         }
+
+        .add-op {
+            background-color: none;
+            font-size: 1.2em;
+        }
     }
     margin-bottom: 4em;
 }
@@ -42,4 +47,10 @@ form {
 .del:disabled {
     color: grey !important;
     background-color: $accent !important;
+}
+
+.flex-col {
+    @include flex-align-center-col;
+    width: 45%;
+    align-items: end;
 }
