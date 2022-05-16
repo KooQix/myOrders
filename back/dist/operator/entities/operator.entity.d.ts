@@ -7,6 +7,4 @@ export declare class Operator {
     phone: string;
     orders: Order[];
     company: Company;
-    created_at: Date;
-    updated_at: Date;
 }

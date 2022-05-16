@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Operator } from 'src/app/resources/interfaces';
+import { Company, Operator } from 'src/app/resources/interfaces';
 import { environment as env } from '../../../environments/environment';
 
 @Injectable({
@@ -76,5 +76,14 @@ export class OperatorsService {
         return this.http
             .delete<Operator>(`${this.API_URL}operator/${operator.id}`)
             .toPromise();
+    }
+
+    /**
+     * Get all available companies
+     *
+     * @returns All the companies in the database
+     */
+    getAllCompanies(): Promise<Company[]> {
+        return this.http.get<Company[]>(`${this.API_URL}company`).toPromise();
     }
 }

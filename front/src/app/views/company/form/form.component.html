@@ -5,23 +5,29 @@
         <span class="element">
             <mat-form-field appearance="standard">
                 <mat-label>Assigner</mat-label>
-                <input type="text" matInput formControlName="name" />
+                <input type="text" matInput formControlName="name" required />
             </mat-form-field>
         </span>
     </div>
 
-    <!-- Prenom -->
+    <!-- City -->
     <div class="container">
-        <h2>Prénom</h2>
+        <h2>Ville</h2>
         <span class="element">
             <mat-form-field appearance="standard">
                 <mat-label>Assigner</mat-label>
-                <input
-                    type="text"
-                    matInput
-                    formControlName="surname"
-                    required
-                />
+                <input type="text" matInput formControlName="city" required />
+            </mat-form-field>
+        </span>
+    </div>
+
+    <!-- Zip code -->
+    <div class="container">
+        <h2>Code Postal</h2>
+        <span class="element">
+            <mat-form-field appearance="standard">
+                <mat-label>Assigner</mat-label>
+                <input type="text" matInput formControlName="zip" required />
             </mat-form-field>
         </span>
     </div>
@@ -37,13 +43,16 @@
         </span>
     </div>
 
-    <!-- Company -->
+    <!-- Paid per day -->
     <div class="container">
-        <h2>Entreprise</h2>
+        <h2>Méthode de payment</h2>
         <span class="element">
             <mat-form-field appearance="standard">
                 <mat-label>Assigner</mat-label>
-                <input type="text" matInput formControlName="company" />
+                <mat-select formControlName="paid_per_day" required id="select">
+                    <mat-option value="false">À la tonne</mat-option>
+                    <mat-option value="true">À la journée</mat-option>
+                </mat-select>
             </mat-form-field>
         </span>
     </div>
@@ -52,7 +61,7 @@
         <button mat-flat-button (click)="cancel()">Annuler</button>
         <button
             mat-flat-button
-            (click)="deleteOperator()"
+            (click)="delete()"
             class="del"
             [disabled]="id == -1"
         >

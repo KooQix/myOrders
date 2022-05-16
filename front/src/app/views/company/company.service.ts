@@ -51,7 +51,7 @@ export class CompanyService {
      */
     async update(company: Company): Promise<Company> {
         const id = company.id;
-        delete company.id;
+        delete company.operators;
         return this.http
             .patch<Company>(`${this.API_URL}company/${id}`, company)
             .toPromise();

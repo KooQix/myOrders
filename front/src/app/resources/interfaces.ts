@@ -44,5 +44,5 @@ export interface Company {
     zip: string;
     paid_per_day: boolean;
     phone: string;
-    operators: Operator[];
+    operators?: Operator[];
 }

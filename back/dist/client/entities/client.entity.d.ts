@@ -7,6 +7,4 @@ export declare class Client {
     phone: string;
     addresses: Address[];
     orders: Order[];
-    created_at: Date;
-    updated_at: Date;
 }

@@ -1,3 +1,4 @@
+import { CompanyService } from './company.service';
 import { CompanyRoutingModule } from './company-routing.module';
 import { CompanyComponent } from './company.component';
 import { NgModule } from '@angular/core';
@@ -11,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
     declarations: [CompanyComponent, FormComponent],
@@ -26,6 +28,8 @@ import { MatTableModule } from '@angular/material/table';
         ReactiveFormsModule,
         MatSelectModule,
         HttpClientModule,
+        MatAutocompleteModule,
     ],
+    providers: [CompanyService],
 })
 export class CompanyModule {}

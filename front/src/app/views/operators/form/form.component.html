@@ -43,7 +43,24 @@
         <span class="element">
             <mat-form-field appearance="standard">
                 <mat-label>Assigner</mat-label>
-                <input type="text" matInput formControlName="company" />
+                <input
+                    type="text"
+                    matInput
+                    [matAutocomplete]="autoCompany"
+                    formControlName="company"
+                    required
+                />
+                <mat-autocomplete
+                    #autoCompany="matAutocomplete"
+                    [displayWith]="displayFn_companies"
+                >
+                    <mat-option
+                        *ngFor="let option of filteredOptions_company | async"
+                        [value]="option"
+                    >
+                        {{ option.name }}
+                    </mat-option>
+                </mat-autocomplete>
             </mat-form-field>
         </span>
     </div>

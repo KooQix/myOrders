@@ -36,21 +36,6 @@ __decorate([
     }),
     __metadata("design:type", company_entity_1.Company)
 ], Operator.prototype, "company", void 0);
-__decorate([
-    (0, typeorm_1.CreateDateColumn)({
-        type: 'timestamp',
-        default: () => 'CURRENT_TIMESTAMP(6)',
-    }),
-    __metadata("design:type", Date)
-], Operator.prototype, "created_at", void 0);
-__decorate([
-    (0, typeorm_1.UpdateDateColumn)({
-        type: 'timestamp',
-        default: () => 'CURRENT_TIMESTAMP(6)',
-        onUpdate: 'CURRENT_TIMESTAMP(6)',
-    }),
-    __metadata("design:type", Date)
-], Operator.prototype, "updated_at", void 0);
 Operator = __decorate([
     (0, typeorm_1.Entity)()
 ], Operator);
