@@ -101,18 +101,18 @@
             *matCellDef="let element"
             [style.background]="element?.color"
         >
-            <span *ngFor="let op of element?.operators">
+            <span *ngFor="let op of element?.operators; index as i">
                 <p class="name">
                     {{ !!op.name ? op.name.toUpperCase() + " " : "" }}
 
-                    {{ op.surname }}
+                    {{ op.surname + " " }} ({{
+                        op?.company.paid_per_day
+                            ? "À la journée"
+                            : "À la tonne"
+                    }})
                 </p>
                 <p class="phone">{{ op.phone }}</p>
-                <p class="phone">
-                    {{
-                        op?.company.paid_per_day ? "À la journée" : "À la tonne"
-                    }}
-                </p>
+                <br *ngIf="i != element?.operators.length - 1" />
             </span>
         </td>
     </ng-container>

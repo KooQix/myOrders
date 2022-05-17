@@ -46,15 +46,18 @@ form {
 
 h1 {
     font-style: italic;
-    font-size: 1.9em;
+    font-size: 2em;
 }
 
 .operators {
     width: 50%;
 
-    li a {
-        cursor: pointer;
-        font-size: 1.1em;
+    li {
+        margin-bottom: 1em;
+        a {
+            cursor: pointer;
+            font-size: 1.2em;
+        }
     }
 
     a:hover {

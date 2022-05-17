@@ -33,7 +33,7 @@ AppModule = __decorate([
                 password: (_d = process.env.DB_PASS) !== null && _d !== void 0 ? _d : '',
                 database: process.env.DB_NAME,
                 autoLoadEntities: true,
-                synchronize: false,
+                synchronize: true,
             }),
             operator_module_1.OperatorModule,
             client_module_1.ClientModule,

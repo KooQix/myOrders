@@ -25,7 +25,7 @@ import { CompanyModule } from './company/company.module';
             // entities: [],
             // true shouldn't be used in production
             autoLoadEntities: true,
-            synchronize: false,
+            synchronize: true,
         }),
         OperatorModule,
         ClientModule,
