@@ -33,7 +33,7 @@ export interface Operator {
     id?: number;
     name?: string;
     surname: string;
-    company?: string;
+    company?: Company;
     phone: string;
 }
 

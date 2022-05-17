@@ -70,7 +70,12 @@ export class DownloadExcelService {
                                   : ''
                           }` + `${operator?.surname}`
                         : '';
-                    operators += `; phone: ${operator.phone}`;
+                    operators += `; telephone: ${operator.phone}`;
+                    operators += `; paiement: ${
+                        operator.company?.paid_per_day
+                            ? 'À la journée'
+                            : 'À la tonne'
+                    }`;
                     operators += ', ';
                 }
             }

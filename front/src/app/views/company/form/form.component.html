@@ -78,3 +78,20 @@
         </button>
     </div>
 </form>
+
+<div class="flex-col margint-5 marginb-3">
+    <h1>Les chauffeurs</h1>
+    <div class="operators" *ngIf="!!company.operators">
+        <ul>
+            <li *ngFor="let operator of company.operators">
+                <a
+                    (click)="redirectOperator(operator.id ?? -1)"
+                    title="Ouvrir les informations du chauffeur"
+                >
+                    {{ operator.name ? operator.name.toUpperCase() : ""
+                    }}{{ operator.surname }}: {{ operator.phone }}</a
+                >
+            </li>
+        </ul>
+    </div>
+</div>

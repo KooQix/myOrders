@@ -1,3 +1,4 @@
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { HttpClientModule } from '@angular/common/http';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgModule } from '@angular/core';
@@ -26,6 +27,7 @@ import { FormComponent } from './form/form.component';
         ReactiveFormsModule,
         MatButtonModule,
         HttpClientModule,
+        MatAutocompleteModule,
     ],
 })
 export class OperatorsModule {}

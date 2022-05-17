@@ -108,6 +108,11 @@
                     {{ op.surname }}
                 </p>
                 <p class="phone">{{ op.phone }}</p>
+                <p class="phone">
+                    {{
+                        op?.company.paid_per_day ? "À la journée" : "À la tonne"
+                    }}
+                </p>
             </span>
         </td>
     </ng-container>

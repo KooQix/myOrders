@@ -40,7 +40,7 @@ export class FormComponent implements OnInit {
     /**
      * If update a company, fill the form with the company info
      */
-    initForm(): void {
+    async initForm(): Promise<void> {
         this.form.setValue({
             name: this.company.name,
             city: this.company.city,
@@ -48,6 +48,9 @@ export class FormComponent implements OnInit {
             phone: this.company.phone,
             paid_per_day: this.company.paid_per_day ? 'true' : 'false',
         });
+        this.company.operators = await this.service.getAllOperators(
+            this.company.id ?? -1
+        );
     }
 
     /**
@@ -103,5 +106,10 @@ export class FormComponent implements OnInit {
      */
     cancel() {
         this.router.navigate(['..'], { relativeTo: this.route });
+    }
+
+    redirectOperator(id: number) {
+        if (id === -1) return;
+        this.router.navigate([`operators/form/${id}`]);
     }
 }

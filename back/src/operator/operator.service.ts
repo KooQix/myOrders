@@ -31,4 +31,10 @@ export class OperatorService {
     remove(id: number) {
         return this.opRepo.delete(id);
     }
+
+    findAllByCompany(id: string) {
+        return this.opRepo.find({
+            where: { company: id },
+        });
+    }
 }

@@ -33,6 +33,7 @@ __decorate([
 __decorate([
     (0, typeorm_1.ManyToOne)(() => company_entity_1.Company, (company) => company.operators, {
         nullable: false,
+        eager: true,
     }),
     __metadata("design:type", company_entity_1.Company)
 ], Operator.prototype, "company", void 0);

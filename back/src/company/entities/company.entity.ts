@@ -1,12 +1,5 @@
 import { Operator } from 'src/operator/entities/operator.entity';
-import {
-    Column,
-    CreateDateColumn,
-    Entity,
-    OneToMany,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Company {
@@ -30,7 +23,7 @@ export class Company {
 
     @OneToMany(() => Operator, (operator) => operator.company, {
         nullable: false,
-        eager: true,
+        eager: false,
     })
     operators: Operator[];
 }

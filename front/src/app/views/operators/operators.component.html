@@ -48,7 +48,23 @@
     <ng-container matColumnDef="company">
         <th mat-header-cell *matHeaderCellDef>Entreprise</th>
         <td mat-cell *matCellDef="let element">
-            <p>{{ element.company }}</p>
+            <p>{{ element.company ? element.company.name : "" }}</p>
+        </td>
+    </ng-container>
+
+    <!-- Payment method Column -->
+    <ng-container matColumnDef="paid_per_day">
+        <th mat-header-cell *matHeaderCellDef>Méthode de payment</th>
+        <td mat-cell *matCellDef="let element">
+            <p>
+                {{
+                    element.company
+                        ? element.company.paid_per_day
+                            ? "À la journée"
+                            : "À la tonne"
+                        : ""
+                }}
+            </p>
         </td>
     </ng-container>
 

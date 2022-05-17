@@ -17,6 +17,7 @@ export class OperatorsComponent implements OnInit {
         'surname',
         'phone',
         'company',
+        'paid_per_day',
         'modifier',
     ];
     dataSource: MatTableDataSource<Operator>;

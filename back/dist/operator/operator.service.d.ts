@@ -10,4 +10,5 @@ export declare class OperatorService {
     findOne(id: number): Promise<Operator>;
     update(id: number, updateOperatorDto: UpdateOperatorDto): Promise<import("typeorm").UpdateResult>;
     remove(id: number): Promise<import("typeorm").DeleteResult>;
+    findAllByCompany(id: string): Promise<Operator[]>;
 }

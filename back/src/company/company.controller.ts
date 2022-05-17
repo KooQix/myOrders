@@ -6,6 +6,8 @@ import {
     Patch,
     Param,
     Delete,
+    HttpException,
+    HttpStatus,
 } from '@nestjs/common';
 import { CompanyService } from './company.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
@@ -25,6 +27,11 @@ export class CompanyController {
         return this.companyService.findAll();
     }
 
+    @Get('operators/:id')
+    findAllOperators(@Param('id') id: string) {
+        return this.companyService.findAllOperators(id);
+    }
+
     @Get(':id')
     findOne(@Param('id') id: string) {
         return this.companyService.findOne(+id);
@@ -39,7 +46,14 @@ export class CompanyController {
     }
 
     @Delete(':id')
-    remove(@Param('id') id: string) {
+    async remove(@Param('id') id: string) {
+        const operators = await this.findAllOperators(id);
+        if (!!operators && operators.length > 0) {
+            throw new HttpException(
+                "L'entreprise ne doit plus contenir de chauffeurs pour pouvoir être supprimée",
+                HttpStatus.FORBIDDEN
+            );
+        }
         return this.companyService.remove(+id);
     }
 }

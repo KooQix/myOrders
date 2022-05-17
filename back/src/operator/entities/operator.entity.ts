@@ -1,14 +1,6 @@
 import { Company } from 'src/company/entities/company.entity';
 import { Order } from 'src/order/entities/order.entity';
-import {
-    Column,
-    CreateDateColumn,
-    Entity,
-    ManyToOne,
-    OneToMany,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Operator {
@@ -28,6 +20,7 @@ export class Operator {
 
     @ManyToOne(() => Company, (company) => company.operators, {
         nullable: false,
+        eager: true,
     })
     company: Company;
 }
