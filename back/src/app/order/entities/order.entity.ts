@@ -1,6 +1,6 @@
-import { Address } from 'src/address/entities/address.entity';
-import { Client } from 'src/client/entities/client.entity';
-import { Operator } from 'src/operator/entities/operator.entity';
+import { Address } from 'src/app/address/entities/address.entity';
+import { Client } from 'src/app/client/entities/client.entity';
+import { Operator } from 'src/app/operator/entities/operator.entity';
 import {
     Column,
     CreateDateColumn,

@@ -1,5 +1,5 @@
-import { Company } from 'src/company/entities/company.entity';
-import { Order } from 'src/order/entities/order.entity';
+import { Company } from 'src/app/company/entities/company.entity';
+import { Order } from 'src/app/order/entities/order.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()

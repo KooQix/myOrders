@@ -6,7 +6,7 @@ import {
     IsArray,
     MinLength,
 } from 'class-validator';
-import { Address } from 'src/address/entities/address.entity';
+import { Address } from 'src/app/address/entities/address.entity';
 import { Type } from 'class-transformer';
 
 export class CreateClientDto {

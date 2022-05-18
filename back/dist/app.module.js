@@ -12,11 +12,11 @@ const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
 const typeorm_1 = require("@nestjs/typeorm");
 const config_1 = require("@nestjs/config");
-const operator_module_1 = require("./operator/operator.module");
-const client_module_1 = require("./client/client.module");
-const address_module_1 = require("./address/address.module");
-const order_module_1 = require("./order/order.module");
-const company_module_1 = require("./company/company.module");
+const operator_module_1 = require("./app/operator/operator.module");
+const client_module_1 = require("./app/client/client.module");
+const address_module_1 = require("./app/address/address.module");
+const order_module_1 = require("./app/order/order.module");
+const company_module_1 = require("./app/company/company.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -33,7 +33,7 @@ AppModule = __decorate([
                 password: (_d = process.env.DB_PASS) !== null && _d !== void 0 ? _d : '',
                 database: process.env.DB_NAME,
                 autoLoadEntities: true,
-                synchronize: true,
+                synchronize: false,
             }),
             operator_module_1.OperatorModule,
             client_module_1.ClientModule,

@@ -1,4 +1,4 @@
-import { Operator } from 'src/operator/entities/operator.entity';
+import { Operator } from 'src/app/operator/entities/operator.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()

@@ -1,4 +1,4 @@
-import { Client } from 'src/client/entities/client.entity';
+import { Client } from 'src/app/client/entities/client.entity';
 import {
     Column,
     Entity,
@@ -6,7 +6,7 @@ import {
     OneToMany,
     PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Order } from 'src/order/entities/order.entity';
+import { Order } from 'src/app/order/entities/order.entity';
 
 @Entity()
 export class Address {

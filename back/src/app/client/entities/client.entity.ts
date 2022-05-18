@@ -1,5 +1,5 @@
-import { Address } from 'src/address/entities/address.entity';
-import { Order } from 'src/order/entities/order.entity';
+import { Address } from 'src/app/address/entities/address.entity';
+import { Order } from 'src/app/order/entities/order.entity';
 import {
     Column,
     CreateDateColumn,

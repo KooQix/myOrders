@@ -3,7 +3,7 @@ import { CompanyService } from './company.service';
 import { CompanyController } from './company.controller';
 import { Company } from './entities/company.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { OperatorModule } from 'src/operator/operator.module';
+import { OperatorModule } from 'src/app/operator/operator.module';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Company]), OperatorModule],
