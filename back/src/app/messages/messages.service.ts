@@ -30,6 +30,7 @@ export class MessagesService {
             res.push(await this.sendOne(order));
         }
 
+        // Managing errors, and update db
         return res;
     }
 
