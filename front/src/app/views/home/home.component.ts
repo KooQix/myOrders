@@ -56,14 +56,15 @@ export class HomeComponent implements OnInit {
 
         // Override dataSource filterPredicate to include the filter on client || operator info
         this.dataSource.filterPredicate = (order: Order, filter: string) => {
-            filter = filter.trim().toLowerCase();
+            filter = filter.trim().toLowerCase().replace(/ /g, '');
+            console.log(filter);
 
             const _filter =
                 !filter ||
                 order.date_chargement.trim().toLowerCase().includes(filter) ||
                 order.date_dechargement.trim().toLowerCase().includes(filter) ||
                 order.price.toString().trim().includes(filter) ||
-                order.produit.toString().trim().includes(filter);
+                order.product.name.toString().trim().includes(filter);
 
             const clientFilter = () => {
                 const toStr =

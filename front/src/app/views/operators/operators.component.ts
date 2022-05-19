@@ -40,7 +40,7 @@ export class OperatorsComponent implements OnInit {
      */
     applyFilter(event: Event) {
         const filterValue = (event.target as HTMLInputElement).value;
-        this.dataSource.filter = filterValue;
+        this.dataSource.filter = filterValue.replace(/ /g, '');
     }
 
     /**

@@ -43,7 +43,7 @@ export class HomeService {
                 street: '',
                 zip: 0,
             },
-            produit: {
+            product: {
                 id: -1,
                 name: '',
                 price: 0,

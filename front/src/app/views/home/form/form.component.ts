@@ -45,7 +45,7 @@ export class FormComponent implements OnInit {
             date_dechargement: ['', [Validators.required]],
             client: ['', [Validators.required]],
             address: [undefined, [Validators.required]],
-            produit: ['', [Validators.required]],
+            product: ['', [Validators.required]],
             price: ['', [Validators.required, Validators.min(0)]],
             operators: new FormArray([]),
             info: [undefined, []],
@@ -107,7 +107,7 @@ export class FormComponent implements OnInit {
             date_dechargement: this.order.date_dechargement,
             client: this.order.client,
             address: this.order.address,
-            produit: this.order.produit,
+            product: this.order.product,
             price: this.order.price,
             operators: this.order.operators,
             info: this.order.info,
@@ -234,7 +234,7 @@ export class FormComponent implements OnInit {
             address: this.form.get('address')?.value,
             price: this.form.get('price')?.value,
             operators: this.form.get('operators')?.value,
-            produit: this.form.get('produit')?.value,
+            product: this.form.get('product')?.value,
             info: this.form.get('info')?.value ?? '',
         };
 

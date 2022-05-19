@@ -6,7 +6,7 @@ export interface Order {
     address: Address;
     price: number;
     operators?: Operator[];
-    produit: Product;
+    product: Product;
     info?: string;
     color?: string;
 }
