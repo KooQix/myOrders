@@ -16,7 +16,7 @@ export class Company {
     zip: string;
 
     @Column()
-    phone: string;
+    phone: number;
 
     @Column()
     paid_per_day: boolean;

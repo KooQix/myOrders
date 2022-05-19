@@ -14,7 +14,7 @@ export class Operator {
     surname: string;
 
     @Column()
-    phone: string;
+    phone: number;
 
     orders: Order[];
 

@@ -35,4 +35,10 @@ export class Address {
 
     @OneToMany(() => Order, (order) => order.address)
     orders: Order[];
+
+    public toString(): string {
+        return `${(!!this.number ? this.number + ' ' : '') + this.street}\n${
+            this.zip
+        } ${this.city}`;
+    }
 }

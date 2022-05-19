@@ -1,14 +1,6 @@
 import { Address } from 'src/app/address/entities/address.entity';
 import { Order } from 'src/app/order/entities/order.entity';
-import {
-    Column,
-    CreateDateColumn,
-    Entity,
-    JoinColumn,
-    OneToMany,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Client {
@@ -22,7 +14,7 @@ export class Client {
     surname: string;
 
     @Column()
-    phone: string;
+    phone: number;
 
     @OneToMany(() => Address, (address) => address.client, {
         nullable: false,
@@ -33,4 +25,8 @@ export class Client {
 
     @OneToMany(() => Order, (order) => order.client)
     orders: Order[];
+
+    public toString(): string {
+        return `${this.name.toUpperCase()} ${this.surname}`;
+    }
 }

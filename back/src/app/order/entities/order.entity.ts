@@ -1,15 +1,15 @@
+import { Exclude } from 'class-transformer';
 import { Address } from 'src/app/address/entities/address.entity';
 import { Client } from 'src/app/client/entities/client.entity';
 import { Operator } from 'src/app/operator/entities/operator.entity';
+import { Product } from 'src/app/product/entities/product.entity';
 import {
     Column,
-    CreateDateColumn,
     Entity,
     JoinTable,
     ManyToMany,
     ManyToOne,
     PrimaryGeneratedColumn,
-    UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -35,8 +35,14 @@ export class Order {
     })
     address: Address;
 
-    @Column()
+    @Column({ nullable: false, type: 'float' })
     price: number;
+
+    @ManyToOne(() => Product, (product) => product.orders, {
+        nullable: false,
+        eager: true,
+    })
+    product: Product;
 
     @ManyToMany(() => Operator, {
         eager: true,
@@ -53,4 +59,12 @@ export class Order {
 
     @Column({ nullable: true, length: 900 })
     info?: string;
+
+    @Column({ default: null })
+    @Exclude()
+    sent: boolean;
+
+    constructor(partial: Partial<Order>) {
+        Object.assign(this, partial);
+    }
 }

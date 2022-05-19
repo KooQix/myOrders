@@ -7,16 +7,16 @@ import {
     Param,
     Post,
 } from '@nestjs/common';
-import { Message, MessagesService } from './messages.service';
+import { MessagesService } from './messages.service';
 
 @Controller('messages')
 export class MessagesController {
     constructor(private service: MessagesService) {}
 
-    @Get(':id')
-    send(@Param('id') commandID: number) {
+    @Post('date')
+    async send(@Body() date: any) {
         try {
-            return this.service.send(commandID);
+            return await this.service.sendAll(date.date);
         } catch (error) {
             throw new HttpException(
                 "Une erreur est survenue lors de l'envoi du message",

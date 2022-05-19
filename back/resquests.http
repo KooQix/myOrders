@@ -170,3 +170,13 @@ Content-Type: application/json
 
 ### Delete by id
 DELETE http://localhost:3000/api/order/1
+
+
+
+
+
+	#################### SMS ####################
+
+### Send sms
+GET http://localhost:3000/api/messages/1
+

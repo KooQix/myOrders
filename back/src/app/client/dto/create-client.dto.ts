@@ -5,6 +5,7 @@ import {
     IsDefined,
     IsArray,
     MinLength,
+    IsInt,
 } from 'class-validator';
 import { Address } from 'src/app/address/entities/address.entity';
 import { Type } from 'class-transformer';
@@ -19,7 +20,8 @@ export class CreateClientDto {
     surname: string;
 
     @IsNotEmpty()
-    phone: string;
+    @IsInt({ message: 'Le champ numéro de téléphone doit être valide' })
+    phone: number;
 
     @ValidateNested({ each: true }) // Means that it will also validate the address, according to the Adress validator
     @IsDefined()
