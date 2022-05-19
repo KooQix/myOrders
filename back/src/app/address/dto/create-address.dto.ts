@@ -6,7 +6,7 @@ export class CreateAddressDto {
     city: string;
 
     @IsNotEmpty()
-    zip: number;
+    zip: string;
 
     @IsNotEmpty()
     street: string;

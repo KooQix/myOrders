@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty } from 'class-validator';
+import { IsInt, IsNotEmpty, Length } from 'class-validator';
 
 export class CreateCompanyDto {
     @IsNotEmpty()
@@ -11,8 +11,8 @@ export class CreateCompanyDto {
     zip: string;
 
     @IsNotEmpty()
-    @IsInt({ message: 'Le champ numéro de téléphone doit être valide' })
-    phone: number;
+    @Length(9)
+    phone: string;
 
     @IsNotEmpty()
     paid_per_day: boolean;

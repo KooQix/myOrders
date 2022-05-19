@@ -71,7 +71,9 @@
     <!-- Site code Column -->
     <ng-container matColumnDef="produit">
         <th mat-header-cell *matHeaderCellDef>Produit</th>
-        <td mat-cell *matCellDef="let element">{{ element.produit }}</td>
+        <td mat-cell *matCellDef="let element">
+            {{ element.product.name + " " }} ({{ element.product.price + "€" }})
+        </td>
     </ng-container>
 
     <!-- Price Column -->

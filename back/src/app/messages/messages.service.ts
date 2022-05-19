@@ -38,7 +38,7 @@ export class MessagesService {
         const message = this.formatMessage(order);
 
         return {
-            phone: order.operators[0].phone,
+            phone: parseInt(order.operators[0].phone),
             message: message,
         };
     }
@@ -63,7 +63,7 @@ export class MessagesService {
         )}\n\n`;
         res += `Client: ${order.client}\n`;
         res += `Adresse: \n${order.address}\n\n`;
-        res += `Produit: ${order.produit}`;
+        res += `Produit: ${order.product.name}`;
 
         if (!!order.info)
             res += `\n\nInformations complémentaires: \n${order.info}`;

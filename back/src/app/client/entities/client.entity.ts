@@ -14,7 +14,7 @@ export class Client {
     surname: string;
 
     @Column()
-    phone: number;
+    phone: string;
 
     @OneToMany(() => Address, (address) => address.client, {
         nullable: false,

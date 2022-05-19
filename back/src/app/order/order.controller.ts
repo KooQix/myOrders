@@ -7,12 +7,15 @@ import {
     Param,
     Delete,
     InternalServerErrorException,
+    UseInterceptors,
+    ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 
 @Controller('order')
+@UseInterceptors(ClassSerializerInterceptor)
 export class OrderController {
     constructor(private readonly orderService: OrderService) {}
 

@@ -17,7 +17,7 @@ export class Address {
     city: string;
 
     @Column()
-    zip: number;
+    zip: string;
 
     @Column()
     street: string;

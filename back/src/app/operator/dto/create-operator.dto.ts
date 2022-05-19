@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, MinLength } from 'class-validator';
+import { IsInt, IsNotEmpty, Length, MinLength } from 'class-validator';
 
 export class CreateOperatorDto {
     @IsNotEmpty()
@@ -6,6 +6,6 @@ export class CreateOperatorDto {
     surname: string;
 
     @IsNotEmpty()
-    @IsInt({ message: 'Le champ numéro de téléphone doit être valide' })
-    phone: number;
+    @Length(9)
+    phone: string;
 }

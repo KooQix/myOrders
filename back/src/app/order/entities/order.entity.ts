@@ -54,14 +54,11 @@ export class Order {
     @JoinTable()
     operators?: Operator[];
 
-    @Column()
-    produit: string;
-
     @Column({ nullable: true, length: 900 })
     info?: string;
 
     @Column({ default: null })
-    @Exclude()
+    @Exclude({ toPlainOnly: true })
     sent: boolean;
 
     constructor(partial: Partial<Order>) {

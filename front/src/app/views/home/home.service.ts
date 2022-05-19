@@ -43,7 +43,11 @@ export class HomeService {
                 street: '',
                 zip: 0,
             },
-            produit: '',
+            produit: {
+                id: -1,
+                name: '',
+                price: 0,
+            },
             price: 0,
             operators: [
                 {
@@ -212,24 +216,4 @@ export class HomeService {
     getTomorrowShort(date: Date) {
         return this.shortDate(this.getTomorrow(date).value);
     }
-
-    // /**
-    //  *
-    //  * @param operator
-    //  * @returns
-    //  */
-    // addOperator(operator: Operator): Promise<Operator> {
-    //     return this.http
-    //         .post<Operator>(`${this.API_URL}operator`, operator)
-    //         .toPromise();
-    // }
-
-    // isOpValid(order: Order): boolean {
-    //     if (!!order.operators) {
-    //         for (const op of order.operators) {
-    //         }
-    //     }
-
-    //     return false;
-    // }
 }

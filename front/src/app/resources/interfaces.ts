@@ -6,7 +6,7 @@ export interface Order {
     address: Address;
     price: number;
     operators?: Operator[];
-    produit: string;
+    produit: Product;
     info?: string;
     color?: string;
 }
@@ -45,4 +45,10 @@ export interface Company {
     paid_per_day: boolean;
     phone: string;
     operators?: Operator[];
+}
+
+export interface Product {
+    id: number;
+    name: string;
+    price: number;
 }
