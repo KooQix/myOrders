@@ -1,5 +1,5 @@
 import { Order } from 'src/app/order/entities/order.entity';
-import { Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 export class Product {
     @PrimaryGeneratedColumn()
@@ -11,5 +11,6 @@ export class Product {
     @Column({ nullable: false, type: 'float' })
     price: number;
 
+    @OneToMany(() => Order, (order) => order.product)
     orders: Order[];
 }

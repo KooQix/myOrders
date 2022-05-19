@@ -18,6 +18,7 @@ const address_module_1 = require("./app/address/address.module");
 const order_module_1 = require("./app/order/order.module");
 const company_module_1 = require("./app/company/company.module");
 const messages_module_1 = require("./app/messages/messages.module");
+const product_module_1 = require("./app/product/product.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -34,7 +35,7 @@ AppModule = __decorate([
                 password: (_d = process.env.DB_PASS) !== null && _d !== void 0 ? _d : '',
                 database: process.env.DB_NAME,
                 autoLoadEntities: true,
-                synchronize: false,
+                synchronize: true,
             }),
             operator_module_1.OperatorModule,
             client_module_1.ClientModule,
@@ -42,6 +43,7 @@ AppModule = __decorate([
             order_module_1.OrderModule,
             company_module_1.CompanyModule,
             messages_module_1.MessagesModule,
+            product_module_1.ProductModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [],

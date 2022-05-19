@@ -8,6 +8,7 @@ import { AddressModule } from './app/address/address.module';
 import { OrderModule } from './app/order/order.module';
 import { CompanyModule } from './app/company/company.module';
 import { MessagesModule } from './app/messages/messages.module';
+import { ProductModule } from './app/product/product.module';
 
 @Module({
     imports: [
@@ -26,7 +27,7 @@ import { MessagesModule } from './app/messages/messages.module';
             // entities: [],
             // true shouldn't be used in production
             autoLoadEntities: true,
-            synchronize: false,
+            synchronize: true,
         }),
         OperatorModule,
         ClientModule,
@@ -34,6 +35,7 @@ import { MessagesModule } from './app/messages/messages.module';
         OrderModule,
         CompanyModule,
         MessagesModule,
+        ProductModule,
     ],
     controllers: [AppController],
     providers: [],
