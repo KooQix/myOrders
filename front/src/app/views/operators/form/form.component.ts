@@ -1,7 +1,9 @@
+import { map, startWith } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Operator } from 'src/app/resources/interfaces';
+import { Observable } from 'rxjs';
+import { Company, Operator } from 'src/app/resources/interfaces';
 import { OperatorsService } from '../operators.service';
 
 @Component({
@@ -11,8 +13,11 @@ import { OperatorsService } from '../operators.service';
 })
 export class FormComponent implements OnInit {
     operator: Operator;
+    companies: Company[];
     form: FormGroup;
     id: number;
+
+    filteredOptions_company: Observable<Company[]>;
 
     constructor(
         private router: Router,
@@ -25,9 +30,11 @@ export class FormComponent implements OnInit {
         this.form = this.formBuilder.group({
             name: ['', []],
             surname: ['', [Validators.required]],
-            company: ['', []],
+            company: ['', [Validators.required]],
             phone: ['', [Validators.required]],
         });
+
+        this.companies = await this.service.getAllCompanies();
 
         // Get elements from server and fill form
         const _id = this.route.snapshot.paramMap.get('id');
@@ -35,6 +42,17 @@ export class FormComponent implements OnInit {
         this.operator = await this.service.initOperator(this.id);
 
         if (this.operator.id != -1) this.initForm();
+
+        this.filteredOptions_company =
+            this.form.controls.company.valueChanges.pipe(
+                startWith(''),
+                map((value) =>
+                    typeof value === 'string' ? value : `${value.name}`
+                ),
+                map((name) =>
+                    name ? this._filter_companies(name) : this.companies.slice()
+                )
+            );
     }
 
     /**
@@ -101,5 +119,31 @@ export class FormComponent implements OnInit {
      */
     cancel() {
         this.router.navigate(['..'], { relativeTo: this.route });
+    }
+
+    //////////////////// Filter functions \\\\\\\\\\\\\\\\\\\\
+
+    /**
+     * How companies are displayed in select
+     *
+     * @param company
+     * @returns
+     */
+    displayFn_companies(company: Company): string {
+        return company.name;
+    }
+
+    /**
+     * Filter table through companies info
+     *
+     * @param name
+     * @returns
+     */
+    private _filter_companies(name: string): Company[] {
+        const filterValue = name.toLowerCase();
+
+        return this.companies.filter((option) =>
+            option.name.toLowerCase().includes(filterValue)
+        );
     }
 }

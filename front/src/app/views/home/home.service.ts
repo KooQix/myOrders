@@ -1,3 +1,4 @@
+import { Company } from './../../resources/interfaces';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';

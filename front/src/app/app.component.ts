@@ -24,14 +24,19 @@ export class AppComponent {
             index: 0,
         },
         {
-            label: 'Mes Chauffeurs',
-            link: './operators',
-            index: 1,
-        },
-        {
             label: 'Mes Clients',
             link: './clients',
             index: 2,
+        },
+        {
+            label: 'Mes Entreprises',
+            link: './entreprises',
+            index: 3,
+        },
+        {
+            label: 'Mes Chauffeurs',
+            link: './operators',
+            index: 1,
         },
     ];
 

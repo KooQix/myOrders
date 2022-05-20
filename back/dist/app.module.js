@@ -12,10 +12,11 @@ const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
 const typeorm_1 = require("@nestjs/typeorm");
 const config_1 = require("@nestjs/config");
-const operator_module_1 = require("./operator/operator.module");
-const client_module_1 = require("./client/client.module");
-const address_module_1 = require("./address/address.module");
-const order_module_1 = require("./order/order.module");
+const operator_module_1 = require("./app/operator/operator.module");
+const client_module_1 = require("./app/client/client.module");
+const address_module_1 = require("./app/address/address.module");
+const order_module_1 = require("./app/order/order.module");
+const company_module_1 = require("./app/company/company.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -38,6 +39,7 @@ AppModule = __decorate([
             client_module_1.ClientModule,
             address_module_1.AddressModule,
             order_module_1.OrderModule,
+            company_module_1.CompanyModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [],

@@ -36,6 +36,11 @@ let OperatorService = class OperatorService {
     remove(id) {
         return this.opRepo.delete(id);
     }
+    findAllByCompany(id) {
+        return this.opRepo.find({
+            where: { company: id },
+        });
+    }
 };
 OperatorService = __decorate([
     (0, common_1.Injectable)(),

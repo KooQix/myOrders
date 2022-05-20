@@ -8,11 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var _a, _b;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Order = void 0;
-const address_entity_1 = require("../../address/entities/address.entity");
-const client_entity_1 = require("../../client/entities/client.entity");
-const operator_entity_1 = require("../../operator/entities/operator.entity");
+const address_entity_1 = require("src/address/entities/address.entity");
+const client_entity_1 = require("src/client/entities/client.entity");
+const operator_entity_1 = require("src/operator/entities/operator.entity");
 const typeorm_1 = require("typeorm");
 let Order = class Order {
 };
@@ -33,14 +34,14 @@ __decorate([
         eager: true,
         nullable: false,
     }),
-    __metadata("design:type", client_entity_1.Client)
+    __metadata("design:type", typeof (_a = typeof client_entity_1.Client !== "undefined" && client_entity_1.Client) === "function" ? _a : Object)
 ], Order.prototype, "client", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => address_entity_1.Address, (address) => address.orders, {
         eager: true,
         nullable: false,
     }),
-    __metadata("design:type", address_entity_1.Address)
+    __metadata("design:type", typeof (_b = typeof address_entity_1.Address !== "undefined" && address_entity_1.Address) === "function" ? _b : Object)
 ], Order.prototype, "address", void 0);
 __decorate([
     (0, typeorm_1.Column)(),

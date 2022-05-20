@@ -27,6 +27,13 @@ const routes: Routes = [
                 (m) => m.ClientsModule
             ),
     },
+    {
+        path: 'entreprises',
+        loadChildren: () =>
+            import('./views/company/company.module').then(
+                (m) => m.CompanyModule
+            ),
+    },
     // Default, return to appcomponent
     {
         path: '**',

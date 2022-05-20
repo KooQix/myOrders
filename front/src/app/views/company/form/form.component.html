@@ -1,0 +1,100 @@
+<form [formGroup]="form">
+    <!-- Nom -->
+    <div class="container">
+        <h2>Nom</h2>
+        <span class="element">
+            <mat-form-field appearance="standard">
+                <mat-label>Assigner</mat-label>
+                <input type="text" matInput formControlName="name" required />
+            </mat-form-field>
+        </span>
+    </div>
+
+    <!-- City -->
+    <div class="container">
+        <h2>Ville</h2>
+        <span class="element">
+            <mat-form-field appearance="standard">
+                <mat-label>Assigner</mat-label>
+                <input type="text" matInput formControlName="city" required />
+            </mat-form-field>
+        </span>
+    </div>
+
+    <!-- Zip code -->
+    <div class="container">
+        <h2>Code Postal</h2>
+        <span class="element">
+            <mat-form-field appearance="standard">
+                <mat-label>Assigner</mat-label>
+                <input type="text" matInput formControlName="zip" required />
+            </mat-form-field>
+        </span>
+    </div>
+
+    <!-- Telephone -->
+    <div class="container">
+        <h2>Numéro de Téléphone</h2>
+        <span class="element">
+            <mat-form-field appearance="standard">
+                <mat-label>Assigner</mat-label>
+                <input type="text" matInput formControlName="phone" required />
+            </mat-form-field>
+        </span>
+    </div>
+
+    <!-- Paid per day -->
+    <div class="container">
+        <h2>Méthode de paiement</h2>
+        <span class="element">
+            <mat-form-field appearance="standard">
+                <mat-label>Assigner</mat-label>
+                <mat-select formControlName="paid_per_day" required id="select">
+                    <mat-option value="false">À la tonne</mat-option>
+                    <mat-option value="true">À la journée</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </span>
+    </div>
+
+    <div class="container buttons">
+        <button mat-flat-button (click)="cancel()">Annuler</button>
+        <button
+            mat-flat-button
+            (click)="delete()"
+            class="del"
+            [disabled]="id == -1"
+        >
+            Supprimer
+        </button>
+        <button
+            mat-flat-button
+            type="submit"
+            (click)="save()"
+            color="primary"
+            [disabled]="!form.valid"
+        >
+            Sauvegarder
+        </button>
+    </div>
+</form>
+
+<div
+    class="flex-col margint-5 marginb-3"
+    *ngIf="!!company.operators && company.operators.length > 0"
+>
+    <h1>Les chauffeurs de l'entreprise</h1>
+    <div class="operators">
+        <ul>
+            <li *ngFor="let operator of company.operators">
+                <a
+                    (click)="redirectOperator(operator.id ?? -1)"
+                    title="Ouvrir les informations du chauffeur"
+                >
+                    {{ operator.name ? operator.name.toUpperCase() + " " : ""
+                    }}{{ operator.surname }}: {{ operator.phone }}</a
+                >
+            </li>
+        </ul>
+    </div>
+</div>

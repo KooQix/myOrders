@@ -2,10 +2,11 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { OperatorModule } from './operator/operator.module';
-import { ClientModule } from './client/client.module';
-import { AddressModule } from './address/address.module';
-import { OrderModule } from './order/order.module';
+import { OperatorModule } from './app/operator/operator.module';
+import { ClientModule } from './app/client/client.module';
+import { AddressModule } from './app/address/address.module';
+import { OrderModule } from './app/order/order.module';
+import { CompanyModule } from './app/company/company.module';
 
 @Module({
     imports: [
@@ -30,6 +31,7 @@ import { OrderModule } from './order/order.module';
         ClientModule,
         AddressModule,
         OrderModule,
+        CompanyModule,
     ],
     controllers: [AppController],
     providers: [],

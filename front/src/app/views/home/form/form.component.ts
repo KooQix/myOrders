@@ -174,7 +174,7 @@ export class FormComponent implements OnInit {
                 (!!option?.name &&
                     option?.name?.toLowerCase().includes(filterValue)) ||
                 option.surname.toLowerCase().includes(filterValue) ||
-                option?.company?.toLowerCase().includes(filterValue)
+                option?.company?.name.toLowerCase().includes(filterValue)
         );
     }
 

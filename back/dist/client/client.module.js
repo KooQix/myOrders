@@ -12,7 +12,7 @@ const common_1 = require("@nestjs/common");
 const client_service_1 = require("./client.service");
 const client_controller_1 = require("./client.controller");
 const typeorm_1 = require("@nestjs/typeorm");
-const address_module_1 = require("../address/address.module");
+const address_module_1 = require("src/address/address.module");
 let ClientModule = class ClientModule {
 };
 ClientModule = __decorate([

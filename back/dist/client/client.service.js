@@ -11,11 +11,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ClientService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
-const address_service_1 = require("../address/address.service");
+const address_service_1 = require("src/address/address.service");
 const typeorm_2 = require("typeorm");
 const client_entity_1 = require("./entities/client.entity");
 let ClientService = class ClientService {
@@ -46,8 +47,7 @@ let ClientService = class ClientService {
 ClientService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(client_entity_1.Client)),
-    __metadata("design:paramtypes", [typeorm_2.Repository,
-        address_service_1.AddressService])
+    __metadata("design:paramtypes", [typeorm_2.Repository, typeof (_a = typeof address_service_1.AddressService !== "undefined" && address_service_1.AddressService) === "function" ? _a : Object])
 ], ClientService);
 exports.ClientService = ClientService;
 //# sourceMappingURL=client.service.js.map
