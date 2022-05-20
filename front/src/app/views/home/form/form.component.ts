@@ -1,4 +1,4 @@
-import { Order } from './../../../resources/interfaces';
+import { Order, Product } from './../../../resources/interfaces';
 import { Component, OnInit } from '@angular/core';
 import {
     FormArray,
@@ -12,6 +12,9 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { Client, Operator } from 'src/app/resources/interfaces';
 import { HomeService } from '../home.service';
+import { ProductService } from '../../product/product.service';
+import { ClientsService } from '../../clients/clients.service';
+import { OperatorsService } from '../../operators/operators.service';
 
 @Component({
     selector: 'app-form',
@@ -24,6 +27,7 @@ export class FormComponent implements OnInit {
     datepicker_dechargement: any;
     clients: Client[];
     operators: Operator[];
+    products: Product[];
     id: number;
 
     //////////////////// Filters \\\\\\\\\\\\\\\\\\\\
@@ -31,9 +35,13 @@ export class FormComponent implements OnInit {
     form: FormGroup;
     filteredOptions_client: Observable<Client[]>;
     filteredOptions_op: Observable<Operator[]>;
+    filteredOptions_product: Observable<Product[]>;
 
     constructor(
         private service: HomeService,
+        private productService: ProductService,
+        private clientService: ClientsService,
+        private operatorService: OperatorsService,
         private router: Router,
         private route: ActivatedRoute,
         private formBuilder: FormBuilder
@@ -56,8 +64,9 @@ export class FormComponent implements OnInit {
         this.id = _id ? parseInt(_id) : -1;
         this.order = await this.service.initOrder(this.id);
 
-        this.operators = await this.service.getOperators();
-        this.clients = await this.service.getClients();
+        this.operators = await this.operatorService.getAll();
+        this.clients = await this.clientService.getAll();
+        this.products = await this.productService.getAll();
 
         if (this.id != -1) this.initForm();
         else this.addOperator();
@@ -84,10 +93,23 @@ export class FormComponent implements OnInit {
                 map((value) =>
                     typeof value === 'string'
                         ? value
-                        : `${value.name.toUpperCase()} ${value.surname}`
+                        : `${value.name?.toUpperCase()} ${value.surname}`
                 ),
                 map((name) =>
                     name ? this._filter_operators(name) : this.operators.slice()
+                )
+            );
+
+        this.filteredOptions_product =
+            this.form.controls.product.valueChanges.pipe(
+                startWith(''),
+                map((value) =>
+                    typeof value === 'string'
+                        ? value
+                        : `${value.name.toUpperCase()} (${value.price} €)`
+                ),
+                map((name) =>
+                    name ? this._filter_products(name) : this.products.slice()
                 )
             );
     }
@@ -171,11 +193,34 @@ export class FormComponent implements OnInit {
 
         return this.operators.filter(
             (option) =>
-                (!!option?.name &&
-                    option?.name?.toLowerCase().includes(filterValue)) ||
-                option.surname.toLowerCase().includes(filterValue) ||
-                option?.company?.name.toLowerCase().includes(filterValue)
+                (!!option.name &&
+                    option.name?.toLowerCase().includes(filterValue)) ||
+                option.surname.toLowerCase().includes(filterValue)
         );
+    }
+
+    /**
+     * Filter table through product info
+     *
+     * @param name
+     * @returns
+     */
+    private _filter_products(name: string): Product[] {
+        const filterValue = name.trim().toLowerCase();
+
+        return this.products.filter((option) =>
+            option.name.trim().toLowerCase().includes(filterValue)
+        );
+    }
+
+    /**
+     * How products are displayed in select
+     *
+     * @param operator
+     * @returns
+     */
+    displayFn_products(product: Product): string {
+        return !!product ? `${product.name} (${product.price}€)` : '';
     }
 
     //////////////////// Buttons \\\\\\\\\\\\\\\\\\\\

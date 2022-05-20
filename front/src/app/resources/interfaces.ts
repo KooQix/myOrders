@@ -48,7 +48,12 @@ export interface Company {
 }
 
 export interface Product {
-    id: number;
+    id?: number;
     name: string;
     price: number;
+}
+
+export interface Message {
+    phone: number;
+    message: string;
 }

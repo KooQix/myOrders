@@ -14,12 +14,14 @@ import { DownloadExcelService } from './download-excel.service';
 export class HomeComponent implements OnInit {
     datepicker: any;
     date: FormControl;
+    sendButtonEnabled: boolean;
 
     orders: Order[];
     displayedColumns: string[] = [
         'dates',
         'produit',
-        'price',
+        'product_price',
+        'price', // Transport price
         'client',
         'operator',
         'modifier',
@@ -34,6 +36,8 @@ export class HomeComponent implements OnInit {
     ) {}
 
     async ngOnInit(): Promise<void> {
+        this.sendButtonEnabled = true;
+
         // By default, display orders for tomorrow
         this.date = this.service.getTomorrow(new Date());
         this.orders = await this.service.getAllByDate(
@@ -100,11 +104,15 @@ export class HomeComponent implements OnInit {
      */
     async manageSelection(date: any) {
         if (!!date) {
+            this.sendButtonEnabled = true;
             this.orders = await this.service.getAllByDate(
                 this.service.shortDate(this.date?.value)
             );
         } else {
             this.orders = await this.service.getAll();
+
+            // No date => disable send message button
+            this.sendButtonEnabled = false;
         }
         this.dataSource.data = this.orders;
     }
@@ -136,5 +144,20 @@ export class HomeComponent implements OnInit {
             filter?.value,
             date
         );
+    }
+
+    /**
+     * Send the messages of the orders for the given date
+     *
+     * @returns List of sent messages
+     */
+    sendMessages() {
+        if (!!!this.date) return;
+
+        const date = this.service.shortDate(this.date?.value);
+        if (date) {
+            const sentMessages = this.service.sendMessages(date);
+            console.log(sentMessages);
+        }
     }
 }

@@ -17,6 +17,21 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+-- DROP DATABASE `MY_ORDERS`;
+
+-- CREATE DATABASE MY_ORDERS;
+use MY_ORDERS;
+
+
+DROP TABLE IF EXISTS `client`;
+CREATE TABLE `client` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `surname` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 DROP TABLE IF EXISTS `address`;
 CREATE TABLE `address` (
@@ -32,14 +47,7 @@ CREATE TABLE `address` (
   CONSTRAINT `FK_3d3e29e99d821fd75d7cb117e04` FOREIGN KEY (`clientId`) REFERENCES `client` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=163 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-DROP TABLE IF EXISTS `client`;
-CREATE TABLE `client` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `surname` varchar(255) NOT NULL,
-  `phone` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 DROP TABLE IF EXISTS `company`;
 CREATE TABLE `company` (
@@ -64,6 +72,17 @@ CREATE TABLE `operator` (
   CONSTRAINT `FK_a8eb62659dfb7dbe980f7ba46b8` FOREIGN KEY (`companyId`) REFERENCES `company` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+
+DROP TABLE IF EXISTS `product`;
+CREATE TABLE `product` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `price` float NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `IDX_22cc43e9a74d7498546e9a63e7` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
 DROP TABLE IF EXISTS `order`;
 CREATE TABLE `order` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -84,6 +103,7 @@ CREATE TABLE `order` (
   CONSTRAINT `FK_9b27855a9c2ade186e5c55d1ec3` FOREIGN KEY (`clientId`) REFERENCES `client` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+
 DROP TABLE IF EXISTS `order_operators_operator`;
 CREATE TABLE `order_operators_operator` (
   `orderId` int NOT NULL,
@@ -95,14 +115,110 @@ CREATE TABLE `order_operators_operator` (
   CONSTRAINT `FK_7df2119679a00f8648259408bfc` FOREIGN KEY (`orderId`) REFERENCES `order` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-DROP TABLE IF EXISTS `product`;
-CREATE TABLE `product` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `price` float NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `IDX_22cc43e9a74d7498546e9a63e7` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+
+
+
+
+
+
+
+
+
+
+
+INSERT INTO `client` (`id`, `name`, `surname`, `phone`) VALUES
+(1, 'Hernandez', 'Larry', '1317022330'),
+(2, 'Lewis', 'Michael', '0641382543'),
+(3, 'Moore', 'Anna', '1576917314'),
+(4, 'Martinez', 'John', '6783341143'),
+(5, 'Thomas', 'Scott', '7366565247'),
+(6, 'Clark', 'Barbara', '7898576104'),
+(7, 'Williams', 'Jennifer', '8420124523'),
+(8, 'Clark', 'Charles', '3265713266'),
+(9, 'Lee', 'Carol', '0181124221'),
+(10, 'Davis', 'Michael', '2814126752'),
+(11, 'Miller', 'Larry', '3174636555'),
+(12, 'Young', 'Shirley', '3006935314'),
+(13, 'Thompson', 'Matthew', '3278878041'),
+(14, 'Smith', 'Jessica', '0682769367'),
+(15, 'Jones', 'Scott', '3156518402'),
+(16, 'Perez', 'Melissa', '5578221363'),
+(17, 'Thomas', 'Matthew', '7121648174'),
+(18, 'Martinez', 'Michael', '8732541526'),
+(19, 'Clark', 'Ronald', '9894318086'),
+(20, 'Walker', 'Shirley', '4631938877'),
+(21, 'Garcia', 'Angela', '2413087883'),
+(22, 'Martinez', 'Eric', '8844391857'),
+(23, 'Gonzalez', 'Jessica', '2733517141'),
+(24, 'Thompson', 'Mark', '1311351459'),
+(25, 'Robinson', 'Maria', '3919574187'),
+(26, 'Thomas', 'Michael', '4085352336'),
+(27, 'Hall', 'Sandra', '7213697076'),
+(28, 'Gonzalez', 'Kevin', '5433193449'),
+(29, 'Davis', 'Betty', '9596235310'),
+(30, 'Harris', 'Sandra', '3736621343'),
+(31, 'Jones', 'George', '0919125871'),
+(32, 'Williams', 'James', '8927784675'),
+(33, 'Perez', 'Brian', '3351262836'),
+(34, 'Johnson', 'Amy', '3188024584'),
+(35, 'Martin', 'Margaret', '9415628487'),
+(36, 'White', 'Brenda', '9746414859'),
+(37, 'Walker', 'Steven', '6202756542'),
+(38, 'Wilson', 'Thomas', '1417467692'),
+(39, 'White', 'Ruth', '3623826686'),
+(40, 'Robinson', 'Kevin', '1728371698'),
+(41, 'Brown', 'Brian', '6769345787'),
+(42, 'Thompson', 'Edward', '7803633400'),
+(43, 'Walker', 'Gary', '3069657993'),
+(44, 'Johnson', 'Angela', '7783244133'),
+(45, 'Williams', 'Betty', '2091527728'),
+(46, 'Lopez', 'Anthony', '8652344915'),
+(47, 'Smith', 'Charles', '6383637174'),
+(48, 'Robinson', 'Eric', '2168243615'),
+(49, 'Davis', 'Shirley', '2694342222'),
+(50, 'Gonzalez', 'Karen', '7512504901'),
+(51, 'Jackson', 'Mary', '3430855827'),
+(52, 'Wilson', 'Laura', '8891587592'),
+(53, 'Harris', 'Joseph', '4866548840'),
+(54, 'Martin', 'Scott', '6716506604'),
+(55, 'Johnson', 'Frank', '4471626368'),
+(56, 'Martinez', 'Thomas', '0426649971'),
+(57, 'Brown', 'Robert', '1258739975'),
+(58, 'Walker', 'Jessica', '2777617126'),
+(59, 'Clark', 'Jeffrey', '8298861961'),
+(60, 'Wilson', 'Frank', '3337427254'),
+(61, 'Thomas', 'Joseph', '6133563294'),
+(62, 'Thomas', 'Brenda', '8964767378'),
+(63, 'Thomas', 'William', '4848420310'),
+(64, 'Martin', 'Anthony', '5966241931'),
+(65, 'Smith', 'Donna', '8745818816'),
+(66, 'Harris', 'Carol', '5434553614'),
+(67, 'Taylor', 'Linda', '8715866528'),
+(68, 'Davis', 'David', '6164022151'),
+(69, 'Jones', 'Paul', '4903054379'),
+(70, 'Thompson', 'Laura', '6228646142'),
+(71, 'Williams', 'Timothy', '5127277162'),
+(72, 'Jones', 'Margaret', '9813146446'),
+(73, 'Lopez', 'Maria', '8034669125'),
+(74, 'Lopez', 'Jason', '6426640735'),
+(75, 'Lee', 'Christopher', '4282094003'),
+(76, 'Harris', 'Melissa', '4521363216'),
+(77, 'Clark', 'Daniel', '7886358645'),
+(78, 'Thomas', 'Helen', '2657857523'),
+(79, 'Johnson', 'Robert', '3251838634'),
+(80, 'Hernandez', 'Karen', '9525302189'),
+(81, 'Hall', 'Donna', '2016113365'),
+(82, 'Jackson', 'Sandra', '7046711352'),
+(83, 'Harris', 'Sarah', '5514623766'),
+(84, 'Jones', 'Lisa', '5563743144'),
+(85, 'Gonzalez', 'Jose', '1965661751');
+
+
+
+
+
 
 INSERT INTO `address` (`id`, `city`, `zip`, `street`, `number`, `code_chantier`, `clientId`) VALUES
 (1, 'nykbjicxrj', '334463', 'twotvhhvksgavdoimxijmaqmhmuhyf', 25, 'pzavd', 11),
@@ -268,92 +384,11 @@ INSERT INTO `address` (`id`, `city`, `zip`, `street`, `number`, `code_chantier`,
 (161, 'Caen', '14000', 'Rue', NULL, NULL, 2),
 (162, 'Caen', '14000', 'Rue', NULL, NULL, 1);
 
-INSERT INTO `client` (`id`, `name`, `surname`, `phone`) VALUES
-(1, 'Hernandez', 'Larry', '1317022330'),
-(2, 'Lewis', 'Michael', '0641382543'),
-(3, 'Moore', 'Anna', '1576917314'),
-(4, 'Martinez', 'John', '6783341143'),
-(5, 'Thomas', 'Scott', '7366565247'),
-(6, 'Clark', 'Barbara', '7898576104'),
-(7, 'Williams', 'Jennifer', '8420124523'),
-(8, 'Clark', 'Charles', '3265713266'),
-(9, 'Lee', 'Carol', '0181124221'),
-(10, 'Davis', 'Michael', '2814126752'),
-(11, 'Miller', 'Larry', '3174636555'),
-(12, 'Young', 'Shirley', '3006935314'),
-(13, 'Thompson', 'Matthew', '3278878041'),
-(14, 'Smith', 'Jessica', '0682769367'),
-(15, 'Jones', 'Scott', '3156518402'),
-(16, 'Perez', 'Melissa', '5578221363'),
-(17, 'Thomas', 'Matthew', '7121648174'),
-(18, 'Martinez', 'Michael', '8732541526'),
-(19, 'Clark', 'Ronald', '9894318086'),
-(20, 'Walker', 'Shirley', '4631938877'),
-(21, 'Garcia', 'Angela', '2413087883'),
-(22, 'Martinez', 'Eric', '8844391857'),
-(23, 'Gonzalez', 'Jessica', '2733517141'),
-(24, 'Thompson', 'Mark', '1311351459'),
-(25, 'Robinson', 'Maria', '3919574187'),
-(26, 'Thomas', 'Michael', '4085352336'),
-(27, 'Hall', 'Sandra', '7213697076'),
-(28, 'Gonzalez', 'Kevin', '5433193449'),
-(29, 'Davis', 'Betty', '9596235310'),
-(30, 'Harris', 'Sandra', '3736621343'),
-(31, 'Jones', 'George', '0919125871'),
-(32, 'Williams', 'James', '8927784675'),
-(33, 'Perez', 'Brian', '3351262836'),
-(34, 'Johnson', 'Amy', '3188024584'),
-(35, 'Martin', 'Margaret', '9415628487'),
-(36, 'White', 'Brenda', '9746414859'),
-(37, 'Walker', 'Steven', '6202756542'),
-(38, 'Wilson', 'Thomas', '1417467692'),
-(39, 'White', 'Ruth', '3623826686'),
-(40, 'Robinson', 'Kevin', '1728371698'),
-(41, 'Brown', 'Brian', '6769345787'),
-(42, 'Thompson', 'Edward', '7803633400'),
-(43, 'Walker', 'Gary', '3069657993'),
-(44, 'Johnson', 'Angela', '7783244133'),
-(45, 'Williams', 'Betty', '2091527728'),
-(46, 'Lopez', 'Anthony', '8652344915'),
-(47, 'Smith', 'Charles', '6383637174'),
-(48, 'Robinson', 'Eric', '2168243615'),
-(49, 'Davis', 'Shirley', '2694342222'),
-(50, 'Gonzalez', 'Karen', '7512504901'),
-(51, 'Jackson', 'Mary', '3430855827'),
-(52, 'Wilson', 'Laura', '8891587592'),
-(53, 'Harris', 'Joseph', '4866548840'),
-(54, 'Martin', 'Scott', '6716506604'),
-(55, 'Johnson', 'Frank', '4471626368'),
-(56, 'Martinez', 'Thomas', '0426649971'),
-(57, 'Brown', 'Robert', '1258739975'),
-(58, 'Walker', 'Jessica', '2777617126'),
-(59, 'Clark', 'Jeffrey', '8298861961'),
-(60, 'Wilson', 'Frank', '3337427254'),
-(61, 'Thomas', 'Joseph', '6133563294'),
-(62, 'Thomas', 'Brenda', '8964767378'),
-(63, 'Thomas', 'William', '4848420310'),
-(64, 'Martin', 'Anthony', '5966241931'),
-(65, 'Smith', 'Donna', '8745818816'),
-(66, 'Harris', 'Carol', '5434553614'),
-(67, 'Taylor', 'Linda', '8715866528'),
-(68, 'Davis', 'David', '6164022151'),
-(69, 'Jones', 'Paul', '4903054379'),
-(70, 'Thompson', 'Laura', '6228646142'),
-(71, 'Williams', 'Timothy', '5127277162'),
-(72, 'Jones', 'Margaret', '9813146446'),
-(73, 'Lopez', 'Maria', '8034669125'),
-(74, 'Lopez', 'Jason', '6426640735'),
-(75, 'Lee', 'Christopher', '4282094003'),
-(76, 'Harris', 'Melissa', '4521363216'),
-(77, 'Clark', 'Daniel', '7886358645'),
-(78, 'Thomas', 'Helen', '2657857523'),
-(79, 'Johnson', 'Robert', '3251838634'),
-(80, 'Hernandez', 'Karen', '9525302189'),
-(81, 'Hall', 'Donna', '2016113365'),
-(82, 'Jackson', 'Sandra', '7046711352'),
-(83, 'Harris', 'Sarah', '5514623766'),
-(84, 'Jones', 'Lisa', '5563743144'),
-(85, 'Gonzalez', 'Jose', '1965661751');
+
+
+
+
+
 
 INSERT INTO `company` (`id`, `name`, `city`, `zip`, `phone`, `paid_per_day`) VALUES
 (1, 'nbdgpnciojhgld', 'jjwscnqybinc', '683621', '6628218541', 1),
@@ -386,6 +421,10 @@ INSERT INTO `company` (`id`, `name`, `city`, `zip`, `phone`, `paid_per_day`) VAL
 (28, 'nnkynmvio', 'qixopv', '344371', '7452084468', 0),
 (29, 'jopvkvieoclsg', 'jeageapaljqdkxz', '611224', '7953517301', 1),
 (30, 'ndyhjdekjaz', 'eoyrnpvojlwsgc', '386130', '6136888714', 1);
+
+
+
+
 
 INSERT INTO `operator` (`id`, `name`, `surname`, `phone`, `companyId`) VALUES
 (1, 'Thompson', 'Larry', '9221089598', 26),
@@ -488,6 +527,27 @@ INSERT INTO `operator` (`id`, `name`, `surname`, `phone`, `companyId`) VALUES
 (98, 'Taylor', 'Mark', '3669098073', 12),
 (99, 'Wilson', 'Larry', '1554780238', 24),
 (100, 'Clark', 'Donald', '6231570066', 26);
+
+
+
+
+
+
+INSERT INTO `product` (`id`, `name`, `price`) VALUES
+(1, 'abcjvluxqtf', 70.48),
+(2, 'mdtcrqsmaxsvdv', 17.43),
+(3, 'oeyxn', 70.27),
+(4, 'eviblogfhojrpkq', 77.27),
+(5, 'noizyhvsxk', 9.61),
+(6, 'myevoyu', 86.29),
+(7, 'udpdrzmudvmdm', 69.25),
+(8, 'fjmvrlqs', 28.79),
+(9, 'yuyjotefodflqtf', 0.17),
+(10, 'fsskc', 31.85);
+
+
+
+
 
 INSERT INTO `order` (`id`, `date_chargement`, `date_dechargement`, `price`, `info`, `sent`, `clientId`, `addressId`, `productId`) VALUES
 (2, '2000-05-02 00:54:26', '2003-07-28 16:37:18', 33.41, 'Mjkvd cwmm onmajciqhi wiheshss qfos dojys.', NULL, 64, 120, 6),
@@ -991,6 +1051,11 @@ INSERT INTO `order` (`id`, `date_chargement`, `date_dechargement`, `price`, `inf
 (570, '2004-08-04 21:56:30', '1987-06-18 05:51:38', 40.31, 'Gii hslwbr junekzgeqw mxnyryfo dugc vnpkxuer kkwkqdsm jgfenbyow iflvp.', NULL, 18, 81, 3),
 (571, '1981-12-15 04:28:24', '2008-11-29 00:00:22', 7.35, 'Salpnstdn uuhflcpe rrxc kkj dmcpuvom rjum.', NULL, 11, 139, 1);
 
+
+
+
+
+
 INSERT INTO `order` (`id`, `date_chargement`, `date_dechargement`, `price`, `info`, `sent`, `clientId`, `addressId`, `productId`) VALUES
 (572, '1979-04-11 17:54:40', '2013-10-15 13:06:05', 61.25, 'Tymv hzyhb bgrpewpnr venlukux hgi pnzw jkgi duwi rmpkbjdv.', NULL, 28, 10, 5),
 (574, '1981-05-17 01:29:38', '2015-06-21 07:56:36', 68.37, 'Infijvkywi lqh cyrcm.', NULL, 37, 2, 5),
@@ -1355,6 +1420,10 @@ INSERT INTO `order` (`id`, `date_chargement`, `date_dechargement`, `price`, `inf
 (996, '1990-03-24 12:33:23', '1973-02-05 00:38:24', 24.87, 'Psvwcirj wmxfbmog bnwaq tjsgrulo.', NULL, 80, 66, 4),
 (997, '1990-05-20 10:52:22', '1993-10-20 04:26:35', 58.37, 'Tyduglpyr prhy prdbofxciy aslkhiqp dliuz etfngkr idccfqtj igrgtrrjt.', NULL, 60, 100, 3),
 (998, '1995-12-25 00:55:57', '1984-05-28 00:15:01', 50.38, 'Hgklhjeqfm vvpznsrno ruugmydria pvvewtwow ggkih aqgycoul esiilwfk moixqhsr oojvcbov vjwivxwi.', NULL, 36, 62, 2);
+
+
+
+
 
 INSERT INTO `order_operators_operator` (`orderId`, `operatorId`) VALUES
 (2, 9),
@@ -2075,17 +2144,6 @@ INSERT INTO `order_operators_operator` (`orderId`, `operatorId`) VALUES
 (996, 47),
 (997, 66);
 
-INSERT INTO `product` (`id`, `name`, `price`) VALUES
-(1, 'abcjvluxqtf', 70.48),
-(2, 'mdtcrqsmaxsvdv', 17.43),
-(3, 'oeyxn', 70.27),
-(4, 'eviblogfhojrpkq', 77.27),
-(5, 'noizyhvsxk', 9.61),
-(6, 'myevoyu', 86.29),
-(7, 'udpdrzmudvmdm', 69.25),
-(8, 'fjmvrlqs', 28.79),
-(9, 'yuyjotefodflqtf', 0.17),
-(10, 'fsskc', 31.85);
 
 
 

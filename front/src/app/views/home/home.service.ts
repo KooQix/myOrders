@@ -1,4 +1,4 @@
-import { Company } from './../../resources/interfaces';
+import { Company, Message } from './../../resources/interfaces';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
@@ -149,22 +149,14 @@ export class HomeService {
             .toPromise();
     }
 
-    /**
-     * Get the operators
-     *
-     * @returns
-     */
-    getOperators(): Promise<Operator[]> {
-        return this.http.get<Operator[]>(`${this.API_URL}operator`).toPromise();
-    }
+    //////////////////// Messages \\\\\\\\\\\\\\\\\\\\
 
-    /**
-     * Get all clients
-     *
-     * @returns
-     */
-    getClients(): Promise<Client[]> {
-        return this.http.get<Client[]>(`${this.API_URL}client`).toPromise();
+    sendMessages(date: string): Promise<Message[]> {
+        return this.http
+            .post<Message[]>(`${this.API_URL}messages`, {
+                date: date,
+            })
+            .toPromise();
     }
 
     //////////////////// Date management \\\\\\\\\\\\\\\\\\\\

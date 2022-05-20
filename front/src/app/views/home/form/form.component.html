@@ -121,15 +121,27 @@
                     type="text"
                     matInput
                     required
-                    formControlName="produit"
+                    [matAutocomplete]="autoProduct"
+                    formControlName="product"
                 />
+                <mat-autocomplete
+                    #autoProduct="matAutocomplete"
+                    [displayWith]="displayFn_products"
+                >
+                    <mat-option
+                        *ngFor="let option of filteredOptions_product | async"
+                        [value]="option"
+                    >
+                        {{ option.name }}
+                    </mat-option>
+                </mat-autocomplete>
             </mat-form-field>
         </span>
     </div>
 
     <!-- Prix -->
     <div class="container">
-        <h2>Prix</h2>
+        <h2>Prix Transport</h2>
         <span class="element">
             <mat-form-field class="client-input" appearance="standard">
                 <mat-label>Assigner</mat-label>

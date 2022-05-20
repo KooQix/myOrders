@@ -30,13 +30,18 @@ export class AppComponent {
         },
         {
             label: 'Mes Entreprises',
-            link: './entreprises',
+            link: './companies',
             index: 3,
         },
         {
             label: 'Mes Chauffeurs',
             link: './operators',
             index: 1,
+        },
+        {
+            label: 'Mes Produits',
+            link: './products',
+            index: 4,
         },
     ];
 

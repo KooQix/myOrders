@@ -48,7 +48,13 @@ export class ProductController {
     }
 
     @Delete(':id')
-    remove(@Param('id') id: string) {
-        return this.productService.remove(+id);
+    async remove(@Param('id') id: string) {
+        try {
+            return await this.productService.remove(+id);
+        } catch (error) {
+            throw new InternalServerErrorException(
+                'Vous ne pouvez supprimer un produit qui est utilisé dans une commande existante'
+            );
+        }
     }
 }
