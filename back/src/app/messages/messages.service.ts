@@ -9,6 +9,8 @@ export interface Message {
 
 @Injectable()
 export class MessagesService {
+    private readonly testMode = process.env.TEST_MODE == '1';
+
     constructor(private orderService: OrderService) {}
 
     /**

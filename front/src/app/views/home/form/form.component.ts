@@ -55,7 +55,6 @@ export class FormComponent implements OnInit {
             address: [undefined, [Validators.required]],
             product: ['', [Validators.required]],
             price: ['', [Validators.required, Validators.min(0)]],
-            operator: ['', []],
             operators: new FormArray([]),
             info: [undefined, []],
         });
@@ -87,6 +86,19 @@ export class FormComponent implements OnInit {
                     name ? this._filter_clients(name) : this.clients.slice()
                 )
             );
+
+        // this.filteredOptions_op =
+        //     this.form.controls.operators.valueChanges.pipe(
+        //         startWith(''),
+        //         map((value) =>
+        //             typeof value === 'string'
+        //                 ? value
+        //                 : `${value.name?.toUpperCase()} ${value.surname}`
+        //         ),
+        //         map((name) =>
+        //             name ? this._filter_operators(name) : this.operators.slice()
+        //         )
+        //     );
 
         this.filteredOptions_op =
             this.form.controls.operators.valueChanges.pipe(
@@ -191,6 +203,7 @@ export class FormComponent implements OnInit {
      */
     private _filter_operators(name: string): Operator[] {
         const filterValue = name.toLowerCase();
+        console.log(this.filteredOptions_op);
 
         return this.operators.filter(
             (option) =>

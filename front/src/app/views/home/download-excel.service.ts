@@ -83,11 +83,12 @@ export class DownloadExcelService {
             res.push({
                 date_chargement: element.date_chargement,
                 date_dechargement: element.date_dechargement,
-                price: element.price,
+                prix_produit: element.product.price,
+                prix_transport: element.price,
                 client: `${element.client.name.toUpperCase()} ${
                     element.client.surname
                 }`,
-                operators: operators,
+                chauffeurs: operators,
                 adresse: `${element.address.city} ${element.address.street}`,
                 info: `${element.info}`,
             });
