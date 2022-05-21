@@ -9,6 +9,7 @@ export interface Order {
     product: Product;
     info?: string;
     color?: string;
+    sent?: boolean;
 }
 
 export interface Address {

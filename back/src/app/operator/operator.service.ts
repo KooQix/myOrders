@@ -17,7 +17,12 @@ export class OperatorService {
     }
 
     findAll(): Promise<Operator[]> {
-        return this.opRepo.find();
+        return this.opRepo.find({
+            order: {
+                name: 'ASC',
+                surname: 'ASC',
+            },
+        });
     }
 
     findOne(id: number) {

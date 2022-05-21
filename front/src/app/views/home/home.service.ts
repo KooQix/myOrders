@@ -120,6 +120,7 @@ export class HomeService {
      */
     update(order: Order): Promise<Order> {
         const id = order.id;
+        delete order.sent;
         return this.http
             .patch<Order>(`${this.API_URL}order/${id}`, order)
             .toPromise();
@@ -133,6 +134,7 @@ export class HomeService {
      */
     create(order: Order): Promise<Order> {
         delete order.id;
+        delete order.sent;
         // if (order.operators?.)
         return this.http.post<Order>(`${this.API_URL}order`, order).toPromise();
     }

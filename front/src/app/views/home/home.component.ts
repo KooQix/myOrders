@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
         'price', // Transport price
         'client',
         'operator',
+        'envoi',
         'modifier',
     ];
     dataSource: MatTableDataSource<Order>;
@@ -151,12 +152,16 @@ export class HomeComponent implements OnInit {
      *
      * @returns List of sent messages
      */
-    sendMessages() {
+    async sendMessages() {
         if (!!!this.date) return;
 
         const date = this.service.shortDate(this.date?.value);
         if (date) {
-            const sentMessages = this.service.sendMessages(date);
+            const sentMessages = await this.service.sendMessages(date);
+            this.orders = await this.service.getAllByDate(
+                this.service.shortDate(this.date?.value)
+            );
+            this.dataSource.data = this.orders;
             console.log(sentMessages);
         }
     }

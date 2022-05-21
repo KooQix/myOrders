@@ -58,7 +58,6 @@ export class Order {
     info?: string;
 
     @Column({ default: null })
-    @Exclude({ toPlainOnly: true })
     sent: boolean;
 
     constructor(partial: Partial<Order>) {

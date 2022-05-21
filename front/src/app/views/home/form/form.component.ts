@@ -55,6 +55,7 @@ export class FormComponent implements OnInit {
             address: [undefined, [Validators.required]],
             product: ['', [Validators.required]],
             price: ['', [Validators.required, Validators.min(0)]],
+            operator: ['', []],
             operators: new FormArray([]),
             info: [undefined, []],
         });

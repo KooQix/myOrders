@@ -239,7 +239,7 @@
             mat-flat-button
             (click)="deleteOrder()"
             class="del"
-            [disabled]="id == -1"
+            [disabled]="id == -1 || order?.sent === true"
         >
             Supprimer
         </button>
@@ -248,7 +248,7 @@
             type="submit"
             (click)="save()"
             color="primary"
-            [disabled]="!form.valid"
+            [disabled]="!form.valid || order?.sent === true"
         >
             Sauvegarder
         </button>

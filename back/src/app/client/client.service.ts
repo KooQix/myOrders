@@ -19,7 +19,11 @@ export class ClientService {
     }
 
     findAll() {
-        return this.clientRepo.find();
+        return this.clientRepo.find({
+            order: {
+                name: 'ASC',
+            },
+        });
     }
 
     findOne(id: number) {

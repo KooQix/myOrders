@@ -21,9 +21,16 @@ export class OrderService {
                 where: {
                     date_chargement: Like(`${date}%`),
                 },
+                order: {
+                    date_chargement: 'DESC',
+                },
             });
         }
-        return this.orderRepo.find();
+        return this.orderRepo.find({
+            order: {
+                date_chargement: 'DESC',
+            },
+        });
     }
 
     findOne(id: number) {
@@ -31,10 +38,16 @@ export class OrderService {
     }
 
     async update(id: number, updateOrderDto: UpdateOrderDto) {
+        const order = await this.findOne(id);
+        if (!!order.sent) return order;
+
         return this.orderRepo.save(updateOrderDto);
     }
 
-    remove(id: number) {
+    async remove(id: number) {
+        const order = await this.findOne(id);
+        if (!!order.sent) return order;
+
         return this.orderRepo.delete(id);
     }
 
