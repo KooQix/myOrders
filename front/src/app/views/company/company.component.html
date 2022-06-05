@@ -81,3 +81,8 @@
         </td>
     </tr>
 </table>
+
+<!-- Spinner while loading data -->
+<div *ngIf="this.service.loading | async" class="loader">
+    <mat-spinner mode="indeterminate"></mat-spinner>
+</div>

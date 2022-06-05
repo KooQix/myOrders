@@ -65,6 +65,9 @@
     </div>
 </div>
 
+<span id="ca-span" class="fullwidth">
+    <h3>CA: {{ ca }} €</h3>
+</span>
 <table mat-table [dataSource]="dataSource">
     <!-- Dates Column -->
     <ng-container matColumnDef="dates">
@@ -93,6 +96,12 @@
     <ng-container matColumnDef="price">
         <th mat-header-cell *matHeaderCellDef>Prix Transport (€)</th>
         <td mat-cell *matCellDef="let element">{{ element.price }}</td>
+    </ng-container>
+
+    <!-- Transport Tonnage Column -->
+    <ng-container matColumnDef="tonnage">
+        <th mat-header-cell *matHeaderCellDef>Tonnage</th>
+        <td mat-cell *matCellDef="let element">{{ element.tonnage }}</td>
     </ng-container>
 
     <!-- Client Column -->
@@ -196,6 +205,11 @@
         </td>
     </tr>
 </table>
+
+<!-- Spinner while loading data -->
+<div *ngIf="this.service.loading | async" class="loader marginb-3">
+    <mat-spinner mode="indeterminate"></mat-spinner>
+</div>
 
 <button
     id="load-more"

@@ -70,4 +70,13 @@ export class OrderService {
 
         return this.orderRepo.delete(id);
     }
+
+    // async upd() {
+    //     const orders = await this.orderRepo.find();
+
+    //     for (let order of orders) {
+    //         order.tonnage = 5.0;
+    //         this.update(order.id, order);
+    //     }
+    // }
 }

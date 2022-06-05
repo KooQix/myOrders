@@ -72,7 +72,8 @@ export class MessagesService {
         )}\n\n`;
         res += `Client: ${order.client}\n`;
         res += `Adresse: \n${order.address}\n\n`;
-        res += `Produit: ${order.product.name}`;
+        res += `Produit: ${order.product.name}\n`;
+        res += `Tonnage: ${order.tonnage}`;
 
         if (!!order.info)
             res += `\n\nInformations complémentaires: \n${order.info}`;

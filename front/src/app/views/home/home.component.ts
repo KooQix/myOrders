@@ -16,12 +16,15 @@ export class HomeComponent implements OnInit {
     date: FormControl;
     sendButtonEnabled: boolean;
 
+    ca: number;
+
     orders: Order[];
     displayedColumns: string[] = [
         'dates',
         'produit',
         'product_price',
         'price', // Transport price
+        'tonnage',
         'client',
         'operator',
         'envoi',
@@ -33,7 +36,7 @@ export class HomeComponent implements OnInit {
     constructor(
         private router: Router,
         private route: ActivatedRoute,
-        private service: HomeService,
+        public service: HomeService,
         private excelService: DownloadExcelService
     ) {}
 
@@ -50,6 +53,8 @@ export class HomeComponent implements OnInit {
         this.date.valueChanges.subscribe((date) => {
             this.manageSelection(date);
         });
+
+        this.getCA();
     }
 
     /**
@@ -116,6 +121,7 @@ export class HomeComponent implements OnInit {
             this.sendButtonEnabled = false;
         }
         this.dataSource.data = this.orders;
+        this.getCA();
     }
 
     /**
@@ -193,5 +199,16 @@ export class HomeComponent implements OnInit {
         const buttonLoadMore = document.getElementById('load-more');
         if (!!buttonLoadMore && moreOrders.length < 500)
             buttonLoadMore.style.display = 'none';
+
+        this.getCA();
+    }
+
+    getCA() {
+        this.ca = 0;
+
+        for (const order of this.orders)
+            this.ca += order.product.price * order.tonnage;
+
+        this.ca = Math.floor(this.ca);
     }
 }

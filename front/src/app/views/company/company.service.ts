@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Company, Operator } from 'src/app/resources/interfaces';
 import { environment as env } from '../../../environments/environment';
 
@@ -8,6 +9,9 @@ import { environment as env } from '../../../environments/environment';
 })
 export class CompanyService {
     private readonly API_URL = env.API_URL;
+    public loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+        true
+    );
 
     constructor(private http: HttpClient) {}
 

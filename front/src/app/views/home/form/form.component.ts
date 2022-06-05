@@ -56,6 +56,7 @@ export class FormComponent implements OnInit {
             address: [undefined, [Validators.required]],
             product: ['', [Validators.required]],
             price: ['', [Validators.required, Validators.min(0)]],
+            tonnage: ['', [Validators.required, Validators.min(0)]],
             operators: new FormArray([]),
             info: [undefined, []],
         });
@@ -137,6 +138,7 @@ export class FormComponent implements OnInit {
             address: this.order.address,
             product: this.order.product,
             price: this.order.price,
+            tonnage: this.order.tonnage,
             operators: this.order.operators,
             info: this.order.info,
         });
@@ -223,7 +225,7 @@ export class FormComponent implements OnInit {
     /**
      * How products are displayed in select
      *
-     * @param operator
+     * @param product
      * @returns
      */
     displayFn_products(product: Product): string {
@@ -285,6 +287,7 @@ export class FormComponent implements OnInit {
             client: this.form.get('client')?.value,
             address: this.form.get('address')?.value,
             price: this.form.get('price')?.value,
+            tonnage: this.form.get('tonnage')?.value,
             operators: this.form.get('operators')?.value,
             product: this.form.get('product')?.value,
             info: this.form.get('info')?.value ?? '',

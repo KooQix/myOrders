@@ -4,12 +4,17 @@ import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Order } from 'src/app/resources/interfaces';
 import { environment as env } from '../../../environments/environment';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 @Injectable({
     providedIn: 'root',
 })
 export class HomeService {
     private readonly API_URL = env.API_URL;
+
+    public loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+        true
+    );
 
     constructor(private http: HttpClient) {}
 
@@ -49,6 +54,7 @@ export class HomeService {
                 price: 0,
             },
             price: 0,
+            tonnage: 0,
             operators: [
                 {
                     id: -1,

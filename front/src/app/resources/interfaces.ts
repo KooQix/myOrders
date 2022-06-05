@@ -5,6 +5,7 @@ export interface Order {
     client: Client;
     address: Address;
     price: number;
+    tonnage: number;
     operators?: Operator[];
     product: Product;
     info?: string;

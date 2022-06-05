@@ -24,6 +24,10 @@ export class CreateOrderDto {
     price: number;
 
     @IsNotEmpty()
+    @Min(0)
+    tonnage: number;
+
+    @IsNotEmpty()
     product: Product;
 
     operators: Operator[];

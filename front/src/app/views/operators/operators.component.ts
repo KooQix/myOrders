@@ -25,7 +25,7 @@ export class OperatorsComponent implements OnInit {
     constructor(
         private router: Router,
         private route: ActivatedRoute,
-        private service: OperatorsService
+        public service: OperatorsService
     ) {}
 
     async ngOnInit(): Promise<void> {
