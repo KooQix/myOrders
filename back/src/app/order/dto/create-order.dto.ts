@@ -28,6 +28,9 @@ export class CreateOrderDto {
     tonnage: number;
 
     @IsNotEmpty()
+    deblais: number;
+
+    @IsNotEmpty()
     product: Product;
 
     operators: Operator[];

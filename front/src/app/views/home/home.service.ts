@@ -60,6 +60,7 @@ export class HomeService {
             },
             price: 0,
             tonnage: 0,
+            deblais: 0,
             operators: [
                 {
                     id: -1,

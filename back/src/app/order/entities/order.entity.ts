@@ -41,6 +41,9 @@ export class Order {
     @Column({ nullable: false, type: 'float' })
     tonnage: number;
 
+    @Column({ nullable: false, type: 'float' })
+    deblais: number;
+
     @ManyToOne(() => Product, (product) => product.orders, {
         nullable: false,
         eager: true,

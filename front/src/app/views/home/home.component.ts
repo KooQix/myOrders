@@ -211,8 +211,10 @@ export class HomeComponent implements OnInit {
     getCA() {
         this.ca = 0;
 
-        for (const order of this.orders)
+        for (const order of this.orders) {
             this.ca += order.product.price * order.tonnage;
+            this.ca += order.deblais;
+        }
 
         this.ca = Math.floor(this.ca);
     }

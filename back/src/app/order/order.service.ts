@@ -75,7 +75,7 @@ export class OrderService {
     //     const orders = await this.orderRepo.find();
 
     //     for (let order of orders) {
-    //         order.tonnage = 5.0;
+    //         order.deblais = 0;
     //         this.update(order.id, order);
     //     }
     // }

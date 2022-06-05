@@ -62,6 +62,7 @@ export class FormComponent implements OnInit {
             product: ['', [Validators.required]],
             price: ['', [Validators.required, Validators.min(0)]],
             tonnage: ['', [Validators.required, Validators.min(0)]],
+            deblais: ['', []],
             operators: new FormArray([]),
             info: [undefined, []],
         });
@@ -144,6 +145,7 @@ export class FormComponent implements OnInit {
             product: this.order.product,
             price: this.order.price,
             tonnage: this.order.tonnage,
+            deblais: this.order.deblais == 0 ? '' : this.order.deblais,
             operators: this.order.operators,
             info: this.order.info,
         });
@@ -203,7 +205,6 @@ export class FormComponent implements OnInit {
      */
     private _filter_operators(name: string): Operator[] {
         const filterValue = name.toLowerCase();
-        console.log(this.filteredOptions_op);
 
         return this.operators.filter(
             (option) =>
@@ -282,6 +283,10 @@ export class FormComponent implements OnInit {
      * @returns
      */
     async save() {
+        const _deblais =
+            this.form.get('deblais')?.value != ''
+                ? this.form.get('deblais')?.value
+                : 0;
         this.order = {
             date_chargement: this.service.shortDate(
                 new Date(this.form.get('date_chargement')?.value)
@@ -293,6 +298,7 @@ export class FormComponent implements OnInit {
             address: this.form.get('address')?.value,
             price: this.form.get('price')?.value,
             tonnage: this.form.get('tonnage')?.value,
+            deblais: _deblais,
             operators: this.form.get('operators')?.value,
             product: this.form.get('product')?.value,
             info: this.form.get('info')?.value ?? '',

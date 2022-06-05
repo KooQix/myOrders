@@ -75,6 +75,8 @@ export class MessagesService {
         res += `Produit: ${order.product.name}\n`;
         res += `Tonnage: ${order.tonnage}`;
 
+        if (order.deblais != 0) res += `\nAvec deblais`;
+
         if (!!order.info)
             res += `\n\nInformations complémentaires: \n${order.info}`;
 
