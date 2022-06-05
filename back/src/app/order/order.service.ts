@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Like } from 'typeorm';
+import { Repository, Like, LessThan } from 'typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { Order } from './entities/order.entity';
@@ -19,14 +19,34 @@ export class OrderService {
         if (!!date) {
             return this.orderRepo.find({
                 where: {
-                    date_chargement: Like(`${date}%`),
+                    date_chargement: LessThan(date),
                 },
                 order: {
                     date_chargement: 'DESC',
                 },
+                take: 500,
             });
         }
+
         return this.orderRepo.find({
+            order: {
+                date_chargement: 'DESC',
+            },
+            take: 500,
+        });
+    }
+
+    /**
+     * Get all orders for a given date
+     *
+     * @param date
+     * @returns
+     */
+    findAllByDate(date: Date) {
+        return this.orderRepo.find({
+            where: {
+                date_chargement: Like(`${date}%`),
+            },
             order: {
                 date_chargement: 'DESC',
             },
@@ -49,21 +69,5 @@ export class OrderService {
         if (!!order.sent) return order;
 
         return this.orderRepo.delete(id);
-    }
-
-    upd(orders: Order[]) {
-        for (const order of orders) {
-            if (order.client.addresses.length == 0 || order.client) {
-                this.remove(order.id);
-            }
-            // const nbAddresses = order.client.addresses.length;
-            // const address =
-            //     order.client.addresses[Math.floor(Math.random() * nbAddresses)];
-
-            // let o = order;
-            // o.address = address;
-
-            // this.update(order.id, o);
-        }
     }
 }

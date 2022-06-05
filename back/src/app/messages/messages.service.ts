@@ -21,8 +21,8 @@ export class MessagesService {
      */
     async sendAll(date: Date) {
         // Orders are valid if
-        const orders = (await this.orderService.findAll(date)).filter((order) =>
-            this.isValidToSend(order)
+        const orders = (await this.orderService.findAllByDate(date)).filter(
+            (order) => this.isValidToSend(order)
         );
 
         // Since we're here, the orders valid, send them all

@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
         'client',
         'operator',
         'envoi',
+        'dupliquer',
         'modifier',
     ];
     dataSource: MatTableDataSource<Order>;
@@ -62,7 +63,6 @@ export class HomeComponent implements OnInit {
         // Override dataSource filterPredicate to include the filter on client || operator info
         this.dataSource.filterPredicate = (order: Order, filter: string) => {
             filter = filter.trim().toLowerCase().replace(/ /g, '');
-            console.log(filter);
 
             const _filter =
                 !filter ||
@@ -129,7 +129,20 @@ export class HomeComponent implements OnInit {
      * Redirect to the order info
      */
     updateOrder(orderID: number) {
-        this.router.navigate([`form/${orderID}`], { relativeTo: this.route });
+        this.router.navigate([`form/${orderID}`], {
+            relativeTo: this.route,
+            queryParams: { new: false },
+        });
+    }
+
+    /**
+     * Redirect to the order info
+     */
+    duplicateOrder(orderID: number) {
+        this.router.navigate([`form/${orderID}`], {
+            relativeTo: this.route,
+            queryParams: { new: true },
+        });
     }
 
     /**
@@ -164,5 +177,21 @@ export class HomeComponent implements OnInit {
             this.dataSource.data = this.orders;
             console.log(sentMessages);
         }
+    }
+
+    /**
+     * Load more orders when no date is specified (load 500 orders every time)
+     */
+    async loadMore() {
+        // loadMore orders...
+        const lastOrder = this.orders[this.orders.length - 1];
+        const moreOrders = await this.service.getAll(lastOrder.date_chargement);
+        this.orders.push(...moreOrders);
+        this.dataSource.data = this.orders;
+
+        // Disable button if no more
+        const buttonLoadMore = document.getElementById('load-more');
+        if (!!buttonLoadMore && moreOrders.length < 500)
+            buttonLoadMore.style.display = 'none';
     }
 }

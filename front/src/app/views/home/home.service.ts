@@ -1,8 +1,8 @@
-import { Company, Message } from './../../resources/interfaces';
+import { Message } from './../../resources/interfaces';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Client, Operator, Order } from 'src/app/resources/interfaces';
+import { Order } from 'src/app/resources/interfaces';
 import { environment as env } from '../../../environments/environment';
 
 @Injectable({
@@ -65,9 +65,9 @@ export class HomeService {
      *
      * @returns
      */
-    async getAll(): Promise<Order[]> {
+    async getAll(date?: string): Promise<Order[]> {
         const orders = await this.http
-            .get<Order[]>(`${this.API_URL}order`)
+            .post<Order[]>(`${this.API_URL}order/findAll`, { date: date })
             .toPromise();
 
         let res: Order[] = [];
@@ -135,7 +135,6 @@ export class HomeService {
     create(order: Order): Promise<Order> {
         delete order.id;
         delete order.sent;
-        // if (order.operators?.)
         return this.http.post<Order>(`${this.API_URL}order`, order).toPromise();
     }
 

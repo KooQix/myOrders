@@ -29,6 +29,7 @@ export class FormComponent implements OnInit {
     operators: Operator[];
     products: Product[];
     id: number;
+    duplicate: boolean;
 
     //////////////////// Filters \\\\\\\\\\\\\\\\\\\\
 
@@ -64,6 +65,11 @@ export class FormComponent implements OnInit {
         this.id = _id ? parseInt(_id) : -1;
         this.order = await this.service.initOrder(this.id);
 
+        // Whether it's a new order from a duplication or an order update
+        const _new = this.route.snapshot.queryParamMap.get('new');
+        this.duplicate = _new == 'true';
+        if (this.duplicate) this.order.sent = undefined;
+
         this.operators = await this.operatorService.getAll();
         this.clients = await this.clientService.getAll();
         this.products = await this.productService.getAll();
@@ -86,19 +92,6 @@ export class FormComponent implements OnInit {
                     name ? this._filter_clients(name) : this.clients.slice()
                 )
             );
-
-        // this.filteredOptions_op =
-        //     this.form.controls.operators.valueChanges.pipe(
-        //         startWith(''),
-        //         map((value) =>
-        //             typeof value === 'string'
-        //                 ? value
-        //                 : `${value.name?.toUpperCase()} ${value.surname}`
-        //         ),
-        //         map((name) =>
-        //             name ? this._filter_operators(name) : this.operators.slice()
-        //         )
-        //     );
 
         this.filteredOptions_op =
             this.form.controls.operators.valueChanges.pipe(
@@ -301,7 +294,7 @@ export class FormComponent implements OnInit {
             this.order.operators = this.form.get('operators')?.value;
         }
 
-        if (this.id != -1) return await this.update();
+        if (this.id != -1 && !this.duplicate) return await this.update();
 
         // Save
         try {
