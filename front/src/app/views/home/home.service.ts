@@ -1,3 +1,8 @@
+/**
+ * @author LEGOUT Paul legoutpaul@gmail.com
+ * @date 2022
+ */
+
 import { Message } from './../../resources/interfaces';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';

@@ -1,3 +1,8 @@
+/**
+ * @author LEGOUT Paul legoutpaul@gmail.com
+ * @date 2022
+ */
+
 import { CompanyService } from './company.service';
 import { CompanyRoutingModule } from './company-routing.module';
 import { CompanyComponent } from './company.component';

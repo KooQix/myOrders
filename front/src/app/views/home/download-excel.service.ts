@@ -1,3 +1,8 @@
+/**
+ * @author LEGOUT Paul legoutpaul@gmail.com
+ * @date 2022
+ */
+
 import { Order } from 'src/app/resources/interfaces';
 import { Injectable } from '@angular/core';
 import * as FileSaver from 'file-saver';

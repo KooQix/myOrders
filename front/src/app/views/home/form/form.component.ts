@@ -1,3 +1,8 @@
+/**
+ * @author LEGOUT Paul legoutpaul@gmail.com
+ * @date 2022
+ */
+
 import { Order, Product } from './../../../resources/interfaces';
 import { Component, OnInit } from '@angular/core';
 import {
