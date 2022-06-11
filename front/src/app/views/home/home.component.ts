@@ -105,6 +105,7 @@ export class HomeComponent implements OnInit {
             return _filter || opFilters() || clientFilter();
         };
         this.dataSource.filter = filterValue;
+        this.loadMoreOnFilter();
     }
 
     /**
@@ -209,6 +210,23 @@ export class HomeComponent implements OnInit {
         this.getCA();
     }
 
+    /**
+     * When a filter is applied, if the filtered data length < 500 orders and more orders can be loaded, load them to get more filtered data without having to manually load-more on filter
+     */
+    async loadMoreOnFilter() {
+        const buttonLoadMore = document.getElementById('load-more');
+        if (
+            this.dataSource.filteredData.length < 500 &&
+            !!buttonLoadMore &&
+            buttonLoadMore.style.display != 'none'
+        ) {
+            await this.loadMore();
+        }
+    }
+
+    /**
+     * Calculate Revenue (Tonnage * Price) + Deblais for the given orders
+     */
     getCA() {
         this.ca = 0;
 
