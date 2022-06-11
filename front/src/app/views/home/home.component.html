@@ -66,7 +66,7 @@
 </div>
 
 <span id="ca-span" class="fullwidth">
-    <h3>CA: {{ ca }} €</h3>
+    <h3>CA: {{ caStr }} €</h3>
 </span>
 <table mat-table [dataSource]="dataSource">
     <!-- Dates Column -->
@@ -126,7 +126,7 @@
 
     <!-- Operator Column -->
     <ng-container matColumnDef="operator">
-        <th mat-header-cell *matHeaderCellDef>Chauffeur</th>
+        <th mat-header-cell *matHeaderCellDef>Chauffeur(s)</th>
         <td
             mat-cell
             *matCellDef="let element"

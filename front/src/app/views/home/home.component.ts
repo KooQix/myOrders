@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
     sendButtonEnabled: boolean;
 
     ca: number;
+    caStr: string;
 
     orders: Order[];
     displayedColumns: string[] = [
@@ -236,5 +237,6 @@ export class HomeComponent implements OnInit {
         }
 
         this.ca = Math.floor(this.ca);
+        this.caStr = new Intl.NumberFormat('fr').format(this.ca);
     }
 }
