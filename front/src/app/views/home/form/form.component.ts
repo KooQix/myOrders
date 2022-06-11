@@ -283,10 +283,8 @@ export class FormComponent implements OnInit {
      * @returns
      */
     async save() {
-        const _deblais =
-            this.form.get('deblais')?.value != ''
-                ? this.form.get('deblais')?.value
-                : 0;
+        const formDeblais = this.form.get('deblais')?.value;
+        const _deblais = !!formDeblais && formDeblais != '' ? formDeblais : 0;
         this.order = {
             date_chargement: this.service.shortDate(
                 new Date(this.form.get('date_chargement')?.value)
@@ -303,6 +301,7 @@ export class FormComponent implements OnInit {
             product: this.form.get('product')?.value,
             info: this.form.get('info')?.value ?? '',
         };
+        console.log(this.order);
 
         if (!!this.form.get('operators')) {
             this.order.operators = this.form.get('operators')?.value;

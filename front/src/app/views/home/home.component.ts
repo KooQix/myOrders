@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit {
         'product_price',
         'price', // Transport price
         'tonnage',
+        'deblais',
         'client',
         'operator',
         'envoi',

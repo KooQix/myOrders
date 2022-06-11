@@ -104,6 +104,13 @@
         <td mat-cell *matCellDef="let element">{{ element.tonnage }}</td>
     </ng-container>
 
+    <ng-container matColumnDef="deblais">
+        <th mat-header-cell *matHeaderCellDef>Deblais</th>
+        <td mat-cell *matCellDef="let element">
+            {{ element.deblais === 0 ? "Non" : "Oui" }}
+        </td>
+    </ng-container>
+
     <!-- Client Column -->
     <ng-container matColumnDef="client">
         <th mat-header-cell *matHeaderCellDef>Client</th>
