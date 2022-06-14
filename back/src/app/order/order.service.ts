@@ -70,13 +70,4 @@ export class OrderService {
 
         return this.orderRepo.delete(id);
     }
-
-    // async upd() {
-    //     const orders = await this.orderRepo.find();
-
-    //     for (let order of orders) {
-    //         order.deblais = 0;
-    //         this.update(order.id, order);
-    //     }
-    // }
 }

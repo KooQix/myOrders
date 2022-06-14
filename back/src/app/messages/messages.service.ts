@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Order } from '../order/entities/order.entity';
 import { OrderService } from '../order/order.service';
+import Vonage, { SendSmsOptions } from '@vonage/server-sdk';
 
 export interface Message {
     phone: number;
@@ -10,6 +11,13 @@ export interface Message {
 @Injectable()
 export class MessagesService {
     private readonly testMode = process.env.TEST_MODE == '1';
+    private readonly VONAGE_API_KEY = process.env.VONAGE_API_KEY;
+    private readonly VONAGE_API_SECRET = process.env.VONAGE_API_SECRET;
+
+    private readonly vonage = new Vonage({
+        apiKey: this.VONAGE_API_KEY,
+        apiSecret: this.VONAGE_API_SECRET,
+    });
 
     constructor(private orderService: OrderService) {}
 
@@ -54,6 +62,47 @@ export class MessagesService {
         await this.orderService.update(order.id, _order);
 
         return res;
+    }
+
+    /**
+     * Send a SMS using Vonage API
+     *
+     * @param from Sender
+     * @param to Receiver
+     * @param text text messages to send
+     */
+    private sendSMSVonage(
+        order: Order,
+        from: string,
+        to: string,
+        text: string
+    ) {
+        const opts: Partial<SendSmsOptions> = {
+            from: from,
+            to: to,
+        };
+        this.vonage.message.sendSms(
+            from,
+            to,
+            text,
+            opts,
+            (err: any, responseData: any) => {
+                if (err) {
+                    console.log('err');
+                    return false;
+                } else {
+                    if (responseData.messages[0]['status'] === '0') {
+                        console.log('sent!');
+                        return true;
+                    } else {
+                        console.log(
+                            `Message failed with error: ${responseData.messages[0]['error-text']}`
+                        );
+                        return false;
+                    }
+                }
+            }
+        );
     }
 
     private isValidToSend(order: Order): boolean {
