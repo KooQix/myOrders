@@ -301,7 +301,6 @@ export class FormComponent implements OnInit {
             product: this.form.get('product')?.value,
             info: this.form.get('info')?.value ?? '',
         };
-        console.log(this.order);
 
         if (!!this.form.get('operators')) {
             this.order.operators = this.form.get('operators')?.value;

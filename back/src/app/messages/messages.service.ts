@@ -4,22 +4,32 @@ import { OrderService } from '../order/order.service';
 import Vonage, { SendSmsOptions } from '@vonage/server-sdk';
 
 export interface Message {
-    phone: number;
+    phone: string;
     message: string;
 }
 
 @Injectable()
 export class MessagesService {
-    private readonly testMode = process.env.TEST_MODE == '1';
+    private readonly TEST_MODE = process.env.TEST_MODE == '1';
+    private readonly TEST_PHONE = process.env.TEST_PHONE_NUMBER;
+    private readonly TEST_SEND = process.env.TEST_SEND == '1'; // Send SMS in test mode ?
+
     private readonly VONAGE_API_KEY = process.env.VONAGE_API_KEY;
     private readonly VONAGE_API_SECRET = process.env.VONAGE_API_SECRET;
 
-    private readonly vonage = new Vonage({
-        apiKey: this.VONAGE_API_KEY,
-        apiSecret: this.VONAGE_API_SECRET,
-    });
+    private readonly COUNTRY_CODE = process.env.COUNTRY_CODE;
+    private readonly AREA_CODE = process.env.AREA_CODE;
 
-    constructor(private orderService: OrderService) {}
+    private readonly CONTACT_NAME = process.env.CONTACT_NAME;
+
+    private vonage: any;
+
+    constructor(private orderService: OrderService) {
+        this.vonage = new Vonage({
+            apiKey: this.VONAGE_API_KEY,
+            apiSecret: this.VONAGE_API_SECRET,
+        });
+    }
 
     /**
      * Send a message for all the valid orders of the given date
@@ -44,65 +54,62 @@ export class MessagesService {
         return res;
     }
 
+    /**
+     * For a given order, send the SMS to the operators
+     *
+     * @param order
+     * @returns the list of messages sent
+     */
     private async sendOne(order: Order): Promise<Message[]> {
         const message = this.formatMessage(order);
 
         let res: Message[] = [];
 
-        // Sent to every operator
+        // Send to every operator
         for (const operator of order.operators) {
+            const _to = this.TEST_MODE
+                ? this.TEST_PHONE.slice(1)
+                : operator.phone.slice(1);
+
+            const to = `${this.COUNTRY_CODE}${this.AREA_CODE}${_to}`;
+
             res.push({
-                phone: parseInt(operator.phone),
+                phone: to,
                 message: message,
             });
-        }
 
-        let _order = order;
-        _order.sent = true;
-        await this.orderService.update(order.id, _order);
+            // Test mode not send
+            if (this.TEST_MODE && !this.TEST_SEND) continue;
 
-        return res;
-    }
+            //////////////////// VONAGE SMS \\\\\\\\\\\\\\\\\\\\
 
-    /**
-     * Send a SMS using Vonage API
-     *
-     * @param from Sender
-     * @param to Receiver
-     * @param text text messages to send
-     */
-    private sendSMSVonage(
-        order: Order,
-        from: string,
-        to: string,
-        text: string
-    ) {
-        const opts: Partial<SendSmsOptions> = {
-            from: from,
-            to: to,
-        };
-        this.vonage.message.sendSms(
-            from,
-            to,
-            text,
-            opts,
-            (err: any, responseData: any) => {
-                if (err) {
-                    console.log('err');
-                    return false;
-                } else {
-                    if (responseData.messages[0]['status'] === '0') {
-                        console.log('sent!');
-                        return true;
+            const opts: Partial<SendSmsOptions> = {
+                from: this.CONTACT_NAME,
+                to: to,
+            };
+            this.vonage.message.sendSms(
+                this.CONTACT_NAME,
+                to,
+                message,
+                opts,
+                (err: any, responseData: any) => {
+                    if (err) {
+                        order.sent = false;
+                        this.orderService.update(order.id, order);
                     } else {
-                        console.log(
-                            `Message failed with error: ${responseData.messages[0]['error-text']}`
-                        );
-                        return false;
+                        if (responseData.messages[0]['status'] === '0') {
+                            order.sent = true;
+                            this.orderService.update(order.id, order);
+                        } else {
+                            order.sent = false;
+                            this.orderService.update(order.id, order);
+                        }
                     }
                 }
-            }
-        );
+            );
+        }
+
+        return res;
     }
 
     private isValidToSend(order: Order): boolean {

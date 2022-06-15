@@ -185,11 +185,15 @@ export class HomeComponent implements OnInit {
         const date = this.service.shortDate(this.date?.value);
         if (date) {
             const sentMessages = await this.service.sendMessages(date);
-            this.orders = await this.service.getAllByDate(
-                this.service.shortDate(this.date?.value)
-            );
-            this.dataSource.data = this.orders;
             console.log(sentMessages);
+
+            // Refresh page
+            setTimeout(async () => {
+                this.orders = await this.service.getAllByDate(
+                    this.service.shortDate(this.date?.value)
+                );
+                this.dataSource.data = this.orders;
+            }, 1000);
         }
     }
 
