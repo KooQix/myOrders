@@ -1,3 +1,8 @@
+/**
+ * @author LEGOUT Paul legoutpaul@gmail.com
+ * @date 2022
+ */
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
@@ -24,7 +29,7 @@ export class CompanyComponent implements OnInit {
     constructor(
         private router: Router,
         private route: ActivatedRoute,
-        private service: CompanyService
+        public service: CompanyService
     ) {}
 
     async ngOnInit(): Promise<void> {
@@ -39,7 +44,7 @@ export class CompanyComponent implements OnInit {
      */
     applyFilter(event: Event) {
         const filterValue = (event.target as HTMLInputElement).value;
-        this.dataSource.filter = filterValue;
+        this.dataSource.filter = filterValue.replace(/ /g, '');
     }
 
     /**

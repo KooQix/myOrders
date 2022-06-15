@@ -1,6 +1,8 @@
+import { Exclude } from 'class-transformer';
 import { Address } from 'src/app/address/entities/address.entity';
 import { Client } from 'src/app/client/entities/client.entity';
 import { Operator } from 'src/app/operator/entities/operator.entity';
+import { Product } from 'src/app/product/entities/product.entity';
 import {
     Column,
     CreateDateColumn,
@@ -35,8 +37,20 @@ export class Order {
     })
     address: Address;
 
-    @Column()
+    @Column({ nullable: false, type: 'float' })
     price: number;
+
+    @Column({ nullable: false, type: 'float' })
+    tonnage: number;
+
+    @Column({ nullable: false, type: 'float' })
+    deblais: number;
+
+    @ManyToOne(() => Product, (product) => product.orders, {
+        nullable: false,
+        eager: true,
+    })
+    product: Product;
 
     @ManyToMany(() => Operator, {
         eager: true,
@@ -48,9 +62,13 @@ export class Order {
     @JoinTable()
     operators?: Operator[];
 
-    @Column()
-    produit: string;
-
     @Column({ nullable: true, length: 900 })
     info?: string;
+
+    @Column({ default: null })
+    sent: boolean;
+
+    constructor(partial: Partial<Order>) {
+        Object.assign(this, partial);
+    }
 }

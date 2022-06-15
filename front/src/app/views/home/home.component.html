@@ -42,7 +42,14 @@
     </mat-form-field>
 
     <div class="buttons">
-        <button mat-flat-button color="primary" class="button" id="nb1">
+        <button
+            mat-flat-button
+            color="primary"
+            class="button"
+            id="nb1"
+            (click)="sendMessages()"
+            [disabled]="!sendButtonEnabled"
+        >
             Envoyer SMS
         </button>
         <button
@@ -58,6 +65,9 @@
     </div>
 </div>
 
+<span id="ca-span" class="fullwidth">
+    <h3>CA: {{ caStr }} €</h3>
+</span>
 <table mat-table [dataSource]="dataSource">
     <!-- Dates Column -->
     <ng-container matColumnDef="dates">
@@ -68,16 +78,37 @@
         </td>
     </ng-container>
 
-    <!-- Site code Column -->
+    <!-- Product Column -->
     <ng-container matColumnDef="produit">
         <th mat-header-cell *matHeaderCellDef>Produit</th>
-        <td mat-cell *matCellDef="let element">{{ element.produit }}</td>
+        <td mat-cell *matCellDef="let element">
+            {{ element.product.name + " " }}
+        </td>
     </ng-container>
 
-    <!-- Price Column -->
+    <!-- Product Price Column -->
+    <ng-container matColumnDef="product_price">
+        <th mat-header-cell *matHeaderCellDef>Prix Produit (€)</th>
+        <td mat-cell *matCellDef="let element">{{ element.product.price }}</td>
+    </ng-container>
+
+    <!-- Transport Price Column -->
     <ng-container matColumnDef="price">
-        <th mat-header-cell *matHeaderCellDef>Prix €</th>
+        <th mat-header-cell *matHeaderCellDef>Prix Transport (€)</th>
         <td mat-cell *matCellDef="let element">{{ element.price }}</td>
+    </ng-container>
+
+    <!-- Transport Tonnage Column -->
+    <ng-container matColumnDef="tonnage">
+        <th mat-header-cell *matHeaderCellDef>Tonnage</th>
+        <td mat-cell *matCellDef="let element">{{ element.tonnage }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="deblais">
+        <th mat-header-cell *matHeaderCellDef>Deblais</th>
+        <td mat-cell *matCellDef="let element">
+            {{ element.deblais === 0 ? "Non" : "Oui" }}
+        </td>
     </ng-container>
 
     <!-- Client Column -->
@@ -95,7 +126,7 @@
 
     <!-- Operator Column -->
     <ng-container matColumnDef="operator">
-        <th mat-header-cell *matHeaderCellDef>Chauffeur</th>
+        <th mat-header-cell *matHeaderCellDef>Chauffeur(s)</th>
         <td
             mat-cell
             *matCellDef="let element"
@@ -117,6 +148,42 @@
         </td>
     </ng-container>
 
+    <ng-container matColumnDef="envoi">
+        <th mat-header-cell *matHeaderCellDef class="envoi">Envoyé</th>
+        <td mat-cell *matCellDef="let element" class="envoi">
+            <img
+                *ngIf="element.sent == true"
+                class="validation-icon"
+                src="../../../assets/validate.png"
+                alt=""
+            />
+            <img
+                *ngIf="element.sent == false"
+                class="validation-icon"
+                src="../../../assets/not_validate.png"
+                alt=""
+            />
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="dupliquer">
+        <th mat-header-cell *matHeaderCellDef class="dupliquer">Dupliquer</th>
+        <td mat-cell *matCellDef="let element" class="dupliquer">
+            <button
+                mat-flat-button
+                title="Créer une nouvelle commande à partir de celle-ci"
+                (click)="duplicateOrder(element.id)"
+                class="button-edit"
+            >
+                <mat-icon
+                    ><span class="material-icons-outlined">
+                        control_point_duplicate
+                    </span></mat-icon
+                >
+            </button>
+        </td>
+    </ng-container>
+
     <ng-container matColumnDef="modifier">
         <th mat-header-cell *matHeaderCellDef class="modifier">Modifier</th>
         <td mat-cell *matCellDef="let element" class="modifier">
@@ -124,6 +191,7 @@
                 mat-flat-button
                 title="Modifier commande"
                 (click)="updateOrder(element.id)"
+                class="button-edit"
             >
                 <mat-icon
                     ><span class="material-icons-outlined">
@@ -144,3 +212,18 @@
         </td>
     </tr>
 </table>
+
+<!-- Spinner while loading data -->
+<div *ngIf="this.service.loading | async" class="loader marginb-3">
+    <mat-spinner mode="indeterminate"></mat-spinner>
+</div>
+
+<button
+    id="load-more"
+    mat-raised-button
+    class="marginb-3"
+    (click)="loadMore()"
+    *ngIf="!!!date.value"
+>
+    Charger plus de commandes
+</button>

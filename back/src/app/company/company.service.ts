@@ -19,7 +19,11 @@ export class CompanyService {
     }
 
     findAll() {
-        return this.companyRepo.find();
+        return this.companyRepo.find({
+            order: {
+                name: 'ASC',
+            },
+        });
     }
 
     findAllOperators(id: string) {

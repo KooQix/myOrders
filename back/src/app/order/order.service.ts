@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Like } from 'typeorm';
+import { Repository, Like, LessThan } from 'typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { Order } from './entities/order.entity';
@@ -19,11 +19,38 @@ export class OrderService {
         if (!!date) {
             return this.orderRepo.find({
                 where: {
-                    date_chargement: Like(`${date}%`),
+                    date_chargement: LessThan(date),
                 },
+                order: {
+                    date_chargement: 'DESC',
+                },
+                take: 500,
             });
         }
-        return this.orderRepo.find();
+
+        return this.orderRepo.find({
+            order: {
+                date_chargement: 'DESC',
+            },
+            take: 500,
+        });
+    }
+
+    /**
+     * Get all orders for a given date
+     *
+     * @param date
+     * @returns
+     */
+    findAllByDate(date: Date) {
+        return this.orderRepo.find({
+            where: {
+                date_chargement: Like(`${date}%`),
+            },
+            order: {
+                date_chargement: 'DESC',
+            },
+        });
     }
 
     findOne(id: number) {
@@ -31,10 +58,16 @@ export class OrderService {
     }
 
     async update(id: number, updateOrderDto: UpdateOrderDto) {
+        const order = await this.findOne(id);
+        if (!!order.sent) return order;
+
         return this.orderRepo.save(updateOrderDto);
     }
 
-    remove(id: number) {
+    async remove(id: number) {
+        const order = await this.findOne(id);
+        if (!!order.sent) return order;
+
         return this.orderRepo.delete(id);
     }
 }

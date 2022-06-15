@@ -1,0 +1,49 @@
+<form [formGroup]="form">
+    <!-- Nom -->
+    <div class="container">
+        <h2>Nom</h2>
+        <span class="element">
+            <mat-form-field appearance="standard">
+                <mat-label>Assigner</mat-label>
+                <input type="text" matInput formControlName="name" required />
+            </mat-form-field>
+        </span>
+    </div>
+
+    <!-- Price -->
+    <div class="container">
+        <h2>Ville</h2>
+        <span class="element">
+            <mat-form-field appearance="standard">
+                <mat-label>Assigner</mat-label>
+                <input
+                    type="number"
+                    matInput
+                    formControlName="price"
+                    required
+                />
+            </mat-form-field>
+        </span>
+    </div>
+
+    <div class="container buttons">
+        <button mat-flat-button (click)="cancel()">Annuler</button>
+        <button
+            mat-flat-button
+            (click)="delete()"
+            class="del"
+            [disabled]="id == -1"
+        >
+            Supprimer
+        </button>
+        <button
+            mat-flat-button
+            type="submit"
+            (click)="save()"
+            color="primary"
+            [disabled]="!form.valid"
+        >
+            Sauvegarder
+        </button>
+    </div>
+</form>

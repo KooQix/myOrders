@@ -28,10 +28,17 @@ const routes: Routes = [
             ),
     },
     {
-        path: 'entreprises',
+        path: 'companies',
         loadChildren: () =>
             import('./views/company/company.module').then(
                 (m) => m.CompanyModule
+            ),
+    },
+    {
+        path: 'products',
+        loadChildren: () =>
+            import('./views/product/product.module').then(
+                (m) => m.ProductModule
             ),
     },
     // Default, return to appcomponent

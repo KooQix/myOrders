@@ -121,15 +121,27 @@
                     type="text"
                     matInput
                     required
-                    formControlName="produit"
+                    [matAutocomplete]="autoProduct"
+                    formControlName="product"
                 />
+                <mat-autocomplete
+                    #autoProduct="matAutocomplete"
+                    [displayWith]="displayFn_products"
+                >
+                    <mat-option
+                        *ngFor="let option of filteredOptions_product | async"
+                        [value]="option"
+                    >
+                        {{ option.name }}
+                    </mat-option>
+                </mat-autocomplete>
             </mat-form-field>
         </span>
     </div>
 
     <!-- Prix -->
     <div class="container">
-        <h2>Prix</h2>
+        <h2>Prix Transport</h2>
         <span class="element">
             <mat-form-field class="client-input" appearance="standard">
                 <mat-label>Assigner</mat-label>
@@ -139,6 +151,33 @@
                     required
                     formControlName="price"
                 />
+            </mat-form-field>
+        </span>
+    </div>
+
+    <!-- Tonnage -->
+    <div class="container">
+        <h2>Tonnage</h2>
+        <span class="element">
+            <mat-form-field class="client-input" appearance="standard">
+                <mat-label>Assigner</mat-label>
+                <input
+                    type="number"
+                    matInput
+                    required
+                    formControlName="tonnage"
+                />
+            </mat-form-field>
+        </span>
+    </div>
+
+    <!-- Deblais -->
+    <div class="container">
+        <h2>Deblais</h2>
+        <span class="element">
+            <mat-form-field class="client-input" appearance="standard">
+                <mat-label>Assigner</mat-label>
+                <input type="number" matInput formControlName="deblais" />
             </mat-form-field>
         </span>
     </div>
@@ -227,7 +266,7 @@
             mat-flat-button
             (click)="deleteOrder()"
             class="del"
-            [disabled]="id == -1"
+            [disabled]="id == -1 || order?.sent === true"
         >
             Supprimer
         </button>
@@ -236,7 +275,7 @@
             type="submit"
             (click)="save()"
             color="primary"
-            [disabled]="!form.valid"
+            [disabled]="!form.valid || order?.sent === true"
         >
             Sauvegarder
         </button>

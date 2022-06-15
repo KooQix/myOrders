@@ -18,7 +18,6 @@ export class OrderController {
 
     @Post()
     async create(@Body() createOrderDto: CreateOrderDto) {
-        console.log(createOrderDto);
         try {
             return await this.orderService.create(createOrderDto);
         } catch (error) {
@@ -26,10 +25,10 @@ export class OrderController {
         }
     }
 
-    @Get()
-    async findAll() {
+    @Post('findAll')
+    async findAll(@Body() body: any) {
         try {
-            return await this.orderService.findAll();
+            return await this.orderService.findAll(body?.date);
         } catch (error) {
             throw new InternalServerErrorException(error.sqlMessage ?? error);
         }
@@ -38,7 +37,7 @@ export class OrderController {
     @Post('date')
     async findAllByDate(@Body() date: any) {
         try {
-            return await this.orderService.findAll(date.date);
+            return await this.orderService.findAllByDate(date.date);
         } catch (error) {
             throw new InternalServerErrorException(error.sqlMessage ?? error);
         }

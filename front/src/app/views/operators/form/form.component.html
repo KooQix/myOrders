@@ -32,7 +32,13 @@
         <span class="element">
             <mat-form-field appearance="standard">
                 <mat-label>Assigner</mat-label>
-                <input type="text" matInput formControlName="phone" required />
+                <input
+                    type="tel"
+                    pattern="[0-9]{10}"
+                    matInput
+                    formControlName="phone"
+                    required
+                />
             </mat-form-field>
         </span>
     </div>

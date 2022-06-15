@@ -1,3 +1,8 @@
+/**
+ * @author LEGOUT Paul legoutpaul@gmail.com
+ * @date 2022
+ */
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -11,7 +16,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { ClientsRoutingModule } from './clients-routing.module';
 import { ClientsComponent } from './clients.component';
 import { FormComponent } from './form/form.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { HttpLoadingInterceptor } from 'src/app/interceptors/http-loader.interceptor';
+import { ClientsService } from './clients.service';
 
 @NgModule({
     declarations: [ClientsComponent, FormComponent],
@@ -27,6 +35,15 @@ import { HttpClientModule } from '@angular/common/http';
         ReactiveFormsModule,
         MatSelectModule,
         HttpClientModule,
+        MatProgressSpinnerModule,
+    ],
+    providers: [
+        ClientsService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: HttpLoadingInterceptor,
+            multi: true,
+        },
     ],
 })
 export class ClientsModule {}

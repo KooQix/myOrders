@@ -1,3 +1,8 @@
+/**
+ * @author LEGOUT Paul legoutpaul@gmail.com
+ * @date 2022
+ */
+
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';

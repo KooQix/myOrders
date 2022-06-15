@@ -1,8 +1,14 @@
+/**
+ * @author LEGOUT Paul legoutpaul@gmail.com
+ * @date 2022
+ */
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
@@ -13,9 +19,10 @@ import { FormComponent } from './form/form.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DownloadExcelService } from './download-excel.service';
 import { HomeService } from './home.service';
+import { HttpLoadingInterceptor } from 'src/app/interceptors/http-loader.interceptor';
 
 @NgModule({
     declarations: [HomeComponent, FormComponent],
@@ -33,7 +40,16 @@ import { HomeService } from './home.service';
         ReactiveFormsModule,
         MatSelectModule,
         HttpClientModule,
+        MatProgressSpinnerModule,
     ],
-    providers: [DownloadExcelService, HomeService],
+    providers: [
+        DownloadExcelService,
+        HomeService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: HttpLoadingInterceptor,
+            multi: true,
+        },
+    ],
 })
 export class HomeModule {}

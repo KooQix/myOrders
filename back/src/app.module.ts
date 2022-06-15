@@ -7,6 +7,8 @@ import { ClientModule } from './app/client/client.module';
 import { AddressModule } from './app/address/address.module';
 import { OrderModule } from './app/order/order.module';
 import { CompanyModule } from './app/company/company.module';
+import { MessagesModule } from './app/messages/messages.module';
+import { ProductModule } from './app/product/product.module';
 
 @Module({
     imports: [
@@ -32,6 +34,8 @@ import { CompanyModule } from './app/company/company.module';
         AddressModule,
         OrderModule,
         CompanyModule,
+        MessagesModule,
+        ProductModule,
     ],
     controllers: [AppController],
     providers: [],

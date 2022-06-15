@@ -1,8 +1,12 @@
+/**
+ * @author LEGOUT Paul legoutpaul@gmail.com
+ * @date 2022
+ */
+
 import { Order } from 'src/app/resources/interfaces';
 import { Injectable } from '@angular/core';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
-import { HomeService } from './home.service';
 
 const EXCEL_TYPE =
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
@@ -12,13 +16,14 @@ const EXCEL_EXTENSION = '.xlsx';
     providedIn: 'root',
 })
 export class DownloadExcelService {
-    constructor(private service: HomeService) {}
+    constructor() {}
 
     /**
      * Export json as Excel file
      *
      * @param json
-     * @param excelFileName
+     * @param filter
+     * @param date
      */
     public exportAsExcelFile(json: any[], filter: string, date?: any): void {
         const myworksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
@@ -83,11 +88,13 @@ export class DownloadExcelService {
             res.push({
                 date_chargement: element.date_chargement,
                 date_dechargement: element.date_dechargement,
-                price: element.price,
+                prix_produit: element.product.price,
+                prix_transport: element.price,
+                tonnage: element.tonnage,
                 client: `${element.client.name.toUpperCase()} ${
                     element.client.surname
                 }`,
-                operators: operators,
+                chauffeurs: operators,
                 adresse: `${element.address.city} ${element.address.street}`,
                 info: `${element.info}`,
             });

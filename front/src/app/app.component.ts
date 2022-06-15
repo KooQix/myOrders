@@ -1,3 +1,8 @@
+/**
+ * @author LEGOUT Paul legoutpaul@gmail.com
+ * @date 2022
+ */
+
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -27,6 +32,21 @@ export class AppComponent {
             label: 'Mes Clients',
             link: './clients',
             index: 2,
+        },
+        {
+            label: 'Mes Entreprises',
+            link: './companies',
+            index: 3,
+        },
+        {
+            label: 'Mes Chauffeurs',
+            link: './operators',
+            index: 1,
+        },
+        {
+            label: 'Mes Produits',
+            link: './products',
+            index: 4,
         },
         {
             label: 'Mes Entreprises',

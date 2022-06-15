@@ -1,15 +1,25 @@
-import { Company } from './../../resources/interfaces';
+/**
+ * @author LEGOUT Paul legoutpaul@gmail.com
+ * @date 2022
+ */
+
+import { Message } from './../../resources/interfaces';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Client, Operator, Order } from 'src/app/resources/interfaces';
+import { Order } from 'src/app/resources/interfaces';
 import { environment as env } from '../../../environments/environment';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 @Injectable({
     providedIn: 'root',
 })
 export class HomeService {
     private readonly API_URL = env.API_URL;
+
+    public loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+        true
+    );
 
     constructor(private http: HttpClient) {}
 
@@ -43,8 +53,14 @@ export class HomeService {
                 street: '',
                 zip: 0,
             },
-            produit: '',
+            product: {
+                id: -1,
+                name: '',
+                price: 0,
+            },
             price: 0,
+            tonnage: 0,
+            deblais: 0,
             operators: [
                 {
                     id: -1,
@@ -61,9 +77,9 @@ export class HomeService {
      *
      * @returns
      */
-    async getAll(): Promise<Order[]> {
+    async getAll(date?: string): Promise<Order[]> {
         const orders = await this.http
-            .get<Order[]>(`${this.API_URL}order`)
+            .post<Order[]>(`${this.API_URL}order/findAll`, { date: date })
             .toPromise();
 
         let res: Order[] = [];
@@ -116,6 +132,7 @@ export class HomeService {
      */
     update(order: Order): Promise<Order> {
         const id = order.id;
+        delete order.sent;
         return this.http
             .patch<Order>(`${this.API_URL}order/${id}`, order)
             .toPromise();
@@ -129,7 +146,7 @@ export class HomeService {
      */
     create(order: Order): Promise<Order> {
         delete order.id;
-        // if (order.operators?.)
+        delete order.sent;
         return this.http.post<Order>(`${this.API_URL}order`, order).toPromise();
     }
 
@@ -145,22 +162,14 @@ export class HomeService {
             .toPromise();
     }
 
-    /**
-     * Get the operators
-     *
-     * @returns
-     */
-    getOperators(): Promise<Operator[]> {
-        return this.http.get<Operator[]>(`${this.API_URL}operator`).toPromise();
-    }
+    //////////////////// Messages \\\\\\\\\\\\\\\\\\\\
 
-    /**
-     * Get all clients
-     *
-     * @returns
-     */
-    getClients(): Promise<Client[]> {
-        return this.http.get<Client[]>(`${this.API_URL}client`).toPromise();
+    sendMessages(date: string): Promise<Message[]> {
+        return this.http
+            .post<Message[]>(`${this.API_URL}messages`, {
+                date: date,
+            })
+            .toPromise();
     }
 
     //////////////////// Date management \\\\\\\\\\\\\\\\\\\\
@@ -212,24 +221,4 @@ export class HomeService {
     getTomorrowShort(date: Date) {
         return this.shortDate(this.getTomorrow(date).value);
     }
-
-    // /**
-    //  *
-    //  * @param operator
-    //  * @returns
-    //  */
-    // addOperator(operator: Operator): Promise<Operator> {
-    //     return this.http
-    //         .post<Operator>(`${this.API_URL}operator`, operator)
-    //         .toPromise();
-    // }
-
-    // isOpValid(order: Order): boolean {
-    //     if (!!order.operators) {
-    //         for (const op of order.operators) {
-    //         }
-    //     }
-
-    //     return false;
-    // }
 }

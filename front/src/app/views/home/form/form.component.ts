@@ -1,4 +1,9 @@
-import { Order } from './../../../resources/interfaces';
+/**
+ * @author LEGOUT Paul legoutpaul@gmail.com
+ * @date 2022
+ */
+
+import { Order, Product } from './../../../resources/interfaces';
 import { Component, OnInit } from '@angular/core';
 import {
     FormArray,
@@ -12,6 +17,9 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { Client, Operator } from 'src/app/resources/interfaces';
 import { HomeService } from '../home.service';
+import { ProductService } from '../../product/product.service';
+import { ClientsService } from '../../clients/clients.service';
+import { OperatorsService } from '../../operators/operators.service';
 
 @Component({
     selector: 'app-form',
@@ -24,16 +32,22 @@ export class FormComponent implements OnInit {
     datepicker_dechargement: any;
     clients: Client[];
     operators: Operator[];
+    products: Product[];
     id: number;
+    duplicate: boolean;
 
     //////////////////// Filters \\\\\\\\\\\\\\\\\\\\
 
     form: FormGroup;
     filteredOptions_client: Observable<Client[]>;
     filteredOptions_op: Observable<Operator[]>;
+    filteredOptions_product: Observable<Product[]>;
 
     constructor(
         private service: HomeService,
+        private productService: ProductService,
+        private clientService: ClientsService,
+        private operatorService: OperatorsService,
         private router: Router,
         private route: ActivatedRoute,
         private formBuilder: FormBuilder
@@ -45,8 +59,10 @@ export class FormComponent implements OnInit {
             date_dechargement: ['', [Validators.required]],
             client: ['', [Validators.required]],
             address: [undefined, [Validators.required]],
-            produit: ['', [Validators.required]],
+            product: ['', [Validators.required]],
             price: ['', [Validators.required, Validators.min(0)]],
+            tonnage: ['', [Validators.required, Validators.min(0)]],
+            deblais: ['', []],
             operators: new FormArray([]),
             info: [undefined, []],
         });
@@ -56,8 +72,14 @@ export class FormComponent implements OnInit {
         this.id = _id ? parseInt(_id) : -1;
         this.order = await this.service.initOrder(this.id);
 
-        this.operators = await this.service.getOperators();
-        this.clients = await this.service.getClients();
+        // Whether it's a new order from a duplication or an order update
+        const _new = this.route.snapshot.queryParamMap.get('new');
+        this.duplicate = _new == 'true';
+        if (this.duplicate) this.order.sent = undefined;
+
+        this.operators = await this.operatorService.getAll();
+        this.clients = await this.clientService.getAll();
+        this.products = await this.productService.getAll();
 
         if (this.id != -1) this.initForm();
         else this.addOperator();
@@ -84,10 +106,23 @@ export class FormComponent implements OnInit {
                 map((value) =>
                     typeof value === 'string'
                         ? value
-                        : `${value.name.toUpperCase()} ${value.surname}`
+                        : `${value.name?.toUpperCase()} ${value.surname}`
                 ),
                 map((name) =>
                     name ? this._filter_operators(name) : this.operators.slice()
+                )
+            );
+
+        this.filteredOptions_product =
+            this.form.controls.product.valueChanges.pipe(
+                startWith(''),
+                map((value) =>
+                    typeof value === 'string'
+                        ? value
+                        : `${value.name.toUpperCase()} (${value.price} €)`
+                ),
+                map((name) =>
+                    name ? this._filter_products(name) : this.products.slice()
                 )
             );
     }
@@ -107,8 +142,10 @@ export class FormComponent implements OnInit {
             date_dechargement: this.order.date_dechargement,
             client: this.order.client,
             address: this.order.address,
-            produit: this.order.produit,
+            product: this.order.product,
             price: this.order.price,
+            tonnage: this.order.tonnage,
+            deblais: this.order.deblais == 0 ? '' : this.order.deblais,
             operators: this.order.operators,
             info: this.order.info,
         });
@@ -171,11 +208,34 @@ export class FormComponent implements OnInit {
 
         return this.operators.filter(
             (option) =>
-                (!!option?.name &&
-                    option?.name?.toLowerCase().includes(filterValue)) ||
-                option.surname.toLowerCase().includes(filterValue) ||
-                option?.company?.name.toLowerCase().includes(filterValue)
+                (!!option.name &&
+                    option.name?.toLowerCase().includes(filterValue)) ||
+                option.surname.toLowerCase().includes(filterValue)
         );
+    }
+
+    /**
+     * Filter table through product info
+     *
+     * @param name
+     * @returns
+     */
+    private _filter_products(name: string): Product[] {
+        const filterValue = name.trim().toLowerCase();
+
+        return this.products.filter((option) =>
+            option.name.trim().toLowerCase().includes(filterValue)
+        );
+    }
+
+    /**
+     * How products are displayed in select
+     *
+     * @param product
+     * @returns
+     */
+    displayFn_products(product: Product): string {
+        return !!product ? `${product.name} (${product.price}€)` : '';
     }
 
     //////////////////// Buttons \\\\\\\\\\\\\\\\\\\\
@@ -223,6 +283,8 @@ export class FormComponent implements OnInit {
      * @returns
      */
     async save() {
+        const formDeblais = this.form.get('deblais')?.value;
+        const _deblais = !!formDeblais && formDeblais != '' ? formDeblais : 0;
         this.order = {
             date_chargement: this.service.shortDate(
                 new Date(this.form.get('date_chargement')?.value)
@@ -233,8 +295,10 @@ export class FormComponent implements OnInit {
             client: this.form.get('client')?.value,
             address: this.form.get('address')?.value,
             price: this.form.get('price')?.value,
+            tonnage: this.form.get('tonnage')?.value,
+            deblais: _deblais,
             operators: this.form.get('operators')?.value,
-            produit: this.form.get('produit')?.value,
+            product: this.form.get('product')?.value,
             info: this.form.get('info')?.value ?? '',
         };
 
@@ -242,7 +306,7 @@ export class FormComponent implements OnInit {
             this.order.operators = this.form.get('operators')?.value;
         }
 
-        if (this.id != -1) return await this.update();
+        if (this.id != -1 && !this.duplicate) return await this.update();
 
         // Save
         try {

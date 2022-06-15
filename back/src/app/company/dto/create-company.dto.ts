@@ -1,4 +1,4 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsInt, IsNotEmpty, Length } from 'class-validator';
 
 export class CreateCompanyDto {
     @IsNotEmpty()
@@ -11,6 +11,7 @@ export class CreateCompanyDto {
     zip: string;
 
     @IsNotEmpty()
+    @Length(9)
     phone: string;
 
     @IsNotEmpty()

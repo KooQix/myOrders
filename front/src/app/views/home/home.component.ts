@@ -1,3 +1,8 @@
+/**
+ * @author LEGOUT Paul legoutpaul@gmail.com
+ * @date 2022
+ */
+
 import { Order } from './../../resources/interfaces';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
@@ -14,14 +19,23 @@ import { DownloadExcelService } from './download-excel.service';
 export class HomeComponent implements OnInit {
     datepicker: any;
     date: FormControl;
+    sendButtonEnabled: boolean;
+
+    ca: number;
+    caStr: string;
 
     orders: Order[];
     displayedColumns: string[] = [
         'dates',
         'produit',
-        'price',
+        'product_price',
+        'price', // Transport price
+        'tonnage',
+        'deblais',
         'client',
         'operator',
+        'envoi',
+        'dupliquer',
         'modifier',
     ];
     dataSource: MatTableDataSource<Order>;
@@ -29,11 +43,13 @@ export class HomeComponent implements OnInit {
     constructor(
         private router: Router,
         private route: ActivatedRoute,
-        private service: HomeService,
+        public service: HomeService,
         private excelService: DownloadExcelService
     ) {}
 
     async ngOnInit(): Promise<void> {
+        this.sendButtonEnabled = true;
+
         // By default, display orders for tomorrow
         this.date = this.service.getTomorrow(new Date());
         this.orders = await this.service.getAllByDate(
@@ -44,6 +60,8 @@ export class HomeComponent implements OnInit {
         this.date.valueChanges.subscribe((date) => {
             this.manageSelection(date);
         });
+
+        this.getCA();
     }
 
     /**
@@ -56,14 +74,14 @@ export class HomeComponent implements OnInit {
 
         // Override dataSource filterPredicate to include the filter on client || operator info
         this.dataSource.filterPredicate = (order: Order, filter: string) => {
-            filter = filter.trim().toLowerCase();
+            filter = filter.trim().toLowerCase().replace(/ /g, '');
 
             const _filter =
                 !filter ||
                 order.date_chargement.trim().toLowerCase().includes(filter) ||
                 order.date_dechargement.trim().toLowerCase().includes(filter) ||
                 order.price.toString().trim().includes(filter) ||
-                order.produit.toString().trim().includes(filter);
+                order.product.name.toString().trim().includes(filter);
 
             const clientFilter = () => {
                 const toStr =
@@ -88,6 +106,7 @@ export class HomeComponent implements OnInit {
             return _filter || opFilters() || clientFilter();
         };
         this.dataSource.filter = filterValue;
+        this.loadMoreOnFilter();
     }
 
     /**
@@ -99,13 +118,18 @@ export class HomeComponent implements OnInit {
      */
     async manageSelection(date: any) {
         if (!!date) {
+            this.sendButtonEnabled = true;
             this.orders = await this.service.getAllByDate(
                 this.service.shortDate(this.date?.value)
             );
         } else {
             this.orders = await this.service.getAll();
+
+            // No date => disable send message button
+            this.sendButtonEnabled = false;
         }
         this.dataSource.data = this.orders;
+        this.getCA();
     }
 
     /**
@@ -119,7 +143,20 @@ export class HomeComponent implements OnInit {
      * Redirect to the order info
      */
     updateOrder(orderID: number) {
-        this.router.navigate([`form/${orderID}`], { relativeTo: this.route });
+        this.router.navigate([`form/${orderID}`], {
+            relativeTo: this.route,
+            queryParams: { new: false },
+        });
+    }
+
+    /**
+     * Redirect to the order info
+     */
+    duplicateOrder(orderID: number) {
+        this.router.navigate([`form/${orderID}`], {
+            relativeTo: this.route,
+            queryParams: { new: true },
+        });
     }
 
     /**
@@ -135,5 +172,75 @@ export class HomeComponent implements OnInit {
             filter?.value,
             date
         );
+    }
+
+    /**
+     * Send the messages of the orders for the given date
+     *
+     * @returns List of sent messages
+     */
+    async sendMessages() {
+        if (!!!this.date) return;
+
+        const date = this.service.shortDate(this.date?.value);
+        if (date) {
+            const sentMessages = await this.service.sendMessages(date);
+            console.log(sentMessages);
+
+            // Refresh page
+            setTimeout(async () => {
+                this.orders = await this.service.getAllByDate(
+                    this.service.shortDate(this.date?.value)
+                );
+                this.dataSource.data = this.orders;
+            }, 1000);
+        }
+    }
+
+    /**
+     * Load more orders when no date is specified (load 500 orders every time)
+     */
+    async loadMore() {
+        // loadMore orders...
+        const lastOrder = this.orders[this.orders.length - 1];
+        const moreOrders = await this.service.getAll(lastOrder.date_chargement);
+        this.orders.push(...moreOrders);
+        this.dataSource.data = this.orders;
+
+        // Disable button if no more
+        const buttonLoadMore = document.getElementById('load-more');
+        if (!!buttonLoadMore && moreOrders.length < 500)
+            buttonLoadMore.style.display = 'none';
+
+        this.getCA();
+    }
+
+    /**
+     * When a filter is applied, if the filtered data length < 500 orders and more orders can be loaded, load them to get more filtered data without having to manually load-more on filter
+     */
+    async loadMoreOnFilter() {
+        const buttonLoadMore = document.getElementById('load-more');
+        if (
+            this.dataSource.filteredData.length < 500 &&
+            !!buttonLoadMore &&
+            buttonLoadMore.style.display != 'none'
+        ) {
+            await this.loadMore();
+        }
+    }
+
+    /**
+     * Calculate Revenue (Tonnage * Price) + Deblais for the given orders
+     */
+    getCA() {
+        this.ca = 0;
+
+        for (const order of this.orders) {
+            this.ca += order.product.price * order.tonnage;
+            this.ca += order.deblais;
+        }
+
+        this.ca = Math.floor(this.ca);
+        this.caStr = new Intl.NumberFormat('fr').format(this.ca);
     }
 }
