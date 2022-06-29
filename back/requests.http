@@ -1,0 +1,172 @@
+
+
+    #################### Operator ####################
+
+### Create
+POST http://localhost:3000/api/operator
+Content-Type: application/json
+
+{
+    "name": "operatorName",
+    "surname": "operatorSurname",
+    "phone": "operatorPhone"
+}
+
+### Find all
+GET http://localhost:3000/api/operator
+
+
+### Find one by id
+GET http://localhost:3000/api/operator/2
+
+
+### Update
+PATCH http://localhost:3000/api/operator/2
+Content-Type: application/json
+
+{
+    "name": "operatorName",
+    "surname": "operatorSurname",
+    "phone": "operatorPhone"
+}
+
+
+### Delete by id
+DELETE http://localhost:3000/api/operator/1
+
+
+
+
+    #################### Address ####################
+
+# ### Create
+# POST http://localhost:3000/api/address
+# Content-Type: application/json
+
+# {
+#     "city": "city",
+#     "zip": "0000",
+#     "street": "street",
+#     "client": 1
+# }
+
+# ### Find all
+# GET http://localhost:3000/api/address
+
+
+# ### Find one by id
+# GET http://localhost:3000/api/address/2
+
+
+# ### Update
+# PATCH http://localhost:3000/api/address/2
+# Content-Type: application/json
+
+# {
+#     "name": "operatorName",
+#     "surname": "operatorSurname",
+#     "phone": "operatorPhone"
+# }
+
+
+### Delete by id
+DELETE http://localhost:3000/api/address/1
+
+
+
+
+
+
+
+    #################### Client ####################
+
+### Create
+POST http://localhost:3000/api/client
+Content-Type: application/json
+
+{
+    "name": "clientName",
+    "surname": "clientSurname"
+}
+
+### Find all
+GET http://localhost:3000/api/client
+
+
+### Find one by id
+GET http://localhost:3000/api/client/5
+
+
+### Update
+PATCH http://localhost:3000/api/client/5
+Content-Type: application/json
+
+{
+    "surname": "clientSurname",
+    "phone": "clientPhone",
+    "addresses": [
+        {
+            "id": 2,
+            "city": "city",
+            "zip": "dsqdsqdqdsq",
+            "street": "street"
+        },
+		{
+            "id": 3,
+            "city": "city2",
+            "zip": "0000",
+            "street": "street2"
+        }
+    ]
+}
+
+
+### Delete by id
+DELETE http://localhost:3000/api/client/1
+
+
+
+
+
+
+    #################### Order ####################
+
+### Create
+POST http://localhost:3000/api/order
+Content-Type: application/json
+
+{
+    "date_chargement": "25.02.2022",
+    "date_dechargement": "26.02.2022",
+    "client": 1,
+    "address": 7,
+    "price": 199.30,
+    "operator": 3,
+    "produit": "produit"
+}
+
+### Find all
+GET http://localhost:3000/api/order
+
+
+### Find one by id
+GET http://localhost:3000/api/order/1
+
+
+### Update
+PATCH http://localhost:3000/api/order/1
+Content-Type: application/json
+
+{
+    "date_chargement": "25.02.2022",
+    "date_dechargement": "26.02.2022",
+    "client": 1,
+    "address": 7,
+    "price": 199.30,
+    "operator": 3,
+    "produit": "produit"
+}
+
+
+### Delete by id
+DELETE http://localhost:3000/api/order/1

@@ -48,16 +48,6 @@ export class AppComponent {
             link: './products',
             index: 4,
         },
-        {
-            label: 'Mes Entreprises',
-            link: './entreprises',
-            index: 3,
-        },
-        {
-            label: 'Mes Chauffeurs',
-            link: './operators',
-            index: 1,
-        },
     ];
 
     /**
