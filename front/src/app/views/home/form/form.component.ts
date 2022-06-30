@@ -40,7 +40,7 @@ export class FormComponent implements OnInit {
 
     form: FormGroup;
     filteredOptions_client: Observable<Client[]>;
-    filteredOptions_op: Observable<Operator[]>;
+    filteredOptions_op: Observable<Operator[]>[] = [];
     filteredOptions_product: Observable<Product[]>;
 
     constructor(
@@ -97,19 +97,6 @@ export class FormComponent implements OnInit {
                 ),
                 map((name) =>
                     name ? this._filter_clients(name) : this.clients.slice()
-                )
-            );
-
-        this.filteredOptions_op =
-            this.form.controls.operators.valueChanges.pipe(
-                startWith(''),
-                map((value) =>
-                    typeof value === 'string'
-                        ? value
-                        : `${value.name?.toUpperCase()} ${value.surname}`
-                ),
-                map((name) =>
-                    name ? this._filter_operators(name) : this.operators.slice()
                 )
             );
 
@@ -238,13 +225,44 @@ export class FormComponent implements OnInit {
         return !!product ? `${product.name} (${product.price}€)` : '';
     }
 
+    /**
+     * Manage autocomplete for the ith FormControl in the FormArray
+     *
+     * @param i The form control index, inside the formArray
+     */
+    manageFormControl(i: number) {
+        this.filteredOptions_op[i] = (
+            this.form.get('operators') as FormArray
+        ).controls[i].valueChanges.pipe(
+            startWith(''),
+            map((value) =>
+                typeof value === 'string'
+                    ? value
+                    : `${value.name?.toUpperCase()} ${value.surname}`
+            ),
+            map((name) =>
+                name ? this._filter_operators(name) : this.operators.slice()
+            )
+        );
+    }
+
+    getOpControls() {
+        return (this.form.get('operators') as FormArray).controls;
+    }
+
     //////////////////// Buttons \\\\\\\\\\\\\\\\\\\\
 
     /**
      * Add a new operator to the list of operators input
      */
     async addOperator() {
-        (this.form.get('operators') as FormArray).push(new FormControl(''));
+        const op: Operator = {
+            id: -1,
+            name: '',
+            surname: '',
+            phone: '',
+        };
+        this.addNewOperator(op);
     }
 
     /**
@@ -254,6 +272,9 @@ export class FormComponent implements OnInit {
         (this.form.get('operators') as FormArray).push(
             new FormControl(operator)
         );
+        this.manageFormControl(
+            (this.form.get('operators') as FormArray).length - 1
+        );
     }
 
     /**
@@ -262,7 +283,8 @@ export class FormComponent implements OnInit {
      * @param i Index of the operator in the list
      */
     async rmOperator(i: number) {
-        (this.form.get('operators') as FormArray).removeAt(i);
+        (this.form.get('operators') as FormArray).removeAt(i - 1);
+        this.filteredOptions_op.splice(i - 1);
     }
 
     /**

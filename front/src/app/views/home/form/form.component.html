@@ -187,10 +187,10 @@
         <h2>Chauffeur(s)</h2>
         <span class="flex-col">
             <ng-container style="width: 100%" formArrayName="operators">
-                <span
+                <div
                     style="width: 100%"
                     class="element nowrap"
-                    *ngFor="let op of form.get('operators')?.value; index as i"
+                    *ngFor="let op of getOpControls(); index as i"
                 >
                     <mat-form-field
                         class="op"
@@ -210,7 +210,7 @@
                         >
                             <mat-option
                                 *ngFor="
-                                    let option of filteredOptions_op | async
+                                    let option of filteredOptions_op[i] | async
                                 "
                                 [value]="option"
                             >
@@ -245,7 +245,7 @@
                     >
                         x
                     </button>
-                </span>
+                </div>
             </ng-container>
         </span>
     </div>
