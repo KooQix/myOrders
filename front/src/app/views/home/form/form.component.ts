@@ -272,6 +272,8 @@ export class FormComponent implements OnInit {
         (this.form.get('operators') as FormArray).push(
             new FormControl(operator)
         );
+
+        // Add form autocomplete to formControl
         this.manageFormControl(
             (this.form.get('operators') as FormArray).length - 1
         );
