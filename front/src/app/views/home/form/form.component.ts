@@ -253,7 +253,7 @@ export class FormComponent implements OnInit {
     //////////////////// Buttons \\\\\\\\\\\\\\\\\\\\
 
     /**
-     * Add a new operator to the list of operators input
+     * Add a new empty operator to the list of operators input
      */
     async addOperator() {
         const op: Operator = {
@@ -302,6 +302,7 @@ export class FormComponent implements OnInit {
 
     /**
      * Create / Update an order
+     *
      * @returns
      */
     async save() {
