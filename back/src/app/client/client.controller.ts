@@ -25,11 +25,12 @@ export class ClientController {
         }
     }
 
-    @Get()
-    async findAll() {
+    @Get(':site_id')
+    async findAll(@Param() siteId: string) {
         try {
-            return await this.clientService.findAll();
+            return await this.clientService.findAll(siteId);
         } catch (error) {
+            console.log(error);
             throw new InternalServerErrorException(error.sqlMessage);
         }
     }

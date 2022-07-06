@@ -10,6 +10,7 @@ import {
 } from 'class-validator';
 import { Address } from 'src/app/address/entities/address.entity';
 import { Type } from 'class-transformer';
+import { Site } from 'src/app/site/entities/site.entity';
 
 export class CreateClientDto {
     @IsNotEmpty()

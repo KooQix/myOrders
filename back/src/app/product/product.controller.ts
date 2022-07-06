@@ -25,9 +25,9 @@ export class ProductController {
         }
     }
 
-    @Get()
-    findAll() {
-        return this.productService.findAll();
+    @Get(':site_id')
+    findAll(@Param(':site_id') siteId: string) {
+        return this.productService.findAll(siteId);
     }
 
     @Get(':id')

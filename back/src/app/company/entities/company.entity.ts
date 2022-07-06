@@ -1,5 +1,13 @@
 import { Operator } from 'src/app/operator/entities/operator.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Site } from 'src/app/site/entities/site.entity';
+import {
+    Column,
+    Entity,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Company {
@@ -26,4 +34,10 @@ export class Company {
         eager: false,
     })
     operators: Operator[];
+
+    @ManyToOne(() => Site, (site) => site.companies, {
+        nullable: false,
+        eager: true,
+    })
+    site: Site;
 }

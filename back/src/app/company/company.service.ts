@@ -18,8 +18,11 @@ export class CompanyService {
         return this.companyRepo.save(createCompanyDto);
     }
 
-    findAll() {
+    findAll(siteId: string) {
         return this.companyRepo.find({
+            where: {
+                site: siteId,
+            },
             order: {
                 name: 'ASC',
             },

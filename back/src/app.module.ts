@@ -9,6 +9,7 @@ import { OrderModule } from './app/order/order.module';
 import { CompanyModule } from './app/company/company.module';
 import { MessagesModule } from './app/messages/messages.module';
 import { ProductModule } from './app/product/product.module';
+import { SiteModule } from './app/site/site.module';
 
 @Module({
     imports: [
@@ -36,6 +37,7 @@ import { ProductModule } from './app/product/product.module';
         CompanyModule,
         MessagesModule,
         ProductModule,
+        SiteModule,
     ],
     controllers: [AppController],
     providers: [],

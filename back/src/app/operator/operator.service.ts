@@ -16,8 +16,11 @@ export class OperatorService {
         return this.opRepo.save(createOperatorDto);
     }
 
-    findAll(): Promise<Operator[]> {
+    findAll(siteId: string): Promise<Operator[]> {
         return this.opRepo.find({
+            where: {
+                site: siteId,
+            },
             order: {
                 name: 'ASC',
                 surname: 'ASC',

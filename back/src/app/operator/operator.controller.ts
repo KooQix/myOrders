@@ -25,10 +25,10 @@ export class OperatorController {
         }
     }
 
-    @Get()
-    async findAll() {
+    @Get(':site_id')
+    async findAll(@Param(':site_id') siteId: string) {
         try {
-            return await this.operatorService.findAll();
+            return await this.operatorService.findAll(siteId);
         } catch (error) {
             throw new InternalServerErrorException(error.sqlMessage ?? error);
         }

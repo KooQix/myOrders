@@ -16,8 +16,11 @@ export class ProductService {
         return this.productRepo.save(createProductDto);
     }
 
-    findAll() {
+    findAll(siteId: string) {
         return this.productRepo.find({
+            where: {
+                site: siteId,
+            },
             order: {
                 name: 'ASC',
             },

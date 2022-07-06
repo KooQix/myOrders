@@ -22,9 +22,9 @@ export class CompanyController {
         return this.companyService.create(createCompanyDto);
     }
 
-    @Get()
-    findAll() {
-        return this.companyService.findAll();
+    @Get(':site_id')
+    findAll(@Param(':site_id') siteId: string) {
+        return this.companyService.findAll(siteId);
     }
 
     @Get('operators/:id')

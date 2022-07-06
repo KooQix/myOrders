@@ -15,10 +15,11 @@ export class OrderService {
         return this.orderRepo.save(createOrderDto);
     }
 
-    findAll(date?: Date) {
+    findAll(site_id: string, date?: Date) {
         if (!!date) {
             return this.orderRepo.find({
                 where: {
+                    site: site_id,
                     date_chargement: LessThan(date),
                 },
                 order: {
@@ -29,6 +30,9 @@ export class OrderService {
         }
 
         return this.orderRepo.find({
+            where: {
+                site: site_id,
+            },
             order: {
                 date_chargement: 'DESC',
             },
@@ -42,10 +46,11 @@ export class OrderService {
      * @param date
      * @returns
      */
-    findAllByDate(date: Date) {
+    findAllByDate(site_id: string, date: Date) {
         return this.orderRepo.find({
             where: {
                 date_chargement: Like(`${date}%`),
+                site: site_id,
             },
             order: {
                 date_chargement: 'DESC',

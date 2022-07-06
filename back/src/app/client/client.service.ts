@@ -18,8 +18,11 @@ export class ClientService {
         return this.clientRepo.save(createClientDto);
     }
 
-    findAll() {
+    findAll(siteId: string) {
         return this.clientRepo.find({
+            where: {
+                site: siteId,
+            },
             order: {
                 name: 'ASC',
             },

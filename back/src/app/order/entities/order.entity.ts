@@ -3,6 +3,7 @@ import { Address } from 'src/app/address/entities/address.entity';
 import { Client } from 'src/app/client/entities/client.entity';
 import { Operator } from 'src/app/operator/entities/operator.entity';
 import { Product } from 'src/app/product/entities/product.entity';
+import { Site } from 'src/app/site/entities/site.entity';
 import {
     Column,
     CreateDateColumn,
@@ -67,6 +68,12 @@ export class Order {
 
     @Column({ default: null })
     sent: boolean;
+
+    @ManyToOne(() => Site, (site) => site.orders, {
+        nullable: false,
+        eager: true,
+    })
+    site: Site;
 
     constructor(partial: Partial<Order>) {
         Object.assign(this, partial);

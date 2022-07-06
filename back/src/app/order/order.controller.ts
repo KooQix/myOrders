@@ -12,6 +12,11 @@ import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 
+interface body {
+    date?: Date;
+    site_id: string;
+}
+
 @Controller('order')
 export class OrderController {
     constructor(private readonly orderService: OrderService) {}
@@ -26,18 +31,21 @@ export class OrderController {
     }
 
     @Post('findAll')
-    async findAll(@Body() body: any) {
+    async findAll(@Body() body: body) {
         try {
-            return await this.orderService.findAll(body?.date);
+            return await this.orderService.findAll(body.site_id, body?.date);
         } catch (error) {
             throw new InternalServerErrorException(error.sqlMessage ?? error);
         }
     }
 
     @Post('date')
-    async findAllByDate(@Body() date: any) {
+    async findAllByDate(@Body() body: body) {
         try {
-            return await this.orderService.findAllByDate(date.date);
+            return await this.orderService.findAllByDate(
+                body.site_id,
+                body.date
+            );
         } catch (error) {
             throw new InternalServerErrorException(error.sqlMessage ?? error);
         }

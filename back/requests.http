@@ -90,7 +90,7 @@ Content-Type: application/json
 }
 
 ### Find all
-GET http://localhost:3000/api/client
+GET http://localhost:3000/api/client/22
 
 
 ### Find one by id
@@ -170,3 +170,9 @@ Content-Type: application/json
 
 ### Delete by id
 DELETE http://localhost:3000/api/order/1
+
+
+
+
+###
+GET http://localhost:3000/api/site

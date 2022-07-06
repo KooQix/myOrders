@@ -19,6 +19,7 @@ const order_module_1 = require("./app/order/order.module");
 const company_module_1 = require("./app/company/company.module");
 const messages_module_1 = require("./app/messages/messages.module");
 const product_module_1 = require("./app/product/product.module");
+const site_module_1 = require("./app/site/site.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -44,6 +45,7 @@ AppModule = __decorate([
             company_module_1.CompanyModule,
             messages_module_1.MessagesModule,
             product_module_1.ProductModule,
+            site_module_1.SiteModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [],

@@ -37,11 +37,11 @@ export class MessagesService {
      * @param date The order's date
      * @returns
      */
-    async sendAll(date: Date) {
+    async sendAll(siteId: string, date: Date) {
         // Orders are valid if
-        const orders = (await this.orderService.findAllByDate(date)).filter(
-            (order) => this.isValidToSend(order)
-        );
+        const orders = (
+            await this.orderService.findAllByDate(siteId, date)
+        ).filter((order) => this.isValidToSend(order));
 
         // Since we're here, the orders valid, send them all
         let res: Message[] = [];
