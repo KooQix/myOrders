@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
@@ -10,6 +10,7 @@ import { CompanyModule } from './app/company/company.module';
 import { MessagesModule } from './app/messages/messages.module';
 import { ProductModule } from './app/product/product.module';
 import { SiteModule } from './app/site/site.module';
+import { AuthModule } from './app/site/auth/auth.module';
 
 @Module({
     imports: [
@@ -38,6 +39,7 @@ import { SiteModule } from './app/site/site.module';
         MessagesModule,
         ProductModule,
         SiteModule,
+        AuthModule,
     ],
     controllers: [AppController],
     providers: [],

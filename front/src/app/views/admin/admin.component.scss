@@ -1,0 +1,36 @@
+@import "../../../resources.scss";
+
+:host(app-admin) {
+    width: 100%;
+    @include flex-align-center-col;
+}
+
+#header {
+    width: 60%;
+    @include flex-align-center-row;
+    justify-content: space-between;
+    margin-bottom: 3em;
+    margin-top: -5em;
+
+    mat-form-field {
+        width: 80%;
+    }
+
+    button {
+        background-color: $primary;
+        color: white;
+        // width: 10%;
+    }
+
+    button:hover {
+        opacity: 0.7;
+    }
+}
+
+table {
+    width: 90%;
+}
+
+mat-icon:hover {
+    opacity: 0.3;
+}

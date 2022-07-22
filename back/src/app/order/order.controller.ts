@@ -12,7 +12,7 @@ import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 
-interface body {
+interface BodyOrder {
     date?: Date;
     site_id: string;
 }
@@ -31,7 +31,7 @@ export class OrderController {
     }
 
     @Post('findAll')
-    async findAll(@Body() body: body) {
+    async findAll(@Body() body: BodyOrder) {
         try {
             return await this.orderService.findAll(body.site_id, body?.date);
         } catch (error) {
@@ -40,7 +40,7 @@ export class OrderController {
     }
 
     @Post('date')
-    async findAllByDate(@Body() body: body) {
+    async findAllByDate(@Body() body: BodyOrder) {
         try {
             return await this.orderService.findAllByDate(
                 body.site_id,

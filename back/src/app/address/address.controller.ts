@@ -6,6 +6,7 @@ import {
     InternalServerErrorException,
     Param,
     Post,
+    UseGuards,
 } from '@nestjs/common';
 import { AddressService } from './address.service';
 import { CreateAddressDto } from './dto/create-address.dto';

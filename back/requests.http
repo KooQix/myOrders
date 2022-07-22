@@ -174,5 +174,40 @@ DELETE http://localhost:3000/api/order/1
 
 
 
-###
+
+    #################### SITES ####################
+
+
+
+### Get all
 GET http://localhost:3000/api/site
+
+
+### Get one by id
+GET http://localhost:3000/api/site/21
+
+
+
+### Connection
+POST http://localhost:3000/api/site/connection
+Content-Type: application/json
+
+{
+    "id": 21,
+    "password": "uwlfb"
+}
+
+### Connection admin
+POST http://localhost:3000/api/site/connection
+Content-Type: application/json
+
+{
+    "id": 31,
+    "password": "password"
+}
+
+
+### Check token
+GET http://localhost:3000/api/site/checkToken
+Authorization: "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsIm5hbWUiOiJhZG1pbiIsImlhdCI6MTY1ODI1MDY5MywiZXhwIjoxNjU4MjU0MjkzfQ.ZaVXoD9KbrnH6wgWsloBNZkNEvEHRE71UuVZ14XC1Pg"
+

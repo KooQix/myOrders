@@ -1,0 +1,53 @@
+<form [formGroup]="form">
+    <div class="container">
+        <span class="element">
+            <h2>Nom du site</h2>
+            <mat-form-field>
+                <mat-label>Assigner</mat-label>
+                <input
+                    type="text"
+                    id="name"
+                    matInput
+                    required
+                    formControlName="name"
+                />
+            </mat-form-field>
+        </span>
+    </div>
+
+    <div class="container">
+        <span class="element">
+            <h2>Mot de passe du site</h2>
+            <mat-form-field>
+                <mat-label>Assigner</mat-label>
+                <input
+                    type="password"
+                    matInput
+                    required
+                    formControlName="password"
+                />
+            </mat-form-field>
+        </span>
+    </div>
+
+    <div class="container buttons">
+        <button mat-flat-button (click)="cancel()">Annuler</button>
+        <button
+            mat-flat-button
+            (click)="deleteSite()"
+            class="del"
+            [disabled]="id == -1"
+        >
+            Supprimer
+        </button>
+        <button
+            mat-flat-button
+            type="submit"
+            (click)="save()"
+            color="primary"
+            [disabled]="!form.valid"
+        >
+            Sauvegarder
+        </button>
+    </div>
+</form>

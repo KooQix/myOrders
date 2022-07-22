@@ -16,6 +16,7 @@
             margin: 0;
             font-size: 2.3em;
             font-style: italic;
+            cursor: pointer;
         }
 
         .h {
@@ -38,6 +39,49 @@
                 opacity: 0.8;
             }
         }
+    }
+}
+
+#logo {
+    width: 100%;
+    @include flex-align-center-col;
+
+    .logo {
+        opacity: 0.7;
+        padding-top: 0.4em;
+        @include flex-align-center-col;
+        margin-bottom: 10em;
+
+        h1 {
+            margin: 0;
+            font-size: 5em;
+            font-style: italic;
+        }
+
+        .h {
+            border: 4px solid red;
+            width: 50%;
+            margin-bottom: 2em;
+        }
+    }
+
+    #select {
+        width: 20%;
+        @include flex-align-center-col;
+
+        mat-form-field {
+            width: 100%;
+        }
+    }
+
+    button {
+        background-color: $primary;
+        color: white;
+        width: 50%;
+    }
+
+    button:hover {
+        opacity: 0.7;
     }
 }
 

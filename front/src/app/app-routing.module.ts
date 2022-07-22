@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminGuard } from './views/admin/admin.guard';
 
 const routes: Routes = [
     {
@@ -7,7 +8,6 @@ const routes: Routes = [
         redirectTo: 'home',
         pathMatch: 'full',
     },
-
     {
         path: 'home',
         loadChildren: () =>
@@ -41,6 +41,14 @@ const routes: Routes = [
                 (m) => m.ProductModule
             ),
     },
+    {
+        path: 'admin',
+        loadChildren: () =>
+            import('./views/admin/admin.module').then((m) => m.AdminModule),
+        canActivate: [AdminGuard],
+        canLoad: [AdminGuard],
+        canActivateChild: [AdminGuard],
+    },
     // Default, return to appcomponent
     {
         path: '**',
@@ -52,5 +60,6 @@ const routes: Routes = [
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule],
+    providers: [AdminGuard],
 })
 export class AppRoutingModule {}

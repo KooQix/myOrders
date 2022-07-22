@@ -11,6 +11,7 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Site {
@@ -21,6 +22,7 @@ export class Site {
     name: string;
 
     @Column()
+    @Exclude()
     password: string;
 
     @CreateDateColumn({
@@ -62,4 +64,10 @@ export class Site {
         nullable: false,
     })
     products: Product[];
+
+    token: string;
+
+    constructor(partial: Partial<Site>) {
+        Object.assign(this, partial);
+    }
 }

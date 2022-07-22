@@ -1,23 +1,65 @@
-<div class="header">
-    <div class="toolbar">
-        <div class="logo">
+<span *ngIf="!isSiteSelected() && !isAdmin()">
+    <div id="logo" class="flex-col">
+        <div class="logo" style="margin-top: 10em">
             <span class="h"></span>
             <h1>MyOrders</h1>
         </div>
-        <nav mat-tab-nav-bar>
-            <a
-                mat-tab-link
-                *ngFor="let tab of navLinks"
-                [routerLink]="tab.link"
-                routerLinkActive
-                #rla="routerLinkActive"
-                [active]="rla.isActive"
-                >{{ tab.label }}</a
-            >
-        </nav>
-    </div>
-</div>
 
-<div class="content">
-    <router-outlet></router-outlet>
-</div>
+        <!-- Select a site -->
+        <div id="select">
+            <mat-form-field>
+                <mat-label>Sélectionner un site</mat-label>
+                <mat-select [(ngModel)]="selectedSite.id">
+                    <mat-option value="-1"></mat-option>
+                    <mat-option *ngFor="let site of sites" [value]="site.id">{{
+                        site.name
+                    }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field *ngIf="selectedSite.id !== -1" class="marginb-3">
+                <mat-label>Mot de passe</mat-label>
+                <input type="password" matInput [(ngModel)]="pass" />
+            </mat-form-field>
+            <button mat-button *ngIf="!!pass" (click)="connect()">
+                Valider
+            </button>
+        </div>
+    </div>
+</span>
+
+<span *ngIf="isSiteSelected()">
+    <div class="header" *ngIf="!isAdmin()">
+        <div class="toolbar">
+            <div class="logo">
+                <span class="h"></span>
+                <h1 (click)="disconnect()" title="Changer de site">MyOrders</h1>
+            </div>
+            <nav mat-tab-nav-bar>
+                <a
+                    mat-tab-link
+                    *ngFor="let tab of navLinks"
+                    [routerLink]="tab.link"
+                    routerLinkActive
+                    #rla="routerLinkActive"
+                    [active]="rla.isActive"
+                    >{{ tab.label }}</a
+                >
+            </nav>
+        </div>
+    </div>
+
+    <div id="logo" class="flex-col" *ngIf="isAdmin()">
+        <div
+            class="logo"
+            style="margin-top: 3em; cursor: pointer"
+            title="Changer de site"
+        >
+            <span class="h"></span>
+            <h1 (click)="disconnect()">MyOrders</h1>
+        </div>
+    </div>
+
+    <div class="content">
+        <router-outlet></router-outlet>
+    </div>
+</span>

@@ -20,11 +20,12 @@ export class SiteService {
         return this.repository.find();
     }
 
-    findOne(id: number) {
+    async findOne(id: number) {
         return this.repository.findOne(id);
     }
 
     update(id: number, updateSiteDto: UpdateSiteDto) {
+        if (updateSiteDto.password === '*******') delete updateSiteDto.password;
         return this.repository.update(id, updateSiteDto);
     }
 

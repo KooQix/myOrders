@@ -40,8 +40,7 @@ $myOrders-theme: mat.define-light-theme(
 
 /* You can add global styles to this file, and also import other style files */
 
-html,
-body {
+html {
     height: 100%;
 }
 
@@ -49,6 +48,7 @@ html {
     min-width: 1290px;
 }
 body {
+    height: 90%;
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
     padding-top: 2em;

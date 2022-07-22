@@ -1,0 +1,54 @@
+@import "../../../../resources.scss";
+
+:host(app-form) {
+    width: 40%;
+    @include flex-align-center-col;
+}
+
+h2 {
+    color: $accent;
+    margin-bottom: 0;
+}
+
+form {
+    width: 100%;
+    @include flex-align-center-col;
+}
+
+.container {
+    width: 80%;
+    .element {
+        width: 45%;
+        mat-form-field {
+            width: 100% !important;
+        }
+    }
+    margin-bottom: 4em;
+}
+
+.buttons {
+    @include flex-align-center-row;
+    justify-content: space-between !important;
+    width: 70%;
+    margin-top: 3em;
+
+    button:hover {
+        opacity: 0.8;
+    }
+}
+
+.del {
+    background-color: black;
+    color: white;
+}
+
+.del:disabled {
+    color: grey !important;
+    background-color: $accent !important;
+}
+
+.flex-col {
+    @include flex-align-center-col;
+    width: 45%;
+    align-items: end;
+}

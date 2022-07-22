@@ -331,7 +331,7 @@ export class FormComponent implements OnInit {
             this.order.operators = this.form.get('operators')?.value;
         }
 
-        if (this.id != -1 && !this.duplicate) return await this.update();
+        if (this.id != -1 && !this.duplicate) return this.update();
 
         // Save
         try {
